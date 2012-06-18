@@ -58,12 +58,12 @@
                   
                    <tr> 
                    	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                   		Modifier mes informations
+                   		>> <a href="/modifInfosEnseignant.jsp">Modifier mes informations</a> 
                    	</td> 
                    </tr>
                    <tr>
                    	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                   		Modifier mon mot de passe
+                   		>> <a href="/modifMDPEnseignant.jsp">Modifier mon mot de passe</a> 
                    	</td>  
                    </tr>   
              </table>     

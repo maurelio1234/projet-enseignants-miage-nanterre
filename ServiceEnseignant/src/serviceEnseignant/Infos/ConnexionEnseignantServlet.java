@@ -61,10 +61,10 @@ public class ConnexionEnseignantServlet extends HttpServlet {
 			
 			request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
 			
-			disp = this.getServletContext().getRequestDispatcher("/accueilEnseignant.jsp");
+			disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");
 		}
 		else{
-			disp = this.getServletContext().getRequestDispatcher("/erreurConnexion.jsp");
+			disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/erreurConnexion.jsp");
 		}
 		
 		disp.forward(request, response);

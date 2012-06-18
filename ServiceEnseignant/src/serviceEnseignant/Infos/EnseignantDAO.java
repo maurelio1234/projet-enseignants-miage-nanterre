@@ -110,9 +110,8 @@ public class EnseignantDAO {
 	 * @param telephone
 	 * @param dateNaissance
 	 * @return un boolean si la methode a fait un enregistrement dans la table enseignant
-	 * @throws ParseException
 	 */
-	public boolean enregistrerInfos(int numEns, String nom, String prenom, String adresse, String telephone, String dateNaissance) throws ParseException {
+	public boolean enregistrerInfos(int numEns, String nom, String prenom, String adresse, String telephone, String dateNaissance) {
 		boolean testEnreg = false;
 		
 		//SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
