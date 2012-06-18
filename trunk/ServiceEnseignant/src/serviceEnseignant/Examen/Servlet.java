@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
 
-import beans.Examen;
+import beans.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

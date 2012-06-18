@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page import = "beans.*" %>  
+<%@ page import = "beans.*" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -21,7 +21,7 @@
 <TR>
 	<TD>Date de l'examen </TD>
 	<TD>
-	<INPUT type=date name="date" value=<%= ExamBeans.getDate() %>>
+	<INPUT type=date name="date" value=<%= ExamBeans.getDate().getDate().toString() %>>
 	</TD>
 </TR>
 
@@ -36,7 +36,7 @@
 <TR>
 	<TD>Promotion</TD>
 	<TD>
-	<%= ExamBeans.getMaFormation() %>
+	<%=  %>TODO
 	</TD>
 </TR>
 

@@ -73,13 +73,45 @@ public class ExamenServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String intitule = request.getParameter("intitule");
-		Double coeff = Double.parseDouble(request.getParameter("coeff"));
-		String promo = request.getParameter("promo");
-
-	
-		Examen exam = new Examen(1,date, intitule, coeff);
+		Candidat c1 = new Candidat(1, "Letellier", "Matthieu", "osef", "Osef", null, "maletell", "matthieu", null, true, "osef");
+		Candidat c2 = new Candidat(2, "Bonneau", "Julie", "osef", "Osef", null, "osef", "osef", null, true, "osef");
+		Candidat c3 = new Candidat(3, "Vignau", "Morgane", "osef", "Osef", null, "osef", "osef", null, true, "osef");
+		Candidat c4 = new Candidat(4, "Levoir", "Adelaide", "osef", "Osef", null, "osef", "osef", null, true, "osef");
+		Candidat c5 = new Candidat(5, "Wong", "Emilie", "osef", "Osef", null, "osef", "osef", null, true, "osef");
+		Candidat c6 = new Candidat(6, "Ravelo", "Heni", "osef", "Osef", null, "osef", "osef", null, true, "osef");
 		
+		Etudiant e1 = new Etudiant(1);
+		e1.setMonCandidat(c1);
+		Etudiant e2 = new Etudiant(2);
+		e1.setMonCandidat(c2);
+		Etudiant e3 = new Etudiant(3);
+		e1.setMonCandidat(c3);
+		Etudiant e4 = new Etudiant(4);
+		e1.setMonCandidat(c4);
+		Etudiant e5 = new Etudiant(5);
+		e1.setMonCandidat(c5);
+		Etudiant e6 = new Etudiant(6);
+		e1.setMonCandidat(c6);
+		
+		Examen exam = new Examen(1,new GregorianCalendar(2012,GregorianCalendar.JUNE, 12), "Examen Test", 1);
+		Note n1 = new Note(e1,exam,0);
+		exam.getMesNotes().add(n1);
+		e1.getMesNotes().add(n1);
+		Note n2 = new Note(e2,exam,10);
+		exam.getMesNotes().add(n2);
+		e2.getMesNotes().add(n2);
+		Note n3 = new Note(e3,exam,20);
+		exam.getMesNotes().add(n3);
+		e3.getMesNotes().add(n3);
+		Note n4 = new Note(e4,exam,0);
+		exam.getMesNotes().add(n4);
+		e4.getMesNotes().add(n4);
+		Note n5 = new Note(e5,exam,10);
+		exam.getMesNotes().add(n5);
+		e5.getMesNotes().add(n5);
+		Note n6 = new Note(e6,exam,0);
+		exam.getMesNotes().add(n6);
+		e6.getMesNotes().add(n6);
 			request.setAttribute("ExamBeans", exam);
 			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ConsulterExamen.jsp");
 			disp.forward(request, response);
