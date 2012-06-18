@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type='text/javascript' src='calendrier.js'> </script>
+<script type='text/javascript' src="ServiceEnseignant/WebContent/js/calendrier.js"> </script>
 <title>Fiche de voeux</title>
 </head>
 
@@ -37,16 +37,17 @@
 	</table>
 	
 	
-	<FORM method="post" action="ModeleIndispo">
+	<FORM method="post" action="ModeleAbsReg">
 
 		<input type="hidden" maxlength="10" id="dateDbt"/>
 
-	<br/>Jour de la semaine : <br/>
-		<input type="checkbox" name="jour" value="1" id="lundi"/><label for="lundi">Lundi</label><br/>
-		<input type="checkbox" name="jour" value="2" id="Mardi"/><label for="Mardi">Mardi</label><br/>
-		<input type="checkbox" name="jour" value="3" id="Mercredi"/><label for="Mercredi">Mercredi</label><br/>
-		<input type="checkbox" name="jour" value="4" id="Jeudi"/><label for="Jeudi">Jeudi</label><br/>
-		<input type="checkbox" name="jour" value="5" id="Vendredi"/><label for="Vendredi">Vendredi</label><br/>
+		<!-- PARAMETRE DE L'INDISPO -->	
+		<br/>Jour de la semaine : <br/>
+		<input type="radio" name="jour" value="2" id="lundi"/><label for="lundi">Lundi</label><br/>
+		<input type="radio" name="jour" value="3" id="Mardi"/><label for="Mardi">Mardi</label><br/>
+		<input type="radio" name="jour" value="4" id="Mercredi"/><label for="Mercredi">Mercredi</label><br/>
+		<input type="radio" name="jour" value="5" id="Jeudi"/><label for="Jeudi">Jeudi</label><br/>
+		<input type="radio" name="jour" value="6" id="Vendredi"/><label for="Vendredi">Vendredi</label><br/>
 		<br/>
 		
 		Durée de votre indisponibilité : </br>
@@ -54,7 +55,6 @@
 		<input type="radio" name="demiJ" value="1" id="pm" /> <label for="pm">après-midi</label><br />
 		<input type="radio" name="demiJ" value="2" id="j" /> <label for="j">journée	entière</label><br /></br> 
 		
-		<!-- PARAMETRE DE L'INDISPO -->
 		Le type d'indisponibilité :</br> 
 		<input type="radio" name="type" value="1" id="hebdomadaire" /> <label for="hebdomadaire">hebdomadaire</label><br />
 		<input type="radio" name="type" value="2" id="mensuel" /> <label for="mensuel">mensuel</label><br /></br>
@@ -76,10 +76,6 @@
 </td>
 
 <td valign='top'>
-
-	
-
-
 
 
 	Saisissez une date au format JJ/MM/AAAA
@@ -111,7 +107,7 @@ Priorité de votre indisponibilité : </br> <input type="radio" name="poids"
 			name="poids" value="4" id="4" /> <label for="4">incapacité
 			faible</label><br /></br> 
 
-	<FORM method="post" id="form" action="ModeleIndispo" >
+	<FORM method="post" id="form" action="ModeleAbsUniq" >
 		<input type="hidden" maxlength="10" id="dateDebut"/>
 		<input type="hidden" maxlength="10" id="dateFin"/>
 		<input type="button" maxlength="10" id="valider" value="Valider" onclick="sendForm();"/>
