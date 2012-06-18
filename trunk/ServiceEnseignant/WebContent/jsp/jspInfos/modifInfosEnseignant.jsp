@@ -18,13 +18,14 @@
 			Bonjour <%= ens.getPrenom() %> <%= ens.getNom() %> !
 
 	
-            <form name="form_login" method="post" action="ModifierInfosEnseignantServlet">
+            <form name="form_modifInfos" method="post" action="ModifierInfosEnseignantServlet">
+
+			<input type="hidden" name="numEns" value="<%= ens.getNumeroEnseignant() %>"/>
 
              <table border = 1>
                     <tr align="left"> 
                     	<td style="padding-top: 8px;"> N° enseignant : </td> 
                     	<td> <%= ens.getNumeroEnseignant() %> </td>
-                    	<input type="hidden" name="numEns" value="<%= ens.getNumeroEnseignant() %>"/>
                     </tr>
                     
                     <tr align="left"> 
