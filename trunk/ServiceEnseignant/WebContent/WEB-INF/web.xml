@@ -10,7 +10,15 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
 <servlet>
-		<servlet-name>ExamenServlet</servlet-name>
-		<servlet-class>serviceEnseignant.Examen</servlet-class>
-	</servlet>
+	<servlet-name>ExamenServlet</servlet-name>
+	<servlet-class>serviceEnseignant.Examen</servlet-class>
+</servlet>
+<servlet>
+	<servlet-name>Servlet</servlet-name>
+	<servlet-class>serviceEnseignant.Examen</servlet-class>
+</servlet>
+<servlet>
+	<servlet-name>ConnexionEnseignantServlet</servlet-name>
+	<servlet-class>serviceEnseignant.Infos</servlet-class>
+</servlet>
 </web-app>
