@@ -42,6 +42,13 @@
                    	</td> 
                  	</tr>  	
                    	
+                   	<tr>   	
+                   	<td> Date de naissance * : </td>
+                   	<td>
+                   	<%= ens.getDateNaissance() %>
+                   	</td> 
+                 	</tr> 
+                 	
               	  	<tr>    	
                    	<td> Adresse * : </td>
                    	<td>
@@ -63,7 +70,7 @@
                    </tr>
                    <tr>
                    	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                   		>> <a href="/modifMDPEnseignant.jsp">Modifier mon mot de passe</a> 
+                   		>> <a href="/modifMDPenseignant.jsp">Modifier mon mot de passe</a> 
                    	</td>  
                    </tr>   
              </table>     

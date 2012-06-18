@@ -23,7 +23,8 @@
              <table border = 1>
                     <tr align="left"> 
                     	<td style="padding-top: 8px;"> N° enseignant : </td> 
-                    	<td> <%= ens.getNumeroEnseignant() %></td>
+                    	<td> <%= ens.getNumeroEnseignant() %> </td>
+                    	<input type="hidden" name="numEns" value="<%= ens.getNumeroEnseignant() %>"/>
                     </tr>
                     
                     <tr align="left"> 
@@ -34,34 +35,41 @@
                 	<tr>    	
                     	<td> Nom * : </td>
                     	<td>
-                    	<input type="text" name="nom" value="<%= ens.getNom() %>"> 
+                    		<input type="text" name="nom" value="<%= ens.getNom() %>" /> 
                     	</td> 
                  	</tr>
                  	
                  	<tr>   	
                     	<td> Prenom * : </td>
                     	<td>
-                    	<input type="text" name="prenom" value="<%= ens.getPrenom() %>"> 
+                    		<input type="text" name="prenom" value="<%= ens.getPrenom() %>" /> 
                     	</td> 
                   	</tr>  	
-                    	
+                    
+                    <tr>   	
+	                   	<td> Date de naissance * : </td>
+	                   	<td>
+	                   		<input type="text" name="dateNaiss" value="<%= ens.getDateNaissance() %>" />
+	                   	</td> 
+                 	</tr> 
+                 		
                	  	<tr>    	
                     	<td> Adresse * : </td>
                     	<td>
-                    	<input type="text" name="adresse" value="<%= ens.getAdresse() %>"> 
+                    		<input type="text" name="adresse" value="<%= ens.getAdresse() %>" /> 
                     	</td> 
                   	</tr>
                    
                    <tr>
                     	<td> Telephone * : </td>
                     	<td>
-                    	<input type="text" name="telephone" value="<%= ens.getTelephone() %>"> 
+                    		<input type="text" name="telephone" value="<%= ens.getTelephone() %>" /> 
                     	</td> 
                    </tr>
                    
                     <tr> 
                     	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                    		<input type="submit" name="valider" value="Valider"> 
+                    		<input type="submit" name="valider" value="Valider" /> 
                     	</td> 
                     </tr>
    
