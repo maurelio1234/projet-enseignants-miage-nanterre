@@ -24,37 +24,6 @@ public class ExamenServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
-	public GregorianCalendar ConvertirDate(String date) throws Exception {
-		String delims = "[/]";
-		String[] tokens = date.split(delims);
-		GregorianCalendar gDate = null;
-		if (tokens.length == 3) {
-			int jour = Integer.parseInt(tokens[0]);
-			int mois = Integer.parseInt(tokens[1]) -1;
-			int annee = Integer.parseInt(tokens[2]);
-			try {
-				gDate = new GregorianCalendar(annee, mois, jour);
-				gDate.setLenient(false);
-			} catch (Exception e) {
-				System.out.println("Le Format de la date n'est pas valide");
-				return null;
-			}
-		}
-		return gDate;
-	}
-	
-	public double calculeMoyenne(Examen exam) throws Exception {
-		int nb_note=0;
-		int sum_note=0;
-		for(Note n : exam.getMesNotes()){
-			if(n.getNote() != -1){
-				sum_note += n.getNote();
-				nb_note++;
-			}
-		}
-		return sum_note/nb_note;
-	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -66,13 +35,7 @@ public class ExamenServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		GregorianCalendar date = null;
-		try {
-			date = ConvertirDate(request.getParameter("date"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println("Création des candidats");
 		Candidat c1 = new Candidat(1, "Letellier", "Matthieu", "osef", "Osef", null, "maletell", "matthieu", null, true, "osef");
 		Candidat c2 = new Candidat(2, "Bonneau", "Julie", "osef", "Osef", null, "osef", "osef", null, true, "osef");
 		Candidat c3 = new Candidat(3, "Vignau", "Morgane", "osef", "Osef", null, "osef", "osef", null, true, "osef");
@@ -80,6 +43,7 @@ public class ExamenServlet extends HttpServlet {
 		Candidat c5 = new Candidat(5, "Wong", "Emilie", "osef", "Osef", null, "osef", "osef", null, true, "osef");
 		Candidat c6 = new Candidat(6, "Ravelo", "Heni", "osef", "Osef", null, "osef", "osef", null, true, "osef");
 		
+		System.out.println("\nCréation des Etudiants.");
 		Etudiant e1 = new Etudiant(1);
 		e1.setMonCandidat(c1);
 		Etudiant e2 = new Etudiant(2);
@@ -93,7 +57,9 @@ public class ExamenServlet extends HttpServlet {
 		Etudiant e6 = new Etudiant(6);
 		e1.setMonCandidat(c6);
 		
+		System.out.println("\nCréation de l'examen");
 		Examen exam = new Examen(1,new GregorianCalendar(2012,GregorianCalendar.JUNE, 12), "Examen Test", 1);
+		System.out.println("\nCréation des notes");
 		Note n1 = new Note(e1,exam,0);
 		exam.getMesNotes().add(n1);
 		e1.getMesNotes().add(n1);
@@ -112,6 +78,7 @@ public class ExamenServlet extends HttpServlet {
 		Note n6 = new Note(e6,exam,0);
 		exam.getMesNotes().add(n6);
 		e6.getMesNotes().add(n6);
+		System.out.println("\nFin de l'initialisation.");
 			request.setAttribute("ExamBeans", exam);
 			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ConsulterExamen.jsp");
 			disp.forward(request, response);
