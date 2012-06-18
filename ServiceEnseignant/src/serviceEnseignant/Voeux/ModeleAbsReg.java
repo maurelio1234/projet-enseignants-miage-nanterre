@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ModeleIndispo
  */
-@WebServlet("/ModeleIndispo")
-public class ModeleIndispo extends HttpServlet {
+@WebServlet("/ModeleAbsReg")
+public class ModeleAbsReg extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private EnsIndispo enseignant;
@@ -28,7 +28,7 @@ public class ModeleIndispo extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ModeleIndispo() {
+	public ModeleAbsReg() {
 		super();
 		enseignant = new EnsIndispo();
 	}
@@ -49,11 +49,12 @@ public class ModeleIndispo extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String dD = request.getParameter("dateDbt");
-		String dF = request.getParameter("dateFin");
+		String dD = request.getParameter("dateDebut");
 
+		String j = request.getParameter("jour");
 		String tI = request.getParameter("type");
 		String prio = request.getParameter("poids");
+		String nbO = request.getParameter("nbOccu");
 		String dur = request.getParameter("demiJ");
 
 		/*SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
@@ -75,12 +76,19 @@ public class ModeleIndispo extends HttpServlet {
 		int typeI = Integer.parseInt(tI);
 		int priorite = Integer.parseInt(prio);
 		int duree = Integer.parseInt(dur);
+		int nbOccu = Integer.parseInt(nbO);
+		int jour = Integer.parseInt(j);
 		
 		System.out.println("Type : " + typeI + " Priorite : " + priorite + " Duree : " + duree);
-		System.out.println("\nDate debut : " + dD + " Date fin : " + dF);
+		System.out.println("\nDate debut : " + dD + " jour : " + jour + " nb occ : " + nbOccu);
 		
 		
-		enseignant.ajoutIndispo(dD,dF,typeI,priorite,ref,duree);	
+		try {
+			enseignant.ajoutIndispoReg(dD,typeI,priorite,ref,duree,nbOccu,jour);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 
 		
 		RequestDispatcher dispatch =
