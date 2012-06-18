@@ -148,8 +148,77 @@ public class EnseignantDAO {
 			System.exit(1);
 		}
 		
+		this.recupererInfos(numEns);
 		return testEnreg;
 		
+	}
+	
+	public boolean verifAncienMDP(int numEns, String ancienMDP){
+		boolean ok = false;
+		
+		try {
+			
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmige.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+			
+			Statement st =  conn.createStatement();
+			
+			ResultSet resultat =  st.executeQuery("select * from ENSEIGNANT e "+
+													"where e.NO_ENSEIGNANT ="+ numEns +" and e.PWD_ENSEIGNANT = '"+ ancienMDP+ "'"); 
+			
+			while(resultat.next()){				
+				ok = true;
+			}
+			
+			resultat.close();
+			st.close();
+			conn.close();
+			
+		}
+		catch (Exception e){
+			//System.out.println("Erreur de connexion a la base de donnee ");
+			System.exit(1);
+		}
+			
+		return ok;
+	}
+	
+	public boolean enregistrerMDP(int numEns, String ancienMDP, String nouveauMDP){
+		
+		boolean modifOk = false;
+		
+		//si l'ancien mdp est correct pour le numero enseignant, on peut proceder a la modification 
+		if(this.verifAncienMDP(numEns, ancienMDP)){
+			
+			try {
+				
+				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmige.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+				
+				PreparedStatement pst =  conn.prepareStatement("UPDATE ENSEIGNANT "+
+															"SET PWD_ENSEIGNANT = ? " +
+															"WHERE NO_ENSEIGNANT = ?");
+				
+				pst.setString(1, nouveauMDP);
+				pst.setInt(2, numEns);
+				
+				int result = pst.executeUpdate();
+				//retourne le nombre de lignes mises a jour
+				
+				if(result>0) {
+					modifOk = true;
+				}
+				
+				pst.close();
+				conn.close();
+				
+			}
+			catch (Exception e){
+				//System.out.println("Erreur de connexion a la base de donnee ");
+				System.exit(1);
+			}
+			
+		}
+			
+		return modifOk;	
 	}
 	
 	public Enseignant getEns(){
