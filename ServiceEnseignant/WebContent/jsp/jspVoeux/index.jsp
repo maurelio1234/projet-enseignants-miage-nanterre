@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type='text/javascript' src="ServiceEnseignant/WebContent/js/calendrier.js"> </script>
+<script type='text/javascript' src="calendrier.js"> </script>
 <title>Fiche de voeux</title>
 </head>
 
