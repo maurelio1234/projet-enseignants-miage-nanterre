@@ -50,14 +50,14 @@ public class ConnexionEnseignantServlet extends HttpServlet {
 		RequestDispatcher disp;
 		
 		// on verifie que le login et le mdp saisis sont corrects
-		//if(ensDAO.verifierLoginMdp(login, mdp)){
-		if(login.equalsIgnoreCase("emilie")){	
+		if(ensDAO.verifierLoginMdp(login, mdp)){
+		//if(login.equalsIgnoreCase("emilie")){	
 			
 			// recuperation des informations de l'enseignant			
-			//ensDAO.recupererInfos(ensDAO.getEns().getNumeroEnseignant());
-			//Enseignant beanEns = ensDAO.getEns();		
+			ensDAO.recupererInfos(ensDAO.getEns().getNumeroEnseignant());
+			Enseignant beanEns = ensDAO.getEns();		
 			
-			Enseignant beanEns = new Enseignant(1, "wong", "emilie", "2 rue des Lilas Paris", "0645896369", new GregorianCalendar(1970, Calendar.JANUARY, 12), "emilie", "emilie");
+			//Enseignant beanEns = new Enseignant(1, "wong", "emilie", "2 rue des Lilas Paris", "0645896369", new GregorianCalendar(1970, Calendar.JANUARY, 12), "emilie", "emilie");
 			
 			request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
 			
