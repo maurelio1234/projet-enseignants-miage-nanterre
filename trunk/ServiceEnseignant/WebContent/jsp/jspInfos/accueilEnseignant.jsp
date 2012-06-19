@@ -17,6 +17,10 @@
 			<jsp:useBean id="ens" scope="request" class="beans.Enseignant"/>
 			Bonjour <%= ens.getPrenom() %> <%= ens.getNom() %> !
 
+			<% if(request.getAttribute("msg")!= null) { %>
+            	<b> <%= request.getAttribute("msg") %> </b>
+            <% } %>
+            
              <table border = 1>
                    <tr align="left"> 
                    	<td style="padding-top: 8px;"> N° enseignant : </td> 
@@ -65,12 +69,12 @@
                   
                    <tr> 
                    	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                   		>> <a href="/modifInfosEnseignant.jsp">Modifier mes informations</a> 
+                   		>> <a href="/ServiceEnseignant/jsp/jspInfos/modifInfosEnseignant.jsp">Modifier mes informations</a> 
                    	</td> 
                    </tr>
                    <tr>
                    	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                   		>> <a href="/modifMDPenseignant.jsp">Modifier mon mot de passe</a> 
+                   		>> <a href="/ServiceEnseignant/jsp/jspInfos/modifMDPenseignant.jsp">Modifier mon mot de passe</a> 
                    	</td>  
                    </tr>   
              </table>     

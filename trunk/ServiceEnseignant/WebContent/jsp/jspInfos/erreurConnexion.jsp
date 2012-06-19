@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<center> Erreur lors de la connexion.</center>
+	<center> Erreur lors de la connexion. </center>
 
 </body>
 </html>

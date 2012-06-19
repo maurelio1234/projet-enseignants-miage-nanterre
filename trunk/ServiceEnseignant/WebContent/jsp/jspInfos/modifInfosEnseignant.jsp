@@ -48,7 +48,7 @@
                   	</tr>  	
                     
                     <tr>   	
-	                   	<td> Date de naissance * : </td>
+	                   	<td> Date de naissance (jj/mm/aaaa) * : </td>
 	                   	<td>
 	                   		<input type="text" name="dateNaiss" value="<%= ens.getDateNaissance() %>" />
 	                   	</td> 

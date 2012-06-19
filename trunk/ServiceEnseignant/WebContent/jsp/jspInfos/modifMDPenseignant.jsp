@@ -16,8 +16,12 @@
             
 			<jsp:useBean id="ens" scope="request" class="beans.Enseignant"/>
 				
+			<% if(request.getAttribute("erreur")!= null) { %>
+            	<font color="#DC143C"> <b> <%= request.getAttribute("erreurAncienMDP") %> </b> </font>
+            <% } %>
+            
             <form name="form_modifMDP" method="post" action="ModifierMDPEnseignantServlet">
-			
+            
 			<input type="hidden" name="numEns" value="<%= ens.getNumeroEnseignant() %>"/>
 			
              <table border = 1>
