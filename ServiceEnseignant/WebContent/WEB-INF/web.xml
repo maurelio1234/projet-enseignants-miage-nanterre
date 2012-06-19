@@ -25,4 +25,33 @@
 	<servlet-name>ConnexionEnseignantServlet</servlet-name>
 	<servlet-class>serviceEnseignant.Infos</servlet-class>
 </servlet>
+
+
+<servlet>
+	<servlet-name>ModeleAbsReg</servlet-name>
+	<servlet-class>serviceEnseignant.Voeux.ModeleAbsReg</servlet-class>
+</servlet>
+<servlet-mapping>
+        <servlet-name>ModeleAbsReg</servlet-name>
+        <url-pattern>/</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>ModeleAbsUniq</servlet-name>
+	<servlet-class>serviceEnseignant.Voeux.ModeleAbsUniq</servlet-class>
+</servlet>
+<servlet-mapping>
+        <servlet-name>ModeleAbsUniq</servlet-name>
+        <url-pattern>/</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>ModeleAffIndispo</servlet-name>
+	<servlet-class>serviceEnseignant.Voeux.ModeleAffIndispo</servlet-class>
+</servlet>
+<servlet-mapping>
+        <servlet-name>ModeleAffIndispo</servlet-name>
+        <url-pattern>/</url-pattern>
+</servlet-mapping>
+
 </web-app>
