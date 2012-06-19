@@ -10,17 +10,32 @@
 <title>BONJOUR</title>
 </head>
 <body>
+		<jsp:useBean id="ensBeans" scope="request" class="beans.Enseignant" />
+		
+	Bonjour <%= ensBeans.getPrenom()%>
+	   <%= ensBeans.getNom()%>
+	<br>
+
+	Selectionner les informations suivantes : <br>
 	
-	Bonjour
-	<jsp:useBean id="L3MIAGECLA" scope="request" class="beans.Formation" />
-	<%= L3MIAGECLA.getNumeroFormation()%>
-	
+		Promotion : 
+	 <SELECT name="promo" size="1">
 	<%int i=0;
-	for(i=0;i<L3MIAGECLA.getMesPromotions().size();i++) %>
-	<%= L3MIAGECLA.getMesPromotions().get(i);%>
-
-
+	for(i=0;i<ensBeans.getMesServices().size();i++){ %>
+	<OPTION><%= ensBeans.getMesServices().get(i).getMonEC().getMaFormation() %>
+	<%} %>
+	</SELECT>
 	
 	
+	Promotion : 
+	 <SELECT name="promo" size="1">
+	<%int j=0;
+	for(j=0;i<ensBeans.getMesServices().size();i++){ %>
+	<OPTION><%= ensBeans.getMesServices().get(i).getMonEC().getMaFormation() %>
+	<%} %>
+	</SELECT>
+
+
+	    
 </body>
 </html>
