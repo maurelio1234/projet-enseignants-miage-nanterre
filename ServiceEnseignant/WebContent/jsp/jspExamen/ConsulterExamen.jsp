@@ -21,7 +21,7 @@
 <TR>
 	<TD>Date de l'examen </TD>
 	<TD>
-	<INPUT type=date name="date" value=<%= ExamBeans.getDate().getDate().toString() %>>
+	<INPUT type=date name="date" value="Test">
 	</TD>
 </TR>
 
@@ -36,7 +36,7 @@
 <TR>
 	<TD>Promotion</TD>
 	<TD>
-	<%=  %>TODO
+	TODO
 	</TD>
 </TR>
 
@@ -61,11 +61,11 @@
 <tr><td>Nom</td><td>Prenom</td><td>Note</td>
 </tr>
 <%int i=0;
-for(i=0;i<ExamBeans.getMesNotes().size();i++) %>
+for(i=0;i<ExamBeans.getMesNotes().size();i++) {%>
 <tr><td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom() %></td>
 <td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getPrenom() %></td>
-<td><INPUT type="text" name=<%= "Note" + i %> value=<%=(ExamBeans.getMesNotes().get(i).getNote() != -1 ? ExamBeans.getMesNotes().get(i).getNote() : "") %>></td>
-
+<td><INPUT type="text" name=<%= "Note" + i %> value=<%=ExamBeans.getMesNotes().get(i).getNote() != -1 ? ExamBeans.getMesNotes().get(i).getNote() : "" %>></td>
+<% } %>
 
 
 
