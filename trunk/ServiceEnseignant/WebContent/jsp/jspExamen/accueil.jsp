@@ -7,7 +7,7 @@
 <title>Test ConsultExam</title>
 </head>
 <body>
-<form method='POST' action='http://localhost:8080/ServiceEnseignant/Examen/ListeExamenServlet'>
+<form method='POST' action='../../ListeExamenServlet'>
 <INPUT TYPE ='SUBMIT' NAME='Voir Examen' VALUE='Envoyer'>
 </form>
 </body>
