@@ -22,7 +22,10 @@
 	 <SELECT name="promo" size="1">
 	<%int i=0;
 	for(i=0;i<ensBeans.getMesServices().size();i++){ %>
-	<OPTION><%= ensBeans.getMesServices().get(i).getMonEC().getMaFormation() %>
+	<OPTION><%= ensBeans.getMesServices().get(i).getMonEC().getMaFormation().getNiveau() %> 
+	<%= ensBeans.getMesServices().get(i).getMonEC().getMaFormation().getLibelle() %>
+	<%= ensBeans.getMesServices().get(i).getMonEC().getMaFormation().getType() %>
+	</OPTION>
 	<%} %>
 	</SELECT>
 	
