@@ -42,7 +42,7 @@
 
 <FONT size=+1>
 
-<form method='POST' action='http://localhost:8080/serviceEnseignant.Examen/Servlet'>
+<form method='POST' action='http://localhost:8080/ServiceEnseignant/Servlet'>
 
 <TABLE BORDER=0>
 <TR>
