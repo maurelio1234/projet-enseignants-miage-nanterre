@@ -21,6 +21,17 @@
 	<servlet-name>Servlet</servlet-name>
 	<servlet-class>serviceEnseignant.Examen</servlet-class>
 </servlet>
+
+<servlet>
+	<servlet-name>ListeExamenServlet</servlet-name>
+	<servlet-class>serviceEnseignant.Examen.ListeExamenServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+        <servlet-name>ListeExamenServlet</servlet-name>
+        <url-pattern>/ListeExamenServlet</url-pattern>
+</servlet-mapping>
+
+
 <servlet>
 	<servlet-name>ConnexionEnseignantServlet</servlet-name>
 	<servlet-class>serviceEnseignant.Infos</servlet-class>
