@@ -21,7 +21,7 @@
 <TR>
 	<TD>Date de l'examen </TD>
 	<TD>
-	<INPUT type=date name="date" value="Test">
+	<INPUT type=text name="date" value="Test">
 	</TD>
 </TR>
 
@@ -29,7 +29,7 @@
 <TR>
 	<TD>Coefficient</TD>
 	<TD>
-	<INPUT type=double name="coeff" value=<%= ExamBeans.getCoefficient() %>>
+	<INPUT type=text name="coeff" value=<%= ExamBeans.getCoefficient() %>>
 	</TD>
 </TR>
 
@@ -46,7 +46,6 @@
     <br>
     <br>
     <INPUT TYPE ='SUBMIT' NAME='Enregistrer les modifications' VALUE='Envoyer'>
-    </form>
 	</TD>
 	
 		<TD>
@@ -56,6 +55,7 @@
 	</TD>
 </TR>
 </TABLE>
+</form>
 <center>
 <table>
 <tr><td>Nom</td><td>Prenom</td><td>Note</td>
@@ -64,7 +64,7 @@
 for(i=0;i<ExamBeans.getMesNotes().size();i++) {%>
 <tr><td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom() %></td>
 <td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getPrenom() %></td>
-<td><INPUT type="text" name=<%= "Note" + i %> value=<%=ExamBeans.getMesNotes().get(i).getNote() != -1 ? ExamBeans.getMesNotes().get(i).getNote() : "" %>></td>
+<td><INPUT type="text" name=<%= "Note" + i %> value=<%=ExamBeans.getMesNotes().get(i).getNote()%>></td>
 <% } %>
 
 
