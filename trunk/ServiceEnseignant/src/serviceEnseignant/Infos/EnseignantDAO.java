@@ -9,7 +9,6 @@ import java.util.GregorianCalendar;
 
 import beans.Enseignant;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 
 public class EnseignantDAO {
@@ -19,6 +18,7 @@ public class EnseignantDAO {
 	public EnseignantDAO(){
 		
 		this.ens = new Enseignant();
+		this.chargerDriver();
 	}
 	
 	/**
@@ -29,7 +29,7 @@ public class EnseignantDAO {
 		
 		try {
 			
-			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmige.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
 			
 			Statement st =  conn.createStatement();
 			
@@ -41,6 +41,8 @@ public class EnseignantDAO {
 				this.ens.setPrenom(resultat.getString("PRENOM_ENSEIGNANT"));
 				this.ens.setAdresse(resultat.getString("ADRESSE_ENSEIGNANT"));
 				this.ens.setTelephone(resultat.getString("TELEPHONE_ENSEIGNANT"));
+				this.ens.setLogin(resultat.getString("LOGIN_ENSEIGNANT"));
+				this.ens.setPassword(resultat.getString("PWD_ENSEIGNANT"));
 				
 				// cast du string en gregorian calendar
 				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -71,30 +73,33 @@ public class EnseignantDAO {
 	
 	public boolean verifierLoginMdp(String login, String mdp){
 		boolean testConn = false;
-		
+		System.out.println("VERIFIE LOGIN MDP");
 		try {
 			
-			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmige.u-paris10.fr:1521:MIAGE","maletell","matthieu");
-			
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+			System.out.println("je suis connecté");		
 			Statement st =  conn.createStatement();
 			
 			ResultSet resultat =  st.executeQuery("select * from ENSEIGNANT e "+
 													"where e.LOGIN_ENSEIGNANT = '"+ login +"' and e.PWD_ENSEIGNANT = '"+ mdp+ "'"); 
 			
+			System.out.println("j'ai fai ma requete");	
 			while(resultat.next()){
 				this.ens.setNumeroEnseignant(resultat.getInt("NO_ENSEIGNANT"));
 				this.ens.setLogin(resultat.getString("LOGIN_ENSEIGNANT"));
 				this.ens.setPassword(resultat.getString("PWD_ENSEIGNANT"));
 				testConn = true;
+				System.out.println("LOGIN ET MDP OK");
 			}
 			
+			System.out.println("fin requete");	
 			resultat.close();
 			st.close();
 			conn.close();
 			
 		}
 		catch (Exception e){
-			//System.out.println("Erreur de connexion a la base de donnee ");
+			System.out.println("Erreur de connexion a la base de donnee ");
 			System.exit(1);
 		}
 		
@@ -119,7 +124,7 @@ public class EnseignantDAO {
 		
 		try {
 			
-			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmige.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
 			
 			PreparedStatement pst =  conn.prepareStatement("UPDATE ENSEIGNANT "+
 														"SET NOM_ENSEIGNANT = ?, PRENOM_ENSEIGNANT = ?, ADRESSE_ENSEIGNANT = ?, TELEPHONE_ENSEIGNANT = ?, DATE_NAISSANCE_ENSEIGNANT = ? " +
@@ -153,12 +158,12 @@ public class EnseignantDAO {
 		
 	}
 	
-	public boolean verifAncienMDP(int numEns, String ancienMDP){
+	public boolean verifAncienMDP(String ancienMDP){
 		boolean ok = false;
-		
+		/*
 		try {
 			
-			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmige.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
 			
 			Statement st =  conn.createStatement();
 			
@@ -178,27 +183,31 @@ public class EnseignantDAO {
 			//System.out.println("Erreur de connexion a la base de donnee ");
 			System.exit(1);
 		}
-			
+		*/
+		
+		if(this.ens.getPassword().equals(ancienMDP))
+			ok = true;
+		
 		return ok;
 	}
 	
-	public boolean enregistrerMDP(int numEns, String ancienMDP, String nouveauMDP){
+	public boolean enregistrerMDP(String ancienMDP, String nouveauMDP){
 		
 		boolean modifOk = false;
 		
 		//si l'ancien mdp est correct pour le numero enseignant, on peut proceder a la modification 
-		if(this.verifAncienMDP(numEns, ancienMDP)){
+		if(this.verifAncienMDP(ancienMDP)){
 			
 			try {
 				
-				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmige.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
 				
 				PreparedStatement pst =  conn.prepareStatement("UPDATE ENSEIGNANT "+
 															"SET PWD_ENSEIGNANT = ? " +
 															"WHERE NO_ENSEIGNANT = ?");
 				
 				pst.setString(1, nouveauMDP);
-				pst.setInt(2, numEns);
+				pst.setInt(2, this.getEns().getNumeroEnseignant());
 				
 				int result = pst.executeUpdate();
 				//retourne le nombre de lignes mises a jour
@@ -217,11 +226,43 @@ public class EnseignantDAO {
 			}
 			
 		}
-			
+		
+		this.recupererInfos(this.getEns().getNumeroEnseignant());
 		return modifOk;	
 	}
 	
+	public GregorianCalendar ConvertirDate(String date) throws Exception {
+        String delims = "[/]";
+        String[] tokens = date.split(delims);
+        GregorianCalendar gDate = null;
+        if (tokens.length == 3) {
+            int jour = Integer.parseInt(tokens[0]);
+            int mois = Integer.parseInt(tokens[1]) -1;
+            int annee = Integer.parseInt(tokens[2]);
+            try {
+                gDate = new GregorianCalendar(annee, mois, jour);
+                gDate.setLenient(false);
+            } catch (Exception e) {
+                System.out.println("Le Format de la date n'est pas valide");
+                return null;
+            }
+        }
+        return gDate;
+    }
+	
 	public Enseignant getEns(){
 		return this.ens;
+	}
+	
+	// méthode statique qui charge le driver passé en paramètre
+	public static void chargerDriver(){
+		
+		try{
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        }
+        catch (Exception ex){
+            System.err.println("Erreur lors du chargement du driver");
+            System.exit(1);
+        }       
 	}
 }

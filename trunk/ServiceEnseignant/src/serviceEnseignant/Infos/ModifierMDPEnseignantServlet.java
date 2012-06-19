@@ -48,18 +48,60 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 		
 		EnseignantDAO ensDAO =  new EnseignantDAO();
 		
-		// enregistrement des données dans la base
+		// recupere les infos de l'enseignant
+		ensDAO.recupererInfos(numEns);
+		Enseignant beanEns = ensDAO.getEns();
 		
+		String erreur; 
 		
-		Enseignant beanEns = ensDAO.getEns(); //beanEnseignant qui sera envoye a la JSP PageInfoPerso.jsp
-		
-		request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
-		
-		disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");
+		// verifier l'ancien mdp
+		if (!ensDAO.verifAncienMDP(ancienMDP)){
+			erreur = "L'ancien mot de passe n'est pas valide.";
+			request.setAttribute("erreur", erreur);
+			request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
+			
+			disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/modifMDPenseignant.jsp");
+		}
+		else{
+			// verifier si les nouveaux mdp correspondent
+			
+			// si les nouveaux mdp ne sont pas identiques, on redirige vers la page avec une erreur
+			if(!nouveauMDP1.equals(nouveauMDP2)){
+				erreur = "La confirmation du nouveau mot de passe est incorrecte.";
+				request.setAttribute("erreur", erreur);
+				request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
+				
+				disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/modifMDPenseignant.jsp");
+			}
+			// sinon, on procede a la mise a jour dans la base de donnees
+			else{
+				
+				String msg;
+				
+				if (ensDAO.enregistrerMDP(ancienMDP, nouveauMDP1)){
+					
+					beanEns = ensDAO.getEns();
+					
+					msg = "Le mot de passe a été modifié avec succès.";
+					request.setAttribute("msg", msg);
+					
+					request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
+					
+					disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");	
+				}				
+				else{
+					msg = "Une erreur est survenue lors de la mise à jour du mot de passe.";
+					request.setAttribute("msg", msg);
+					request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
+					
+					disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");
+					
+				}
+								
+			}
+		}
 
 		disp.forward(request, response);
-		
-		//ajouter un message de succès de la modification
 		
 	}
 
