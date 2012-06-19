@@ -47,37 +47,29 @@ public class ExamenServlet extends HttpServlet {
 		Etudiant e1 = new Etudiant(1);
 		e1.setMonCandidat(c1);
 		Etudiant e2 = new Etudiant(2);
-		e1.setMonCandidat(c2);
+		e2.setMonCandidat(c2);
 		Etudiant e3 = new Etudiant(3);
-		e1.setMonCandidat(c3);
+		e3.setMonCandidat(c3);
 		Etudiant e4 = new Etudiant(4);
-		e1.setMonCandidat(c4);
+		e4.setMonCandidat(c4);
 		Etudiant e5 = new Etudiant(5);
-		e1.setMonCandidat(c5);
+		e5.setMonCandidat(c5);
 		Etudiant e6 = new Etudiant(6);
-		e1.setMonCandidat(c6);
+		e6.setMonCandidat(c6);
 		
 		System.out.println("\nCréation de l'examen");
 		Examen exam = new Examen(1,new GregorianCalendar(2012,GregorianCalendar.JUNE, 12), "Examen Test", 1);
 		System.out.println("\nCréation des notes");
 		Note n1 = new Note(e1,exam,0);
-		exam.getMesNotes().add(n1);
-		e1.getMesNotes().add(n1);
 		Note n2 = new Note(e2,exam,10);
-		exam.getMesNotes().add(n2);
-		e2.getMesNotes().add(n2);
 		Note n3 = new Note(e3,exam,20);
-		exam.getMesNotes().add(n3);
-		e3.getMesNotes().add(n3);
 		Note n4 = new Note(e4,exam,0);
-		exam.getMesNotes().add(n4);
-		e4.getMesNotes().add(n4);
 		Note n5 = new Note(e5,exam,10);
-		exam.getMesNotes().add(n5);
-		e5.getMesNotes().add(n5);
 		Note n6 = new Note(e6,exam,0);
-		exam.getMesNotes().add(n6);
-		e6.getMesNotes().add(n6);
+
+		for(int i = 0;i < exam.getMesNotes().size();i++){
+			System.out.println(exam.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom() + " " + exam.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getPrenom() + " " + exam.getMesNotes().get(i).getNote());
+		}
 		System.out.println("\nFin de l'initialisation.");
 			request.setAttribute("ExamBeans", exam);
 			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/jsp/jspExamen/ConsulterExamen.jsp");
