@@ -40,6 +40,8 @@ public class ListeExamenServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+		Enseignant ens = new Enseignant(10, "Bonneau", "Julie", "6 rue colbert", "0606890718", null, "login", "password");
+		
 		Formation L3MIAGECLA = new Formation(1,"MIAGE","L3","Classique","parcours MIAGE");
 		Promotion p = new Promotion(2009);
 		Promotion p1 = new Promotion(2010);
@@ -49,12 +51,18 @@ public class ListeExamenServlet extends HttpServlet {
 		L3MIAGECLA.getMesPromotions().add(p2);
 		L3MIAGECLA.getMesPromotions().add(p3);
 		
+		UE ue = new UE(1, L3MIAGECLA);
+		EC ec = new EC(1, ue, L3MIAGECLA);
 		
-		//Formation M1MIAGECLA = new Formation(1,"MIAGE","M1","Classique","parcours MIAGE");
+		Type t = new Type(1, "type 1");
+		Service service = new Service(ec, ens,t,10);
+		System.out.println(service.getMonEnseignant().getNom());
 		
-			request.setAttribute("L3MIAGECLA", L3MIAGECLA);
-			//request.setAttribute("M1MIAGECLA", M1MIAGECLA);
-			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ListeExamen.jsp");
+		ens.getMesServices().add(service);
+			
+			request.setAttribute("ensBeans", ens);
+
+			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/jsp/jspExamen/ListeExamen.jsp");
 			disp.forward(request, response);
 
 	}
