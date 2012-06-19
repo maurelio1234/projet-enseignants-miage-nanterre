@@ -11,8 +11,12 @@
   </welcome-file-list>
 <servlet>
 	<servlet-name>ExamenServlet</servlet-name>
-	<servlet-class>serviceEnseignant.Examen</servlet-class>
+	<servlet-class>serviceEnseignant.Examen.ExamenServlet</servlet-class>
 </servlet>
+<servlet-mapping>
+        <servlet-name>ExamenServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 <servlet>
 	<servlet-name>Servlet</servlet-name>
 	<servlet-class>serviceEnseignant.Examen</servlet-class>
