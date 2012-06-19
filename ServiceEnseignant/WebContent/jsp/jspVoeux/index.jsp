@@ -37,7 +37,7 @@
 	</table>
 	
 	
-	<FORM method="post" action="ModeleAbsReg">
+	<FORM method="post" action="../../ModeleAbsReg">
 
 		<input type="hidden" maxlength="10" id="dateDbt"/>
 
