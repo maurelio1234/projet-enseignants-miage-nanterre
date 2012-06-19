@@ -31,7 +31,7 @@
 		</tr>
 		<tr>
 			<td><div id="microcal"
-					style="visibility: hidden; position: absolute; border: 2px red dashed; background: #ffffff;"></div>
+					style="visibility: hidden; border: 2px red dashed; background: #ffffff;"></div>
 			</td>
 		</tr>
 	</table>
