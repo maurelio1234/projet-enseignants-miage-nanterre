@@ -33,7 +33,7 @@
 </servlet>
 <servlet-mapping>
         <servlet-name>ModeleAbsReg</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/ModeleAbsReg</url-pattern>
 </servlet-mapping>
 
 <servlet>
@@ -42,7 +42,7 @@
 </servlet>
 <servlet-mapping>
         <servlet-name>ModeleAbsUniq</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/ModeleAbsUniq</url-pattern>
 </servlet-mapping>
 
 <servlet>
@@ -51,7 +51,7 @@
 </servlet>
 <servlet-mapping>
         <servlet-name>ModeleAffIndispo</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/ModeleAffIndispo</url-pattern>
 </servlet-mapping>
 
 </web-app>
