@@ -60,11 +60,11 @@
 <table>
 <tr><td>Nom</td><td>Prenom</td><td>Note</td>
 </tr>
-<%int i=0;
-for(i=0;i<ExamBeans.getMesNotes().size();i++) {%>
-<tr><td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom() %></td>
-<td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getPrenom() %></td>
-<td><INPUT type="text" name=<%= "Note" + i %> value=<%=ExamBeans.getMesNotes().get(i).getNote()%>></td>
+<%int i=1;
+for(Note n : ExamBeans.getMesNotes()) {%>
+<tr><td><%=n.getMonEtudiant().getMonCandidat().getNom() %></td>
+<td><%=n.getMonEtudiant().getMonCandidat().getPrenom() %></td>
+<td><INPUT type="text" name=<%= "Note" + i++ %> value=<%=ExamBeans.getMesNotes().get(i).getNote()%>></td>
 <% } %>
 
 
