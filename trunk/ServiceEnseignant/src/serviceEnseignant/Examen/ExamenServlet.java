@@ -80,7 +80,7 @@ public class ExamenServlet extends HttpServlet {
 		e6.getMesNotes().add(n6);
 		System.out.println("\nFin de l'initialisation.");
 			request.setAttribute("ExamBeans", exam);
-			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ConsulterExamen.jsp");
+			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/jsp/jspExamen/ConsulterExamen.jsp");
 			disp.forward(request, response);
 
 	}
