@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.Enseignant;
+
 /**
  * Servlet implementation class ModeleIndispo
  */
@@ -23,7 +25,7 @@ public class ModeleAbsReg extends HttpServlet {
 
 	private EnsIndispo enseignant;
 	
-	private int ref=2;
+	private Enseignant ens;
 	
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -31,6 +33,7 @@ public class ModeleAbsReg extends HttpServlet {
 	public ModeleAbsReg() {
 		super();
 		enseignant = new EnsIndispo();
+		ens= new Enseignant();
 	}
 
 	/**
@@ -48,7 +51,10 @@ public class ModeleAbsReg extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		
+		
+		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+		ens.setNumeroEnseignant(2);
 		String dD = request.getParameter("dateDebut");
 
 		String j = request.getParameter("jour");
@@ -84,7 +90,7 @@ public class ModeleAbsReg extends HttpServlet {
 		
 		
 		try {
-			enseignant.ajoutIndispoReg(dD,typeI,priorite,ref,duree,nbOccu,jour);
+			enseignant.ajoutIndispoReg(dD,typeI,priorite,ens,duree,nbOccu,jour);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

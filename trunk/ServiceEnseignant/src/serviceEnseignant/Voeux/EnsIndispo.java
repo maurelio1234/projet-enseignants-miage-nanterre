@@ -17,10 +17,9 @@ import sun.util.calendar.BaseCalendar.Date;
 
 public class EnsIndispo {
 
-	private Enseignant refEnseignant;
 	
 	public EnsIndispo(){
-		this.refEnseignant = new Enseignant();
+		
 		
 	}
 	
@@ -35,13 +34,13 @@ public class EnsIndispo {
 		}
 	}
 	
-	public void ajoutIndispoReg(String debut, /*String fin,*/ int dj, int poids, int refEnseignant, int regulier, int nbO, int j) throws ParseException{
+	public void ajoutIndispoReg(String debut, /*String fin,*/ int dj, int poids, Enseignant ensei, int regulier, int nbO, int j) throws ParseException{
 		
 		try {
 			/** Connection à la base - Étape 2 */
 			String url = "jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE";
-			Connection cx = DriverManager.getConnection(url, "adlevoir",
-					"apprentis2010pw");
+			Connection cx = DriverManager.getConnection(url, "maletell",
+					"matthieu");
 
 			/** Création et exécution d'une requête - Étapes 3 & 4 */
 			Statement st = cx.createStatement();
@@ -65,7 +64,7 @@ public class EnsIndispo {
 						java.util.Date d = calendar.getTime();
 						pst.setDate(1,(java.sql.Date) d);
 						
-						pst.setInt(2, refEnseignant);
+						pst.setInt(2, ensei.getNumeroEnseignant());
 						pst.setInt(3, poids);
 						pst.setInt(4,dj);
 					
@@ -88,7 +87,7 @@ public class EnsIndispo {
 						java.util.Date d = calendar.getTime();
 						pst.setDate(1,(java.sql.Date) d);
 						
-						pst.setInt(2, refEnseignant);
+						pst.setInt(2, ensei.getNumeroEnseignant());
 						pst.setInt(3, poids);
 						pst.setInt(4,dj);
 					
@@ -117,8 +116,8 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 		try {
 			/** Connection à la base - Étape 2 */
 			String url = "jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE";
-			Connection cx = DriverManager.getConnection(url, "adlevoir",
-					"apprentis2010pw");
+			Connection cx = DriverManager.getConnection(url, "maletell",
+					"matthieu");
 
 			/** Création et exécution d'une requête - Étapes 3 & 4 */
 			Statement st = cx.createStatement();
@@ -164,16 +163,16 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 		}
     }
 
-	public void afficherIndispo(int ref) throws SQLException{
+	public void afficherIndispo(Enseignant ensei) throws SQLException{
 		
 		/** Connection à la base - Étape 2 */
 		String url = "jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE";
-		Connection cx = DriverManager.getConnection(url, "adlevoir",
-				"apprentis2010pw");
+		Connection cx = DriverManager.getConnection(url, "maletell",
+				"matthieu");
 
 		/** Création et exécution d'une requête - Étapes 3 & 4 */
 		Statement st = cx.createStatement();
-		ResultSet rs = st.executeQuery("SELECT * FROM Enseignant WHERE numeroEnseignant ="+ ref);
+		ResultSet rs = st.executeQuery("SELECT * FROM Indisponibilite  WHERE NO_ENSEIGNANT ="+ ensei.getNumeroEnseignant() + "ORDER BY DATE_INDISPO");
 		
 		Indisponibilite i = new Indisponibilite();
 		Jours j = new Jours();
@@ -183,7 +182,7 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 			calendar.setTime(rs.getDate(2));
 			j.setDate(calendar);
 			i.setDateIndisponibilite(j);
-			refEnseignant.getMesIndispos().add(i);
+			ensei.getMesIndispos().add(i);
 		}
 		
 		
