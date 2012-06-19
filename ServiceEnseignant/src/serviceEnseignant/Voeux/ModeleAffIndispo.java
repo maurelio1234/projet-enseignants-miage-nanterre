@@ -46,15 +46,14 @@ public class ModeleAffIndispo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-
+	
 		try {
-			ensIndispo.afficherIndispo(ens.getNumeroEnseignant());
+			ensIndispo.afficherIndispo(ens);		
+			
+				request.setAttribute("EnseiBean", ens);
 			
 			
-				request.setAttribute("ind", arInd.get(i));
-			
-			
-			RequestDispatcher disp = getServletContext().getRequestDispatcher("/AffIndispo.jsp");
+			RequestDispatcher disp = getServletContext().getRequestDispatcher("/jsp/jspVoeux/AffIndispo.jsp");
 			disp.forward(request, response);
 			
 			
