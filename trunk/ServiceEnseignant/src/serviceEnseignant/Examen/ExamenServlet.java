@@ -16,6 +16,7 @@ import beans.*;
 @WebServlet("/ExamenServlet")
 public class ExamenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Examen exam;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -24,18 +25,19 @@ public class ExamenServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Création des candidats");
+    	System.out.println("Création des candidats");
 		Candidat c1 = new Candidat(1, "Letellier", "Matthieu", "osef", "Osef", null, "maletell", "matthieu", null, true, "osef");
 		Candidat c2 = new Candidat(2, "Bonneau", "Julie", "osef", "Osef", null, "osef", "osef", null, true, "osef");
 		Candidat c3 = new Candidat(3, "Vignau", "Morgane", "osef", "Osef", null, "osef", "osef", null, true, "osef");
@@ -58,14 +60,14 @@ public class ExamenServlet extends HttpServlet {
 		e6.setMonCandidat(c6);
 		
 		System.out.println("\nCréation de l'examen");
-		Examen exam = new Examen(1,new GregorianCalendar(2012,GregorianCalendar.JUNE, 12), "Examen Test", 1);
+		exam = new Examen(1,new GregorianCalendar(2012,GregorianCalendar.JUNE, 12), "Examen Test", 1);
 		System.out.println("\nCréation des notes");
-		Note n1 = new Note(e1,exam,0);
+		Note n1 = new Note(e1,exam,-2);
 		Note n2 = new Note(e2,exam,10);
 		Note n3 = new Note(e3,exam,20);
 		Note n4 = new Note(e4,exam,0);
-		Note n5 = new Note(e5,exam,10);
-		Note n6 = new Note(e6,exam,0);
+		Note n5 = new Note(e5,exam,-1);
+		Note n6 = new Note(e6,exam,-3);
 
 		for(int i = 0;i < exam.getMesNotes().size();i++){
 			System.out.println(exam.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom() + " " + exam.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getPrenom() + " " + exam.getMesNotes().get(i).getNote());
