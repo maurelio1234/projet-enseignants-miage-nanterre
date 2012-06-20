@@ -3,8 +3,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import beans.Enseignant;
@@ -45,10 +43,15 @@ public class EnseignantDAO {
 				this.ens.setPassword(resultat.getString("PWD_ENSEIGNANT"));
 				
 				// cast du string en gregorian calendar
-				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+				/**SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 				Date dateNais = (Date) format.parse(resultat.getString("DATE_NAISSANCE_ENSEIGNANT"));
 				GregorianCalendar gcDate = new GregorianCalendar();
-				gcDate.setTime(dateNais);
+				gcDate.setTime(dateNais);*/
+				
+				GregorianCalendar gcDate = ConvertirDate(resultat.getString("DATE_NAISSANCE_ENSEIGNANT"));
+												
+				//SimpleDateFormat dateF = new SimpleDateFormat("dd/MM/yyyy");
+				//System.out.println("date : "+dateF.format(gcDate.getTime()));
 				
 				this.ens.setDateNaissance(gcDate);
 			}
@@ -73,26 +76,26 @@ public class EnseignantDAO {
 	
 	public boolean verifierLoginMdp(String login, String mdp){
 		boolean testConn = false;
-		System.out.println("VERIFIE LOGIN MDP");
+		//System.out.println("VERIFIE LOGIN MDP");
 		try {
 			
 			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
-			System.out.println("je suis connecté");		
+			//System.out.println("je suis connecté");		
 			Statement st =  conn.createStatement();
 			
 			ResultSet resultat =  st.executeQuery("select * from ENSEIGNANT e "+
 													"where e.LOGIN_ENSEIGNANT = '"+ login +"' and e.PWD_ENSEIGNANT = '"+ mdp+ "'"); 
 			
-			System.out.println("j'ai fai ma requete");	
+			//System.out.println("j'ai fai ma requete");	
 			while(resultat.next()){
 				this.ens.setNumeroEnseignant(resultat.getInt("NO_ENSEIGNANT"));
 				this.ens.setLogin(resultat.getString("LOGIN_ENSEIGNANT"));
 				this.ens.setPassword(resultat.getString("PWD_ENSEIGNANT"));
 				testConn = true;
-				System.out.println("LOGIN ET MDP OK");
+				//System.out.println("LOGIN ET MDP OK");
 			}
 			
-			System.out.println("fin requete");	
+			//System.out.println("fin requete");	
 			resultat.close();
 			st.close();
 			conn.close();
@@ -116,32 +119,41 @@ public class EnseignantDAO {
 	 * @param dateNaissance
 	 * @return un boolean si la methode a fait un enregistrement dans la table enseignant
 	 */
-	public boolean enregistrerInfos(int numEns, String nom, String prenom, String adresse, String telephone, String dateNaissance) {
+	public boolean enregistrerInfos(String nom, String prenom, String adresse, String telephone, String dateNaissance) {
 		boolean testEnreg = false;
 		
 		//SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		//java.sql.Date dateNais = (java.sql.Date) format.parse(dateNaissance);
 		
+		//System.out.println("dans enregistrerInfos de DAO");
+		
 		try {
 			
 			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
 			
+			//System.out.println("je suis connecté a la bdd");
+			
 			PreparedStatement pst =  conn.prepareStatement("UPDATE ENSEIGNANT "+
 														"SET NOM_ENSEIGNANT = ?, PRENOM_ENSEIGNANT = ?, ADRESSE_ENSEIGNANT = ?, TELEPHONE_ENSEIGNANT = ?, DATE_NAISSANCE_ENSEIGNANT = ? " +
 														"WHERE NO_ENSEIGNANT = ?");
+			
+			//System.out.println("je prepare la requete update");
 			
 			pst.setString(1, nom);
 			pst.setString(2, prenom);
 			pst.setString(3, adresse);
 			pst.setString(4, telephone);
 			pst.setString(5, dateNaissance);
-			pst.setInt(6, numEns);
+			pst.setInt(6, this.ens.getNumeroEnseignant());
 			
 			int result = pst.executeUpdate();
 			//retourne le nombre de lignes mises a jour
 			
+			//System.out.println("j'execute la requete");
+			
 			if(result>0) {
 				testEnreg = true;
+				//System.out.println("la requete a ete execute ac succes");
 			}
 			
 			pst.close();
@@ -149,11 +161,11 @@ public class EnseignantDAO {
 			
 		}
 		catch (Exception e){
-			//System.out.println("Erreur de connexion a la base de donnee ");
+			System.out.println("Erreur de connexion a la base de donnee ");
 			System.exit(1);
 		}
 		
-		this.recupererInfos(numEns);
+		this.recupererInfos(this.ens.getNumeroEnseignant());
 		return testEnreg;
 		
 	}
@@ -185,6 +197,8 @@ public class EnseignantDAO {
 		}
 		*/
 		
+		//System.out.println("je suis dans la méthode verifier ancien mdp");
+		
 		if(this.ens.getPassword().equals(ancienMDP))
 			ok = true;
 		
@@ -192,6 +206,8 @@ public class EnseignantDAO {
 	}
 	
 	public boolean enregistrerMDP(String ancienMDP, String nouveauMDP){
+		
+		//System.out.println("je suis dans la méthode enregistrer nouveau mdp");
 		
 		boolean modifOk = false;
 		
@@ -202,18 +218,33 @@ public class EnseignantDAO {
 				
 				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
 				
+				conn.setAutoCommit(false);
+				
+				//System.out.println("je suis connectée dans bdd");
+				
 				PreparedStatement pst =  conn.prepareStatement("UPDATE ENSEIGNANT "+
 															"SET PWD_ENSEIGNANT = ? " +
-															"WHERE NO_ENSEIGNANT = ?");
+															"WHERE NO_ENSEIGNANT = "+this.getEns().getNumeroEnseignant());
 				
 				pst.setString(1, nouveauMDP);
-				pst.setInt(2, this.getEns().getNumeroEnseignant());
+				//pst.setInt(2, this.getEns().getNumeroEnseignant());
 				
 				int result = pst.executeUpdate();
 				//retourne le nombre de lignes mises a jour
 				
+				conn.commit();
+				
+				/*System.out.println("j'execute la requete");
+				System.out.println("UPDATE ENSEIGNANT "+
+						"SET PWD_ENSEIGNANT = '" +nouveauMDP+
+						"' WHERE NO_ENSEIGNANT = "+this.getEns().getNumeroEnseignant());
+				
+				System.out.println("nb lignes mis a jour : "+result);
+				*/
+				
 				if(result>0) {
 					modifOk = true;
+					//System.out.println("succes de la requete update mdp");
 				}
 				
 				pst.close();
@@ -221,7 +252,7 @@ public class EnseignantDAO {
 				
 			}
 			catch (Exception e){
-				//System.out.println("Erreur de connexion a la base de donnee ");
+				System.out.println("Erreur de connexion a la base de donnee ");
 				System.exit(1);
 			}
 			
@@ -249,6 +280,10 @@ public class EnseignantDAO {
         }
         return gDate;
     }
+	
+	public void setEns(Enseignant ens){
+		this.ens = ens;
+	}
 	
 	public Enseignant getEns(){
 		return this.ens;

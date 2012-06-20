@@ -11,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import serviceEnseignant.*;
 import beans.Enseignant;
 
@@ -59,7 +61,11 @@ public class ConnexionEnseignantServlet extends HttpServlet {
 			
 			//Enseignant beanEns = new Enseignant(1, "wong", "emilie", "2 rue des Lilas Paris", "0645896369", new GregorianCalendar(1970, Calendar.JANUARY, 12), "emilie", "emilie");
 			
-			request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
+			// creation d'une session pour stocker le bean enseignant
+			HttpSession session = request.getSession(true);    
+			session.setAttribute("ens", beanEns);
+			
+			//request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
 			
 			disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");
 		}
