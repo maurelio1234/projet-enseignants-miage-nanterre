@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.Enseignant;
 
@@ -43,23 +44,33 @@ public class ModifierInfosEnseignantServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		int numEns = Integer.parseInt(request.getParameter("numEns"));
+		System.out.println("dans le controleur modifier infos ens");
+		
+		Enseignant beanEns;
+		
+		// recuperation de la session pour avoir le bean enseignant et avoir son numero enseignant
+		HttpSession session = request.getSession(true);   
+		beanEns = (Enseignant) session.getAttribute("ens");
+		
+		EnseignantDAO ensDAO =  new EnseignantDAO();
+		ensDAO.setEns(beanEns);	
+	
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
 		String dateNaiss = request.getParameter("dateNaiss");
 		String adresse = request.getParameter("adresse");
 		String telephone = request.getParameter("telephone");
 		
-		RequestDispatcher disp;
+		RequestDispatcher disp;	
 		
-		EnseignantDAO ensDAO =  new EnseignantDAO();
+		System.out.println(nom+" "+prenom+" "+adresse+" "+dateNaiss);
 		
 		// enregistrement des données dans la base
-		ensDAO.enregistrerInfos(numEns, nom, prenom, adresse, telephone, dateNaiss);
+		ensDAO.enregistrerInfos(nom, prenom, adresse, telephone, dateNaiss);
 		
-		Enseignant beanEns = ensDAO.getEns(); //beanEnseignant qui sera envoye a la JSP PageInfoPerso.jsp
+		beanEns = ensDAO.getEns(); //beanEnseignant qui sera envoye a la JSP PageInfoPerso.jsp
 		
-		request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
+		session.setAttribute("ens", beanEns); // associe le bean mis a jour a la session "ens"
 		
 		disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");
 
