@@ -14,16 +14,17 @@
 	<center>
             <h3>Modification du mot de passe</h3>
             
-			<jsp:useBean id="ens" scope="request" class="beans.Enseignant"/>
-				
+			<jsp:useBean id="ens" scope="session" class="beans.Enseignant"/>
+			<%= ens.getPrenom() %> <%= ens.getNom() %>
+							
 			<% if(request.getAttribute("erreur")!= null) { %>
-            	<font color="#DC143C"> <b> <%= request.getAttribute("erreurAncienMDP") %> </b> </font>
+            	<font color="#DC143C"> <b> <%= request.getAttribute("erreur") %> </b> </font>
+            	<form name="form_modifMDP" method="post" action="../../ServiceEnseignant/ModifierMDPEnseignantServlet">
+            <% } 
+            else { %>           
+                <form name="form_modifMDP" method="post" action="../../ModifierMDPEnseignantServlet">
             <% } %>
-            
-            <form name="form_modifMDP" method="post" action="ModifierMDPEnseignantServlet">
-            
-			<input type="hidden" name="numEns" value="<%= ens.getNumeroEnseignant() %>"/>
-			
+          			
              <table border = 1>
                     <tr align="left"> 
                     	<td style="padding-top: 8px;"> Ancien mot de passe : </td> 
