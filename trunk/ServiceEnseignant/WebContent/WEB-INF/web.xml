@@ -31,13 +31,6 @@
         <url-pattern>/ListeExamenServlet</url-pattern>
 </servlet-mapping>
 
-
-<servlet>
-	<servlet-name>ConnexionEnseignantServlet</servlet-name>
-	<servlet-class>serviceEnseignant.Infos</servlet-class>
-</servlet>
-
-
 <servlet>
 	<servlet-name>ModeleAbsReg</servlet-name>
 	<servlet-class>serviceEnseignant.Voeux.ModeleAbsReg</servlet-class>
@@ -64,5 +57,39 @@
         <servlet-name>ModeleAffIndispo</servlet-name>
         <url-pattern>/ModeleAffIndispo</url-pattern>
 </servlet-mapping>
+
+<servlet>
+	<servlet-name>ConnexionEnseignantServlet</servlet-name>
+	<servlet-class>serviceEnseignant.Infos.ConnexionEnseignantServlet</servlet-class>
+</servlet>
+
+ <servlet-mapping>
+   <servlet-name>ConnexionEnseignantServlet</servlet-name>
+   <url-pattern>/</url-pattern>
+ </servlet-mapping>
+ 
+ 
+ <servlet>
+   <servlet-name>ModifierInfosEnseignant</servlet-name>
+   <servlet-class>serviceEnseignant.Infos.ModifierInfosEnseignantServlet</servlet-class>
+ </servlet>
+ 
+ <servlet-mapping>
+   <servlet-name>ModifierInfosEnseignant</servlet-name>
+   <url-pattern>/ModifierInfosEnseignantServlet</url-pattern>
+ </servlet-mapping>
+ 
+ <servlet>
+   <servlet-name>ModifierMDPEnseignant</servlet-name>
+   <servlet-class>serviceEnseignant.Infos.ModifierMDPEnseignantServlet</servlet-class>
+ </servlet>
+ 
+ <servlet-mapping>
+   <servlet-name>ModifierMDPEnseignant</servlet-name>
+   <url-pattern>/ModifierMDPEnseignantServlet</url-pattern>
+ </servlet-mapping>
+
+
+
 
 </web-app>
