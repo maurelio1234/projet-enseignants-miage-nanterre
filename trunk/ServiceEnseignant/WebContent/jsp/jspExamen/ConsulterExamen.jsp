@@ -8,11 +8,12 @@
 <title>Consulter Examen</title>
 </head>
 <body>
-<form method='POST' action='http://localhost:8080/ServiceEnseignant/ExamenServlet'>
+<form method='POST' action='../../UpdateExamenServlet'>
 <jsp:useBean id="ExamBeans" scope="request" class="beans.Examen" />
+<input type="hidden" name = "num_exam" value=<%= ExamBeans.getNumeroExamen() %>>
 <TABLE BORDER=0>
 <TR>
-	<TD>Intitulé</TD>
+	<TD>Intitule</TD>
 	<TD>
 	<INPUT type=text name="intitule" value=<%= ExamBeans.getLibelle() %>>
 	</TD>
@@ -42,38 +43,39 @@
 
 <TR>
 	<TD>
-	<br>
-    <br>
-    <br>
-    <INPUT TYPE ='SUBMIT' NAME='Enregistrer les modifications' VALUE='Envoyer'>
+    <INPUT TYPE ='SUBMIT' NAME='Enregistrer les modifications' VALUE='Enregistrer les modifications'>
 	</TD>
 	
-		<TD>
-			<br>
-    <br>
+	<TD>
 	<INPUT type="submit" value="Retour">
 	</TD>
 </TR>
 </TABLE>
-</form>
 <center>
 <table>
-<tr><td>Nom</td><td>Prenom</td><td>Note</td>
+<tr>
+	<td>Nom</td>
+	<td>Prenom</td>
+	<td>Note</td>
+	<td>Present</td>
+	<td>Absent</td>
+	<td>Excusé</td>
 </tr>
 <%int i=0;
 for(i=0;i<ExamBeans.getMesNotes().size();i++) {%>
-<% System.out.println(ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom()); %>
-<tr><td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom() %></td>
-<td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getPrenom() %></td>
-<td><INPUT type="text" name=<%= "Note" + i %> value=<%=ExamBeans.getMesNotes().get(i).getNote()%>></td>
+
+<tr>
+	<% System.out.println(ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom()); %>
+	<td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom() %></td>
+	<td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getPrenom() %></td>
+	<td><INPUT type="text" name=<%= "Note" + i %> value=<%=ExamBeans.getMesNotes().get(i).getNote()%>></td>	
+	<td><INPUT TYPE="radio" NAME=<%= "choix" + i %> VALUE="1" checked></td>
+	<td><INPUT TYPE="radio" NAME=<%= "choix" + i %> VALUE="2" <% if(ExamBeans.getMesNotes().get(i).getNote()==-2) { %> checked <%} %>></td> 
+	<td><INPUT TYPE="radio" NAME=<%= "choix" + i %> VALUE="3" <% if(ExamBeans.getMesNotes().get(i).getNote()==-3) { %> checked <%} %>></td>
+	<td><input type="hidden" name = <%= "RefEtudiant" + i %> value = <%=ExamBeans.getMesNotes().get(i).getMonEtudiant() %>></td>
+	<td><input type="hidden" name = <%= "RefExamen" + i %> value = <%=ExamBeans.getMesNotes().get(i).getMonExamen() %>></td>
+	</tr>
 <% } %>
-
-
-
-
-
-
-
 
 </table>
 </center>
