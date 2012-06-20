@@ -54,7 +54,7 @@ public class ModeleAbsReg extends HttpServlet {
 		
 		
 		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-		ens.setNumeroEnseignant(2);
+		ens.setNumeroEnseignant(1);
 		String dD = request.getParameter("dateDebut");
 
 		String j = request.getParameter("jour");
@@ -62,7 +62,7 @@ public class ModeleAbsReg extends HttpServlet {
 		String prio = request.getParameter("poids");
 		String nbO = request.getParameter("nbOccu");
 		String dur = request.getParameter("demiJ");
-
+		System.out.println("typeeeeeeeeeeeeeeeeeeeeee " + tI);
 		/*SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
 		Calendar d = format.getCalendar();
 */
