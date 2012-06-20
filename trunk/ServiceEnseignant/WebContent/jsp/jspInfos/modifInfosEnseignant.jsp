@@ -3,6 +3,7 @@
     
 <%@ page import="serviceEnseignant.*"%>
 <%@ page import="beans.*"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -14,13 +15,11 @@
 	<center>
             <h3>Modification des informations enseignant</h3>
             
-			<jsp:useBean id="ens" scope="request" class="beans.Enseignant"/>
-			Bonjour <%= ens.getPrenom() %> <%= ens.getNom() %> !
+			<jsp:useBean id="ens" scope="session" class="beans.Enseignant"/>
+			<%= ens.getPrenom() %> <%= ens.getNom() %>
 
 	
-            <form name="form_modifInfos" method="post" action="ModifierInfosEnseignantServlet">
-
-			<input type="hidden" name="numEns" value="<%= ens.getNumeroEnseignant() %>"/>
+            <form name="form_modifInfos" method="post" action="../../ModifierInfosEnseignantServlet">
 
              <table border = 1>
                     <tr align="left"> 
@@ -50,7 +49,11 @@
                     <tr>   	
 	                   	<td> Date de naissance (jj/mm/aaaa) * : </td>
 	                   	<td>
-	                   		<input type="text" name="dateNaiss" value="<%= ens.getDateNaissance() %>" />
+	                   	<%  // gestion de l'affichage de la date
+                   			SimpleDateFormat dateF = new SimpleDateFormat("dd/MM/yyyy");
+    						String date = dateF.format(ens.getDateNaissance().getTime());    					
+    					%>
+	                   		<input type="text" name="dateNaiss" value="<%= date %>" />
 	                   	</td> 
                  	</tr> 
                  		

@@ -3,18 +3,19 @@
     
 <%@ page import="serviceEnseignant.*"%>
 <%@ page import="beans.*"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Espace enseignant</title>
 </head>
 <body>
 	<center>
             <h3>Bienvenue dans l'espace enseignants</h3>
             
-			<jsp:useBean id="ens" scope="request" class="beans.Enseignant"/>
+			<jsp:useBean id="ens" scope="session" class="beans.Enseignant"/>
 			Bonjour <%= ens.getPrenom() %> <%= ens.getNom() %> !
 
 			<% if(request.getAttribute("msg")!= null) { %>
@@ -46,11 +47,14 @@
                    	</td> 
                  	</tr>  	
                    	
+                   	<%  // gestion de l'affichage de la date
+                   		SimpleDateFormat dateF = new SimpleDateFormat("dd/MM/yyyy");
+    					String date = dateF.format(ens.getDateNaissance().getTime());    					
+    				%>
+    				
                    	<tr>   	
                    	<td> Date de naissance * : </td>
-                   	<td>
-                   	<%= ens.getDateNaissance() %>
-                   	</td> 
+                   	<td> <%= date %> </td> 
                  	</tr> 
                  	
               	  	<tr>    	
@@ -79,6 +83,7 @@
                    </tr>   
              </table>     
 
+			
         </center>
 </body>
 </html>
