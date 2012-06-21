@@ -18,7 +18,7 @@
 			<%= ens.getPrenom() %> <%= ens.getNom() %>
 							
 			<% if(request.getAttribute("erreur")!= null) { %>
-            	<font color="#DC143C"> <b> <%= request.getAttribute("erreur") %> </b> </font>
+            	<br/> <font color="#DC143C"> <b> <%= request.getAttribute("erreur") %> </b> </font> <br/>
             	<form name="form_modifMDP" method="post" action="../../ServiceEnseignant/ModifierMDPEnseignantServlet">
             <% } 
             else { %>           

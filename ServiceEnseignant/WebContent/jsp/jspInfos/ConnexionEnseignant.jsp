@@ -11,8 +11,15 @@
 <body>
 	<center>
             <h3>Connexion à l'espace enseignants</h3>
-            <form name="form_login" method="post" action="../../ConnexionEnseignantServlet">
-
+            
+            <% if(request.getAttribute("msg")!= null) { %>
+            	<br/> <font color="#DC143C"> <b> <%= request.getAttribute("msg") %> </b> </font> <br/>
+            	<form name="form_login" method="post" action="../../ServiceEnseignant/ConnexionEnseignantServlet">
+            <% }
+            else { %>
+            	<form name="form_login" method="post" action="../../ConnexionEnseignantServlet">
+            <% } %>
+                       
                 <table border="0">
                     <tr align="left"> <td style="padding-top: 8px;"> Login : </td> </tr>
                     <tr> <td> <input type="text" name="login" value=""> </td> </tr>
