@@ -51,7 +51,7 @@
 	</TD>
 </TR>
 </TABLE>
-<center>
+
 <table>
 <tr>
 	<td>Nom</td>
@@ -62,8 +62,9 @@
 	<td>Excusé</td>
 </tr>
 <%int i=0;
+double n;
 for(i=0;i<ExamBeans.getMesNotes().size();i++) {%>
-
+<% n = ExamBeans.getMesNotes().get(i).getNote(); %>
 <tr>
 	<% System.out.println(ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom()); %>
 	<td><%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getMonCandidat().getNom() %></td>
@@ -78,7 +79,7 @@ for(i=0;i<ExamBeans.getMesNotes().size();i++) {%>
 <% } %>
 
 </table>
-</center>
+
 </form>
 </body>
 </html>
