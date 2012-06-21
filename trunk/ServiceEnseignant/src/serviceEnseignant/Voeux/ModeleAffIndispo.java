@@ -46,7 +46,7 @@ public class ModeleAffIndispo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	
+	System.out.println("JE SUIS DANS AFFINDISPO");
 		try {
 			ensIndispo.afficherIndispo(ens);		
 			

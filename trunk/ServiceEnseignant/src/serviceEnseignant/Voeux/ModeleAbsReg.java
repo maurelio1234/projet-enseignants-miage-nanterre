@@ -1,6 +1,7 @@
 package serviceEnseignant.Voeux;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -90,16 +91,19 @@ public class ModeleAbsReg extends HttpServlet {
 		
 		
 		try {
-			enseignant.ajoutIndispoReg(dD,typeI,priorite,ens,duree,nbOccu,jour);
+			enseignant.ajoutIndispoReg(dD,duree,priorite,ens,typeI,nbOccu,jour);
 		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 
 		
 		RequestDispatcher dispatch =
-				request.getRequestDispatcher("index.jsp");
-				dispatch.forward (request, response);
+				this.getServletContext().getRequestDispatcher("/jsp/jspVoeux/index.jsp");
+				dispatch.forward(request, response);
 	}
 
 }

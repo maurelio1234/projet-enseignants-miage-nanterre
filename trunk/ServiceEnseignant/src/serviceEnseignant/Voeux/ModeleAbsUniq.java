@@ -38,7 +38,7 @@ public class ModeleAbsUniq extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+System.out.println(request.getParameter("poids"));
 		String dD = request.getParameter("dateDebut");
 		String dF = request.getParameter("dateFin");
 		String prio = request.getParameter("poids");
@@ -49,6 +49,7 @@ public class ModeleAbsUniq extends HttpServlet {
 			enseignant.ajoutIndispoUniq(dD,dF,priorite,ref);
 		} catch (ParseException e) {
 			e.printStackTrace();
+			System.out.println("erreur ex");
 		}
 	}
 
