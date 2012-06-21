@@ -7,10 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import beans.*;
@@ -41,22 +43,43 @@ public class EnsIndispo {
 	
 		GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 		calendar.setTime(debut);
+		System.out.println("essaiiii : " + debut);
 		
 		System.out.println("je suis dans le getindispo et regulier : " + regulier);
 		
 		if (regulier == 1) { //HEBDO
-			///
+			
+			java.util.Date d;
+			for(int i=0; i<nbO; i++){
+				//ici, on ajoute une indispo autant de fois que demandé par le prof
+				System.out.println("\n je suis dans le début FOR HEBDO");
+				
+				if(calendar.get(Calendar.DAY_OF_WEEK)==j){
+					d= calendar.getTime();
+					ret.add(d);
+					System.out.println("\n je suis dans le IF HEBDO");
+					}
+				
+				calendar.add(Calendar.WEEK_OF_MONTH, 1);
+				System.out.println("\n je suis dans le fin FOR HEBDO");
+			}
+			
+			
+			
 		} else if (regulier == 2){ // MENS
 			
 			System.out.println("je suis mensuellement dans le getindispo");
 			int semaine = calendar.get(Calendar.WEEK_OF_MONTH);
-			int mois = calendar.get(Calendar.MONTH);
+			int mois = calendar.get(Calendar.MONTH) + 1;
 			int annee = calendar.get(Calendar.YEAR);
+			
+			System.out.println("Sem : " + semaine + " mois : "+mois);
+			
 			for(int i=0;i<nbO;++i) {
 				Date date = getDate(semaine, j, annee, mois+i);
 				ret.add(date);
 				
-				System.out.println("je suis mensuellement dans le getindispo BOUCLE FOR");
+				System.out.println("je suis mensuellement dans le getindispo BOUCLE FOR " + date);
 			}
 		}
 		return ret;
@@ -64,20 +87,28 @@ public class EnsIndispo {
 	
 	private Date getDate(int semaine, int j, int annee, int mois) {
 		GregorianCalendar calendar = new java.util.GregorianCalendar(annee, mois-1, 1);
+		
 		while(semaine > 0) {
 			System.out.println("je suis dans le WHILE du getDate");
 			if (calendar.get(GregorianCalendar.DAY_OF_WEEK) == j) {				
 				semaine --;
 			}
-			calendar.add(GregorianCalendar.DAY_OF_MONTH, 1);
+			
+			if(semaine != 0)
+				calendar.add(GregorianCalendar.DAY_OF_MONTH, 1);
+			
 		}
 		
 		java.util.Date d = calendar.getTime();
+		System.out.println("\n dateeeeee " + d);
 		
 		return d;
 	}
 		
-	public void ajoutIndispoReg(String debut, /*String fin,*/ int dj, int poids, Enseignant ensei, int regulier, int nbO, int j) throws ParseException{
+	
+	
+	
+	public void ajoutIndispoReg(String debut, /*String fin,*/ int dj, int poids, Enseignant ensei, int regulier, int nbO, int j) throws ParseException, SQLException{
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		java.util.Date deb = format.parse(debut);
 		
@@ -93,18 +124,27 @@ public class EnsIndispo {
 		}
 	}
 	
-	public void ajoutIndispoSimple(Date debut,int poids, Enseignant ensei, int dj){
+	
+	
+	public void ajoutIndispoSimple(Date debut,int poids, Enseignant ensei, int dj) throws SQLException{
+		
+		
+		PreparedStatement pst=null;
+		
+		
+		Connection cx=null;
+		
 		try {
 			System.out.println("je suis dans ajoutSIMPLE" + debut);
 			/** Connection à la base - Étape 2 */
 			this.loadBD();
 
-			Connection cx = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+			cx = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
 			cx.setAutoCommit(false);
 
 			/** Création et exécution d'une requête - Étapes 3 & 4 */
-			Statement st = cx.createStatement();
-			PreparedStatement pst = cx.prepareStatement("INSERT INTO Indisponibilite VALUES(?,?,?,?)");
+			
+			 pst = cx.prepareStatement("INSERT INTO Indisponibilite VALUES(?,?,?,?)");
 			
 //			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		//	java.util.Date dateD = format.parse(debut);
@@ -123,9 +163,12 @@ public class EnsIndispo {
 			cx.commit();
 			
 			pst.close();
-			st.close();
+		
 			cx.close();
 		}catch (SQLException ex) {
+			pst.close();
+			
+			cx.close();
 			ex.printStackTrace();
 			System.err.println("Erreur lors de la cx à la base");
 			System.exit(1);
@@ -255,19 +298,21 @@ public class EnsIndispo {
 public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseignant) throws ParseException{
 		
 		try {
+			
+			System.out.println("\nDEBUT : " + debut);
 			/** Connection à la base - Étape 2 */
 			String url = "jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE";
 			Connection cx = DriverManager.getConnection(url, "maletell",
 					"matthieu");
+			cx.setAutoCommit(false);
 
 			/** Création et exécution d'une requête - Étapes 3 & 4 */
-			Statement st = cx.createStatement();
 			PreparedStatement pst = cx.prepareStatement("INSERT INTO Indisponibilite VALUES(?,?,?,?)");
 			
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			java.util.Date dateD = format.parse(debut);
 			java.util.Date dateF = format.parse(fin);
-			
+
 			/* 
 			 * pour qu'on s'arrete au jour de fin INCLUS
 			 * il faut transformer la dateF en calendar pour ajouter 1 JOUR 
@@ -280,25 +325,48 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 			 */
 			java.util.Date f = cal.getTime();
 			
+			
+			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
+			java.sql.Date sqlDate;
 			/*
 			 * Maintenant on boucle tant qu'on n'est pas
 			 * la date de fin
 			 * et on ajoute dans la base
 			 */
+			
+			System.out.println("AVANT BOUCLE FOR");
+			
 			java.util.Date date= new java.util.Date();
-			for (date = dateD; !date.equals(f);) {
-				pst.setDate(1,(java.sql.Date) date);
+			for (date = dateD; date.before(f) || date.equals(f);) {
+				calendar.setTime(date);
+				
+				sqlDate = new java.sql.Date(calendar.getTimeInMillis());
+				pst.setDate(1,sqlDate);
 				
 				pst.setInt(2, refEnseignant);
 				pst.setInt(3, poids);
 				pst.setInt(4,2);//par defaut, pour une periode, c'est la journee entière
+				
+				System.out.println("DANS BOUCLE FOR " + date);
+				
+				pst.executeUpdate();
+				
+				cx.commit();
+				
+				GregorianCalendar calendarBis = new java.util.GregorianCalendar(); 
+				calendarBis.setTime(date);
+				calendarBis.add(Calendar.DAY_OF_MONTH, 1);
+				date = calendarBis.getTime();
 			}
 			
 			/** Fermetures - Étape 6 */
 			pst.close();
-			st.close();
 			cx.close();
+			
+			System.out.println("APRES BOUCLE FOR");
+			
 		} catch (SQLException ex) {
+			ex.printStackTrace();
 			System.err.println("Erreur lors de la cx à la base");
 			System.exit(1);
 		}
@@ -310,6 +378,7 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 		String url = "jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE";
 		Connection cx = DriverManager.getConnection(url, "maletell",
 				"matthieu");
+		
 
 		/** Création et exécution d'une requête - Étapes 3 & 4 */
 		Statement st = cx.createStatement();
@@ -318,14 +387,30 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 		Indisponibilite i = new Indisponibilite();
 		Jours j = new Jours();
 		GregorianCalendar calendar = new java.util.GregorianCalendar(); 
-		
+		List<Indisponibilite> listInd = new ArrayList<Indisponibilite>();
 		while(rs.next()){
-			calendar.setTime(rs.getDate(2));
-			j.setDate(calendar);
+			calendar.setTime(rs.getDate(1));
+			j.setDateDuJour(calendar);
 			i.setDateIndisponibilite(j);
-			ensei.getMesIndispos().add(i);
+			i.setDemiJournee(rs.getInt(4));
+			i.setPoids(rs.getInt(3));
+			System.out.println(rs.getDate(1));
+			//ensei.getMesIndisponibilites().add(i);
+			//ensei.setMesIndisponibilites(ensei.getMesIndisponibilites());
+			
+			System.out.println(" i vaut : " + i.getDateIndisponibilite().getDateDuJour());
+			listInd.add(i);
 		}
-		
-		
+		System.out.println("helllo " +listInd.get(0).getDateIndisponibilite().getDateDuJour());
+		System.out.println(listInd.get(1).getDateIndisponibilite().getDateDuJour());
+		ensei.setMesIndisponibilites(listInd);
+		for(int a=0;a<ensei.getMesIndisponibilites().size(); a++){
+			System.out.println(ensei.getMesIndisponibilites().get(a).getDateIndisponibilite().getDateDuJour());
+			System.out.println(ensei.getMesIndisponibilites().get(a).getDemiJournee());
+			System.out.println("bonne liste");
+			System.out.println(listInd.get(a).getDateIndisponibilite().getDateDuJour());
+
+			
+		}
 	}
 }
