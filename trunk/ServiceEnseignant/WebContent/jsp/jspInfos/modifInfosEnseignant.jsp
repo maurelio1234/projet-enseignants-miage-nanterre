@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Modifier mes informations</title>
+<title>Espace enseignant</title>
 </head>
 <body>
 	<center>
