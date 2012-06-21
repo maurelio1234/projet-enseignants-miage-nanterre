@@ -19,7 +19,7 @@
 			Bonjour <%= ens.getPrenom() %> <%= ens.getNom() %> !
 
 			<% if(request.getAttribute("msg")!= null) { %>
-            	<b> <%= request.getAttribute("msg") %> </b>
+            	<br/> <b> <%= request.getAttribute("msg") %> </b> <br/>
             <% } %>
             
              <table border = 1>
@@ -81,6 +81,11 @@
                    		>> <a href="/ServiceEnseignant/jsp/jspInfos/modifMDPenseignant.jsp">Modifier mon mot de passe</a> 
                    	</td>  
                    </tr>   
+                   <tr>
+                   	<td colspan="2" align="right" style="padding-top: 8px;"> 
+                   		>> <a href="/ServiceEnseignant/jsp/jspInfos/voeuxECenseignant.jsp">Consulter mes voeux</a> 
+                   	</td>  
+                   </tr> 
              </table>     
 
 			
