@@ -10,37 +10,24 @@
 <title>Fiche de voeux</title>
 </head>
 
-
+<script type="text/javascript">
+		function sendForm() {
+			document.getElementById('dateDebut').value = document.getElementById('dateDebut_').value;
+			document.getElementById('dateFin').value = document.getElementById('dateFin_').value;
+			document.getElementById('form').submit();
+		}
+		</script>
 <body>
 
 
 <table cellpadding='65'>
 <tr>
 <td>
-
-
-	Saisissez une date au format JJ/MM/AAAA
-	<table cellpadding="0" cellspacing="0">
-		<tr>
-			<td><input type="text" maxlength="10" id="dateDbt_"
-				onfocus="view_microcal(true,document.getElementById('dateDbt_'),document.getElementById('microcal'),-1,0);"
-				onblur="view_microcal(false,document.getElementById('dateDbt_'),document.getElementById('microcal'),-1,0);"
-				onkeyup="this.style.color=testTypeDate(this.value)?'black':'red'">
-			</td>
-		
-		</tr>
-		<tr>
-			<td><div id="microcal"
-					style="visibility: hidden; border: 2px red dashed; background: #ffffff;"></div>
-			</td>
-		</tr>
-	</table>
-	
 	
 	<FORM method="post" action="../../ModeleAbsReg">
 
-		<input type="hidden" maxlength="10" id="dateDbt"/>
-
+<label for="dateDebut"> DATE</label><input type='text' name='dateDebut' /> <br />
+		<br>
 		<!-- PARAMETRE DE L'INDISPO -->	
 		<br/>Jour de la semaine : <br/>
 		<input type="radio" name="jour" value="2" id="lundi"/><label for="lundi">Lundi</label><br/>
@@ -99,17 +86,18 @@
 		</tr>
 	</table>
 	
-Priorité de votre indisponibilité : </br> <input type="radio" name="poids"
-			value="1" id="1" /> <label for="1">incapacité totale</label><br />
-		<input type="radio" name="poids" value="2" id="2" /> <label for="2">incapacité
-			forte</label><br /> <input type="radio" name="poids" value="3" id="3" /> <label
-			for="3">incapacité normale</label><br /> <input type="radio"
-			name="poids" value="4" id="4" /> <label for="4">incapacité
-			faible</label><br /></br> 
 
-	<FORM method="post" id="form" action="ModeleAbsUniq" >
-		<input type="hidden" maxlength="10" id="dateDebut"/>
-		<input type="hidden" maxlength="10" id="dateFin"/>
+
+	<FORM method="post" id="form" action="../../ModeleAbsUniq" >
+		<input type="hidden" maxlength="10" id="dateDebut" name="dateDebut"/>
+		<input type="hidden" maxlength="10" id="dateFin"   name="dateFin"/>
+		
+		Priorité de votre indisponibilité : </br> 
+		<input type="radio" name="poids" value="1" id="1b" /> <label for="1b">incapacité totale</label><br />
+		<input type="radio" name="poids" value="2" id="2b" /> <label for="2b">incapacité forte</label><br />
+		 <input type="radio" name="poids" value="3" id="3b" /> <label for="3b">incapacité normale</label><br />
+		 <input type="radio" name="poids" value="4" id="4b" /> <label for="4b">incapacité faible</label><br /></br> 
+		 
 		<input type="button" maxlength="10" id="valider" value="Valider" onclick="sendForm();"/>
 	</FORM>			
 	</td>

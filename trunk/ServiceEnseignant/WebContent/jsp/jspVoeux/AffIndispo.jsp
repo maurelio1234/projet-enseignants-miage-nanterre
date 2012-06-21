@@ -15,7 +15,8 @@
 <% int i=0; 
 	int mois=0;
 	String[] tabMois={"Janvier", "Fevrier","Mars","Avril","Mai","Juin", "Juillet",
-			"Août","Septembre","Octobre","Novembre","Décembre"};%>
+			"Août","Septembre","Octobre","Novembre","Décembre"};
+	java.util.Date date =null;%>
 <table>
 	<tr>
 		<th>Date</th>
@@ -25,17 +26,23 @@
 	
 	<%for(int m = 0; m<12; m++){%>
 		<%=tabMois[m]%>
-	<%for(i=0;i<EnseiBean.getMesIndispos().size();i++){
-		Calendar dateDbt = EnseiBean.getMesIndispos().get(i).getDateIndisponibilite().getDate();
+	<%for(i=0;i<EnseiBean.getMesIndisponibilites().size();i++){
+		Calendar dateDbt = EnseiBean.getMesIndisponibilites().get(i).getDateIndisponibilite().getDateDuJour();
 		
-	if(dateDbt.get(Calendar.MONTH)==m){%>
+		
+	if(dateDbt.get(Calendar.MONTH)==m){
+	date = dateDbt.getTime();
+	%>
 	<tr>
-		<td><%=dateDbt%> </td>
-		<td><%=EnseiBean.getMesIndispos().get(i).getDemiJournee()%></td>
-		<td><%=EnseiBean.getMesIndispos().get(i).getPoids()%> </td>
+		<td><%=date%> </td>
+		<td><%=EnseiBean.getMesIndisponibilites().get(i).getDemiJournee()%></td>
+		<td><%=EnseiBean.getMesIndisponibilites().get(i).getPoids()%> </td>
 	</tr>
 
-	<%}
+	<%
+	//retransf en calendar
+	dateDbt.setTime(date);
+	}
 	}
 	} %>
 </table>

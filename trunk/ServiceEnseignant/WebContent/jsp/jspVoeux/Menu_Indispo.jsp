@@ -10,9 +10,10 @@
 </head>
 <body>
 
-<a href="ModeleAffIndispo">Afficher mes indisponibilités</a>
-<a href="index.jsp">Entrer de nouvelles indisponibilités</a>
-
+<FORM method="post" action="../../ModeleAffIndispo">
+</br>
+<input type="submit" value="AFF INDISPO" />
+</FORM>
 
 </body>
 </html>
