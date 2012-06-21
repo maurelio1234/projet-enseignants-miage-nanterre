@@ -10,7 +10,7 @@
 </head>
 <body>
 	<center>
-            <h3>Connexion à l'espace enseignants</h3>
+            <h3>Connexion à l'espace enseignant</h3>
             
             <% if(request.getAttribute("msg")!= null) { %>
             	<br/> <font color="#DC143C"> <b> <%= request.getAttribute("msg") %> </b> </font> <br/>

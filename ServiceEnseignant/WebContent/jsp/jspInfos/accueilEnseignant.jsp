@@ -15,6 +15,22 @@
 	<center>
             <h3>Bienvenue dans l'espace enseignants</h3>
             
+            <table border="0" cellspacing="5px">
+                 <tr> 
+                   	<td align="right" style="padding-top: 8px;"> 
+                   		<a href="/ServiceEnseignant/jsp/jspInfos/modifInfosEnseignant.jsp">Modifier mes informations</a> 
+                   	</td> 
+
+                   	<td align="right" style="padding-top: 8px;"> 
+                   		<a href="/ServiceEnseignant/jsp/jspInfos/modifMDPenseignant.jsp">Modifier mon mot de passe</a> 
+                   	</td>  
+
+                   	<td align="right" style="padding-top: 8px;"> 
+                   		<a href="/ServiceEnseignant/jsp/jspInfos/consulterECenseignant.jsp">Consulter mes EC</a> 
+                   	</td>  
+                 </tr> 
+             </table> 
+             
 			<jsp:useBean id="ens" scope="session" class="beans.Enseignant"/>
 			Bonjour <%= ens.getPrenom() %> <%= ens.getNom() %> !
 
@@ -70,22 +86,7 @@
                    	<%= ens.getTelephone() %>
                    	</td>
                   </tr>
-                  
-                   <tr> 
-                   	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                   		>> <a href="/ServiceEnseignant/jsp/jspInfos/modifInfosEnseignant.jsp">Modifier mes informations</a> 
-                   	</td> 
-                   </tr>
-                   <tr>
-                   	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                   		>> <a href="/ServiceEnseignant/jsp/jspInfos/modifMDPenseignant.jsp">Modifier mon mot de passe</a> 
-                   	</td>  
-                   </tr>   
-                   <tr>
-                   	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                   		>> <a href="/ServiceEnseignant/jsp/jspInfos/voeuxECenseignant.jsp">Consulter mes voeux</a> 
-                   	</td>  
-                   </tr> 
+                                      
              </table>     
 
 			
