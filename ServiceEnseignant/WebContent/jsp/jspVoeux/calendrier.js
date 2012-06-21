@@ -216,6 +216,7 @@
 		}
 		
 		function sendForm() {
+			alert("coucou");
 			document.getElementById('dateDebut').value = document.getElementById('dateDebut_').value;
 			document.getElementById('dateFin').value = document.getElementById('dateFin_').value;
 			document.getElementById('form').submit();
