@@ -230,6 +230,7 @@ function view_microcal(actif, ki, source, mxS, axS) {
 }
 
 		function sendForm() {
+			document.getElementById('dateDbt').value = document.getElementById('dateDbt_').value;
 			document.getElementById('dateDebut').value = document.getElementById('dateDebut_').value;
 			document.getElementById('dateFin').value = document.getElementById('dateFin_').value;
 			document.getElementById('form').submit();
@@ -238,15 +239,21 @@ function view_microcal(actif, ki, source, mxS, axS) {
 <body>
 
 
-<table cellpadding='65'>
+<table border="3" bordercolor='blue' cellpadding='65'>
 <tr>
+<th> Absence Unique</th>
+<th> Absence Régulière</th>
+</tr>
+<tr>
+
 <td>
+
 	Saisissez une date au format JJ/MM/AAAA
 	<table cellpadding="0" cellspacing="0">
 		<tr>
-			<td><input type="text" maxlength="10" id="dateDebut_"
-				onfocus="view_microcal(true,document.getElementById('dateDebut_'),document.getElementById('microc'),-1,0);"
-				onblur="view_microcal(false,document.getElementById('dateDebut_'),document.getElementById('microc'),-1,0);"
+			<td><input type="text" maxlength="10" id="dateDbt_" name='dateDbt'
+				onfocus="view_microcal(true,document.getElementById('dateDbt_'),document.getElementById('microc'),-1,0);"
+				onblur="view_microcal(false,document.getElementById('dateDbt_'),document.getElementById('microc'),-1,0);"
 				onkeyup="this.style.color=testTypeDate(this.value)?'black':'red'">
 			</td>
 		
@@ -260,7 +267,7 @@ function view_microcal(actif, ki, source, mxS, axS) {
 	
 	
 	<FORM method="post" action="../../ModeleAbsReg">
-<input type="hidden" maxlength="10" id="dateDbt"/>
+<input type="hidden" maxlength="10" id="dateDbt" name="dateDbt"/>
 
 		<br>
 		<!-- PARAMETRE DE L'INDISPO -->	
@@ -300,15 +307,15 @@ function view_microcal(actif, ki, source, mxS, axS) {
 <td valign='top'>
 
 
-	Saisissez une date au format JJ/MM/AAAA
+	Saisissez une date au format JJ/MM/AAAA 
 	<table cellpadding="0" cellspacing="0">
 		<tr>
-			<td><input type="text" maxlength="10" id="dateDebut_"
+			<td><input type="text" maxlength="10" id="dateDebut_" name='dateDebut'
 				onfocus="view_microcal(true,document.getElementById('dateDebut_'),document.getElementById('micro'),-1,0);"
 				onblur="view_microcal(false,document.getElementById('dateDebut_'),document.getElementById('micro'),-1,0);"
 				onkeyup="this.style.color=testTypeDate(this.value)?'black':'red'">
 			</td>
-			<td><input type="text" maxlength="10" id="dateFin_"
+			<td><input type="text" maxlength="10" id="dateFin_" name='dateFin'
 				onfocus="view_microcal(true,document.getElementById('dateFin_'),document.getElementById('microcal'),-1,0);"
 				onblur="view_microcal(false,document.getElementById('dateFin_'),document.getElementById('microcal'),-1,0);"
 				onkeyup="this.style.color=testTypeDate(this.value)?'black':'red'">
