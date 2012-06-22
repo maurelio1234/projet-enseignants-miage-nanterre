@@ -15,7 +15,7 @@
 	<center>
             <h3>Bienvenue dans l'espace enseignants</h3>
             
-            <table border="0" cellspacing="5px">
+            <table border="0" cellspacing="15px">
                  <tr> 
                    	<td align="right" style="padding-top: 8px;"> 
                    		<a href="/ServiceEnseignant/jsp/jspInfos/modifInfosEnseignant.jsp">Modifier mes informations</a> 
