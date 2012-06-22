@@ -382,33 +382,42 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 
 		/** Création et exécution d'une requête - Étapes 3 & 4 */
 		Statement st = cx.createStatement();
-		ResultSet rs = st.executeQuery("SELECT * FROM Indisponibilite  WHERE NO_ENSEIGNANT ="+ ensei.getNumeroEnseignant() + "ORDER BY DATE_INDISPO");
-		
-		Indisponibilite i = new Indisponibilite();
-		Jours j = new Jours();
-		GregorianCalendar calendar = new java.util.GregorianCalendar(); 
+		ResultSet rs = st.executeQuery("SELECT * FROM Indisponibilite WHERE NO_ENSEIGNANT ="+ ensei.getNumeroEnseignant() + " ORDER BY DATE_INDISPO");
+				
 		List<Indisponibilite> listInd = new ArrayList<Indisponibilite>();
+		int b=0;
 		while(rs.next()){
+			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 			calendar.setTime(rs.getDate(1));
+
+			Indisponibilite i = new Indisponibilite();
+			Jours j = new Jours();
+			
 			j.setDateDuJour(calendar);
 			i.setDateIndisponibilite(j);
 			i.setDemiJournee(rs.getInt(4));
 			i.setPoids(rs.getInt(3));
 			System.out.println(rs.getDate(1));
-			//ensei.getMesIndisponibilites().add(i);
-			//ensei.setMesIndisponibilites(ensei.getMesIndisponibilites());
+			ensei.getMesIndisponibilites().add(i);
+			ensei.setMesIndisponibilites(ensei.getMesIndisponibilites());
 			
-			System.out.println(" i vaut : " + i.getDateIndisponibilite().getDateDuJour());
+			System.out.println(" i vaut : " + i.getDateIndisponibilite().getDateDuJour().get(Calendar.DAY_OF_MONTH));
 			listInd.add(i);
+
+			
 		}
-		System.out.println("helllo " +listInd.get(0).getDateIndisponibilite().getDateDuJour());
-		System.out.println(listInd.get(1).getDateIndisponibilite().getDateDuJour());
-		ensei.setMesIndisponibilites(listInd);
-		for(int a=0;a<ensei.getMesIndisponibilites().size(); a++){
-			System.out.println(ensei.getMesIndisponibilites().get(a).getDateIndisponibilite().getDateDuJour());
-			System.out.println(ensei.getMesIndisponibilites().get(a).getDemiJournee());
+	
+		
+		
+		//ensei.setMesIndisponibilites(listInd);
+		
+		for(Indisponibilite ind : listInd){
+			//System.out.println(ensei.getMesIndisponibilites().get(a).getDateIndisponibilite().getDateDuJour());
+			//System.out.println(ensei.getMesIndisponibilites().get(a).getDemiJournee());
 			System.out.println("bonne liste");
-			System.out.println(listInd.get(a).getDateIndisponibilite().getDateDuJour());
+			System.out.println("\n la date " + ind.getDateIndisponibilite().getDateDuJour().get(Calendar.DAY_OF_MONTH));
+			System.out.println("\n La demi journée : "+  ind.getDemiJournee());
+		
 
 			
 		}
