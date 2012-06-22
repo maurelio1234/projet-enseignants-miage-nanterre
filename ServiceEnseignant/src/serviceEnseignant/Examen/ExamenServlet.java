@@ -60,7 +60,7 @@ public class ExamenServlet extends HttpServlet {
 		e6.setMonCandidat(c6);
 		
 		System.out.println("\nCréation de l'examen");
-		exam = new Examen(1,new GregorianCalendar(2012,GregorianCalendar.JUNE, 12), "Examen Test", 1);
+		exam = new Examen(1,"10:30","Test",1);
 		System.out.println("\nCréation des notes");
 		Note n1 = new Note(e1,exam,-2);
 		Note n2 = new Note(e2,exam,10);
