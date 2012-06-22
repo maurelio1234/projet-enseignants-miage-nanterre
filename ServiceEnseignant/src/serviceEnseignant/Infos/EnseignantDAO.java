@@ -3,19 +3,32 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
+import beans.Creneau;
+import beans.EC;
 import beans.Enseignant;
+import beans.Formation;
+import beans.Jours;
+import beans.Salle;
+import beans.Type;
+import beans.UE;
 
 
 
 public class EnseignantDAO {
 
 	private Enseignant ens;
+	private List<EC> lesEC; // liste temporaire en attendant dans le bean Enseignant
 	
 	public EnseignantDAO(){
 		
 		this.ens = new Enseignant();
+		this.lesEC = new ArrayList<EC>(); // a enlever plus tard
 		this.chargerDriver();
 	}
 	
@@ -32,7 +45,7 @@ public class EnseignantDAO {
 			Statement st =  conn.createStatement();
 			
 			ResultSet resultat =  st.executeQuery("select * from ENSEIGNANT e "+
-													"where e.NO_ENSEIGNANT = '"+ numEns +"'"); 
+													"where e.NO_ENSEIGNANT = "+ numEns); 
 			
 			while(resultat.next()){
 				this.ens.setNom(resultat.getString("NOM_ENSEIGNANT"));
@@ -72,8 +85,7 @@ public class EnseignantDAO {
 	 * @param login
 	 * @param mdp
 	 * @return un boolean si l'enseignant existe
-	 */
-	
+	 */	
 	public boolean verifierLoginMdp(String login, String mdp){
 		boolean testConn = false;
 		//System.out.println("VERIFIE LOGIN MDP");
@@ -170,6 +182,11 @@ public class EnseignantDAO {
 		
 	}
 	
+	/**
+	 * Methode qui verifie que l'ancien mdp est correct
+	 * @param ancienMDP
+	 * @return
+	 */
 	public boolean verifAncienMDP(String ancienMDP){
 		boolean ok = false;
 		/*
@@ -205,6 +222,12 @@ public class EnseignantDAO {
 		return ok;
 	}
 	
+	/**
+	 * Methode qui enregistre le novueau mdp 
+	 * @param ancienMDP
+	 * @param nouveauMDP
+	 * @return
+	 */
 	public boolean enregistrerMDP(String ancienMDP, String nouveauMDP){
 		
 		//System.out.println("je suis dans la méthode enregistrer nouveau mdp");
@@ -262,6 +285,12 @@ public class EnseignantDAO {
 		return modifOk;	
 	}
 	
+	/**
+	 * methode qui transforme un string en gregorian calendar
+	 * @param date
+	 * @return
+	 * @throws Exception
+	 */
 	public GregorianCalendar ConvertirDate(String date) throws Exception {
         String delims = "[/]";
         String[] tokens = date.split(delims);
@@ -287,6 +316,182 @@ public class EnseignantDAO {
 	
 	public Enseignant getEns(){
 		return this.ens;
+	}
+	
+	// methode qui retourne un enseignant en fonction du numero enseignant
+	public Enseignant getEns(int numEns){
+		this.recupererInfos(numEns);
+		return this.ens;
+	}
+	
+	// methode qui retourne un enseignant dont on connait le nom
+	public Enseignant getEns(String nom){
+		
+		try {
+			
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+			
+			Statement st =  conn.createStatement();
+			
+			ResultSet resultat =  st.executeQuery("select * from ENSEIGNANT e "+
+													"where e.NOM_ENSEIGNANT = '"+ nom +"'"); 
+			
+			while(resultat.next()){
+				this.ens.setNom(resultat.getString("NOM_ENSEIGNANT"));
+				this.ens.setPrenom(resultat.getString("PRENOM_ENSEIGNANT"));
+				this.ens.setAdresse(resultat.getString("ADRESSE_ENSEIGNANT"));
+				this.ens.setTelephone(resultat.getString("TELEPHONE_ENSEIGNANT"));
+				this.ens.setLogin(resultat.getString("LOGIN_ENSEIGNANT"));
+				this.ens.setPassword(resultat.getString("PWD_ENSEIGNANT"));
+				
+				// cast du string en gregorian calendar				
+				GregorianCalendar gcDate = ConvertirDate(resultat.getString("DATE_NAISSANCE_ENSEIGNANT"));				
+				this.ens.setDateNaissance(gcDate);
+			}
+			
+			resultat.close();
+			st.close();
+			conn.close();
+			
+		}
+		catch (Exception e){
+			System.out.println("Erreur de connexion a la base de donnee ");
+			System.exit(1);
+		}
+				
+		return this.ens;
+	}
+		
+	// methode qui recupere les EC enseignes par l'enseignant 
+	public void recupereLesEC(int numEns){
+		
+		try {
+			
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+			
+			System.out.println("je suis connectée dans bdd");
+			
+			// requete qui recupere les EC d'un enseignant
+			PreparedStatement pst =  conn.prepareStatement("SELECT * " +
+														"FROM ec "+
+														"WHERE ec.NO_EC = (SELECT DISTINCT NO_EC " +
+																		"FROM creneau " +
+																		"WHERE creneau.NO_ENSEIGNANT = ? " +
+																		")");
+			pst.setInt(1, numEns);
+			
+			System.out.println("je prepare la requete");
+			
+			ResultSet resultat = pst.executeQuery();
+
+			while(resultat.next()){
+								
+				int numEC = resultat.getInt("NO_EC");
+				String libelleEC = resultat.getString("LIBELLE_EC");
+				int coeffEC = resultat.getInt("COEF_EC");
+				int numUE = resultat.getInt("NO_UE");
+				int numFormation = resultat.getInt("NO_FORMATION");
+				
+				System.out.println("EC : "+numEC+" "+libelleEC+" "+coeffEC);
+				
+				// creation de la formation 
+				Formation maFormation = new Formation(numFormation);
+				
+				// creation de l'ue
+				UE monUE = new UE(numUE, maFormation);
+				
+				// creation de l'EC
+				EC monEC = new EC(numEC, monUE);
+				
+				// ajout de l'EC dans la liste des EC de l'enseignant 
+				this.lesEC.add(monEC);
+				
+				System.out.println("ajout ec dans liste");
+						
+			}
+			
+			resultat.close();
+			pst.close();
+			conn.close();
+			
+		}
+		catch (Exception e){
+			System.out.println("Erreur de connexion a la base de donnee ");
+			System.exit(1);
+		}
+		
+		
+	}
+	
+	// methode qui recupere les creneaux de l'enseignant
+	public void initialiseLesCreneaux(int numEns){
+		
+		try {
+			
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+			
+			//System.out.println("je suis connectée dans bdd");
+			
+			PreparedStatement pst =  conn.prepareStatement("SELECT *" +
+														"FROM CRENEAU "+
+														"WHERE NO_ENSEIGNANT = ?");
+			
+			pst.setInt(1, numEns);
+			
+			ResultSet resultat = pst.executeQuery();
+
+			while(resultat.next()){
+				
+				String numSalle = resultat.getString("NO_SALLE");
+				int numEC = resultat.getInt("NO_EC");
+				int numUE = resultat.getInt("NO_UE");
+				int numFormation = resultat.getInt("NO_FORMATION");
+				int numType = resultat.getInt("NO_TYPE");
+				Date date = resultat.getDate("DATE_CRENEAU");
+				int horaire = resultat.getInt("HORAIRE_CRENEAU");
+				int duree = resultat.getInt("DUREE_CRENEAU");
+				
+				// creation de la formation 
+				Formation maFormation = new Formation(numFormation);
+				
+				// creation de l'ue
+				UE monUE = new UE(numUE, maFormation);
+				
+				// creation de l'ec
+				EC monEC = new EC(numEC, monUE);
+				
+				// creation de la salle
+				Salle maSalle = new Salle(numSalle);
+				
+				// creation du type 
+				Type monType = new Type(numType);
+				
+				// conversion date en gregorian calendar puis en type "jours"
+				GregorianCalendar gcDate = new GregorianCalendar();
+				gcDate.setTime(date);				
+				Jours monJour = new Jours(gcDate);
+				
+				// conversion de l'horaire en string
+				String h = String.valueOf(horaire);
+				
+				// creation du creneau
+				Creneau monCreneau = new Creneau(this.getEns(numEns), maSalle, monEC, monType, monJour, h);
+				
+				// ajout du creneau dans la liste des creneaux de l'enseignant 
+				this.ens.getMesCreneaux().add(monCreneau);			
+			}
+			
+			resultat.close();
+			pst.close();
+			conn.close();
+			
+		}
+		catch (Exception e){
+			System.out.println("Erreur de connexion a la base de donnee ");
+			System.exit(1);
+		}
+		
+		
 	}
 	
 	// méthode statique qui charge le driver passé en paramètre
