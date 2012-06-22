@@ -15,8 +15,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import DAO.JoursDAO;
 import beans.*;
 import serviceEnseignant.*;
+import serviceEnseignant.DAO.EnseignantDAO;
+import serviceEnseignant.DAO.IndisponibiliteDAO;
+//import serviceEnseignant.DAO.Jour;
+//import serviceEnseignant.DAO.JourDAO;
 
 
 public class EnsIndispo {
@@ -135,7 +140,7 @@ public class EnsIndispo {
 		Connection cx=null;
 		
 		try {
-			System.out.println("je suis dans ajoutSIMPLE" + debut);
+			
 			/** Connection à la base - Étape 2 */
 			this.loadBD();
 
@@ -146,11 +151,11 @@ public class EnsIndispo {
 			
 			 pst = cx.prepareStatement("INSERT INTO Indisponibilite VALUES(?,?,?,?)");
 			
-//			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-		//	java.util.Date dateD = format.parse(debut);
+			 
 			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 			calendar.setTime(debut);
 			
+	
 			java.sql.Date sqlDate = new java.sql.Date(calendar.getTimeInMillis());
 
 			pst.setDate(1,sqlDate);
@@ -394,6 +399,7 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 			Jours j = new Jours();
 			
 			j.setDateDuJour(calendar);
+			
 			i.setDateIndisponibilite(j);
 			i.setDemiJournee(rs.getInt(4));
 			i.setPoids(rs.getInt(3));
@@ -406,20 +412,130 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 
 			
 		}
-	
-		
-		
 		//ensei.setMesIndisponibilites(listInd);
 		
-		for(Indisponibilite ind : listInd){
-			//System.out.println(ensei.getMesIndisponibilites().get(a).getDateIndisponibilite().getDateDuJour());
-			//System.out.println(ensei.getMesIndisponibilites().get(a).getDemiJournee());
-			System.out.println("bonne liste");
-			System.out.println("\n la date " + ind.getDateIndisponibilite().getDateDuJour().get(Calendar.DAY_OF_MONTH));
-			System.out.println("\n La demi journée : "+  ind.getDemiJournee());
-		
-
-			
-		}
 	}
+	
+	
+	public void SuppIndispo(int refEnseignant){
+		
+	}
+	
+	
+	
+	
+	
+	
+	/***
+	 * FONCTIONS APPELANT LES DAO 
+	 */
+	
+	/**
+	 * AJOUT PERIODE REGULIERE INDISPOS
+	 * @param debut
+	 * @param poids
+	 * @param ensei
+	 * @param dj
+	 * @throws SQLException
+	 */
+/**	
+	public void ajoutIndispoSimpleDAO(Date debut,int poids, Enseignant ensei, int dj) throws SQLException{
+					
+			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
+			calendar.setTime(debut);
+			**/
+			/**
+			 * APPEL AU DAO
+			 */
+			/** JoursDAO jdao = new JoursDAO();
+			Jours j = jdao.find(calendar);
+			Indisponibilite i = new Indisponibilite();
+			i.setDemiJournee(dj);
+			i.setPoids(poids);
+			i.setMonEnseignant(ensei);
+			IndisponibiliteDAO idao = new IndisponibiliteDAO();
+			idao.create(i);
+					
+	}	
+	**/
+	/**
+	 * AJOUT PERIODE UNIQUE INDISPOS
+	 * @param debut
+	 * @param fin
+	 * @param poids
+	 * @param refEnseignant
+	 * @throws ParseException
+	 */
+/** public void ajoutIndispoUniqDAO(String debut, String fin, int poids, int refEnseignant) throws ParseException{
+		
+		
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date dateD = format.parse(debut);
+			java.util.Date dateF = format.parse(fin);**/
+
+			/* 
+			 * pour qu'on s'arrete au jour de fin INCLUS
+			 * il faut transformer la dateF en calendar pour ajouter 1 JOUR 
+			 */
+		/**	GregorianCalendar cal = new java.util.GregorianCalendar(); 
+			cal.setTime(dateF);
+			cal.add(Calendar.DAY_OF_WEEK, 1);**/
+			/*
+			 * On retransforme en date pour la boucle
+			 */
+		/**	java.util.Date f = cal.getTime();
+			
+			
+			
+			java.sql.Date sqlDate;**/
+			/*
+			 * Maintenant on boucle tant qu'on n'est pas
+			 * la date de fin
+			 * et on ajoute dans la base
+			 */
+			
+		/**	EnseignantDAO ensdao = new EnseignantDAO();
+			Enseignant ens = ensdao.find(refEnseignant);
+			
+			java.util.Date date= new java.util.Date();
+			for (date = dateD; date.before(f) || date.equals(f);) {
+				
+				GregorianCalendar calendar = new java.util.GregorianCalendar(); 
+				calendar.setTime(date);
+				
+				
+				
+				JoursDAO jdao = new JoursDAO();
+				Jours j = jdao.find(calendar);
+			
+				
+				Indisponibilite i = new Indisponibilite();
+				i.setDemiJournee(2);
+				i.setPoids(poids);
+				i.setMonEnseignant(ens);
+				IndisponibiliteDAO idao = new IndisponibiliteDAO();
+				idao.create(i);				
+				
+				
+				GregorianCalendar calendarBis = new java.util.GregorianCalendar(); 
+				calendarBis.setTime(date);
+				calendarBis.add(Calendar.DAY_OF_MONTH, 1);
+				date = calendarBis.getTime();
+			}
+			
+		
+    }
+    
+    **/
+    	/*public void SuppIndispoDAO(int refEnseignant){
+    		EnseignantDAO ensdao = new EnseignantDAO();
+			Enseignant ens = ensdao.find(refEnseignant);
+			
+	  }
+	
+	*/
+/**
+ * FIN APPEL AU DAO
+ */
+	
 }
