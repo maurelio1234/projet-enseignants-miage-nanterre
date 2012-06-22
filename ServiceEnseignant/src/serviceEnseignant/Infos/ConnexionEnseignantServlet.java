@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import serviceEnseignant.*;
+import serviceEnseignant.DAO.EnseignantDAO;
 import beans.Enseignant;
 
 /**
@@ -44,7 +45,9 @@ public class ConnexionEnseignantServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-				
+
+		//System.out.println("je suis dans la servlet connexion");
+		
 		//recuperation des valeurs saisies
 		String login = request.getParameter("login");
 		String mdp = request.getParameter("mdp");
@@ -53,24 +56,30 @@ public class ConnexionEnseignantServlet extends HttpServlet {
 		
 		// on verifie que le login et le mdp saisis sont corrects
 		if(ensDAO.verifierLoginMdp(login, mdp)){
-		//if(login.equalsIgnoreCase("emilie")){	
+			
+			//System.out.println("login mdp ok");
 			
 			// recuperation des informations de l'enseignant			
-			ensDAO.recupererInfos(ensDAO.getEns().getNumeroEnseignant());
-			Enseignant beanEns = ensDAO.getEns();		
-			
-			//Enseignant beanEns = new Enseignant(1, "wong", "emilie", "2 rue des Lilas Paris", "0645896369", new GregorianCalendar(1970, Calendar.JANUARY, 12), "emilie", "emilie");
+			Enseignant beanEns = ensDAO.find(ensDAO.getEns().getNumeroEnseignant());	// le numero enseignant a ete recupere lors de la verification du login et mdp	
+						
+			//System.out.println("infos beans ens : "+beanEns.getLogin()+ " " + beanEns.getPassword()+" "+beanEns.getDateNaissance());
 			
 			// creation d'une session pour stocker le bean enseignant
 			HttpSession session = request.getSession(true);    
 			session.setAttribute("ens", beanEns);
 			
-			//request.setAttribute("ens", beanEns); // on passe le bean enseignant à la jsp
-			
+			//System.out.println("envoi bean a la jsp");
+						
 			disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");
 		}
 		else{
-			disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/erreurConnexion.jsp");
+			
+			//System.out.println("login mdp non ok");
+			
+			String msg = "Le login ou le mot de passe est incorrect. Veuillez réessayer à nouveau.";
+			request.setAttribute("msg", msg);
+			
+			disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/ConnexionEnseignant.jsp");
 		}
 		
 		disp.forward(request, response);
