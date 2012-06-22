@@ -73,6 +73,7 @@ public class ExamenDAO extends DAO<Examen> {
 							.getNumeroFormation() + ", "
 					+ obj.getMonType().getNumeroType() + ", "
 					+ obj.getMonEnseignant().getNumeroEnseignant() + ")");
+			request.getConnection().commit();
 			request.close();
 
 		} catch (SQLException e) {
@@ -105,7 +106,7 @@ public class ExamenDAO extends DAO<Examen> {
 					+ " WHERE NO_EXAMEN = " + obj.getNumeroExamen());
 			request.executeUpdate("DELETE FROM " + NoteDAO.TABLE
 					+ " WHERE NO_EXAMEN = " + obj.getNumeroExamen());
-
+			request.getConnection().commit();
 			request.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -43,6 +43,7 @@ public class NoteDAO extends DAO<Note> {
 			Statement request = this.connect.createStatement();
 			request.executeUpdate("INSERT INTO "+ NoteDAO.TABLE +" (NOTE, NO_ETUDIANT, NO_EXAMEN) " +
 					"VALUES ("+obj.getNote() +","+ obj.getMonEtudiant().getNumeroEtudiant() + "," + obj.getMonExamen().getNumeroExamen());
+			request.getConnection().commit();
 			request.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -63,6 +64,7 @@ public class NoteDAO extends DAO<Note> {
 			}
 			else{
 			request.executeUpdate("UPDATE "+ NoteDAO.TABLE +" SET NOTE = " + obj.getNote() + " WHERE NO_ETUDIANT ="+obj.getMonEtudiant().getNumeroEtudiant() +"AND NO_EXAMEN = " + obj.getMonExamen().getNumeroExamen());
+			request.getConnection().commit();
 			request.close();
 			}
 		} catch (SQLException e) {
@@ -78,6 +80,7 @@ public class NoteDAO extends DAO<Note> {
 		try {
 			Statement request = this.connect.createStatement();
 			request.executeUpdate("DELETE FROM " + NoteDAO.TABLE +" WHERE NO_EXAMEN = " +obj.getMonExamen().getNumeroExamen() + " AND NO_ETUDIANT = " + obj.getMonEtudiant().getNumeroEtudiant());
+			request.getConnection().commit();
 			request.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
