@@ -318,7 +318,14 @@
 	<dependencyManagement>
 	<!-- Section des dependances a gerer selon vos besoins -->
 		<dependencies>
-			<dependency>
+      <dependency>
+          <groupId>miage</groupId>
+          <artifactId>miage.integration</artifactId>
+          <version>2.0.1</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/WebContent/WEB-INF/lib/Formation_2.0.1.jar</systemPath>
+      </dependency>
+      <dependency>
 				<groupId>javax</groupId>
 				<artifactId>servlet</artifactId>
 				<version>2.4.0</version>
