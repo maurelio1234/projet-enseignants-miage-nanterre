@@ -56,7 +56,7 @@ public class ModeleAbsReg extends HttpServlet {
 		
 		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 		ens.setNumeroEnseignant(1);
-		String dD = request.getParameter("dateDebut");
+		String dD = request.getParameter("dateDbt");
 
 		String j = request.getParameter("jour");
 		String tI = request.getParameter("type");
