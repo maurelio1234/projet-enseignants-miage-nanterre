@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import serviceEnseignant.DAO.EnseignantDAO;
+
 import beans.Enseignant;
 
 /**
@@ -60,8 +62,8 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 		ensDAO.setEns(beanEns); // on initialise l'enseignant associé au DAO 
 		
 		// recupere les infos de l'enseignant
-		ensDAO.recupererInfos(beanEns.getNumeroEnseignant());
-		beanEns = ensDAO.getEns();
+		//ensDAO.recupererInfos(beanEns.getNumeroEnseignant());
+		beanEns = ensDAO.find(beanEns.getNumeroEnseignant());
 		
 		String erreur; 
 		
@@ -94,9 +96,9 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 				
 				String msg;
 				
-				if (ensDAO.enregistrerMDP(ancienMDP, nouveauMDP1)){
+				if (ensDAO.enregistrerMDP(beanEns.getNumeroEnseignant(), ancienMDP, nouveauMDP1)){
 					
-					beanEns = ensDAO.getEns();
+					beanEns = ensDAO.find(beanEns.getNumeroEnseignant());
 					
 					msg = "Le mot de passe a été modifié avec succès.";
 					request.setAttribute("msg", msg);
