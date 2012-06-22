@@ -9,87 +9,80 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-<servlet>
-	<servlet-name>ExamenServlet</servlet-name>
-	<servlet-class>serviceEnseignant.Examen.ExamenServlet</servlet-class>
-</servlet>
-<servlet-mapping>
-        <servlet-name>ExamenServlet</servlet-name>
-        <url-pattern>/ExamenServlet</url-pattern>
-    </servlet-mapping>
-<servlet>
-	<servlet-name>Servlet</servlet-name>
-	<servlet-class>serviceEnseignant.Examen</servlet-class>
-</servlet>
-
-<servlet>
-	<servlet-name>ListeExamenServlet</servlet-name>
-	<servlet-class>serviceEnseignant.Examen.ListeExamenServlet</servlet-class>
-</servlet>
-<servlet-mapping>
-        <servlet-name>ListeExamenServlet</servlet-name>
-        <url-pattern>/ListeExamenServlet</url-pattern>
-</servlet-mapping>
-
-<servlet>
-	<servlet-name>ModeleAbsReg</servlet-name>
-	<servlet-class>serviceEnseignant.Voeux.ModeleAbsReg</servlet-class>
-</servlet>
-<servlet-mapping>
-        <servlet-name>ModeleAbsReg</servlet-name>
-        <url-pattern>/ModeleAbsReg</url-pattern>
-</servlet-mapping>
-
-<servlet>
-	<servlet-name>ModeleAbsUniq</servlet-name>
-	<servlet-class>serviceEnseignant.Voeux.ModeleAbsUniq</servlet-class>
-</servlet>
-<servlet-mapping>
-        <servlet-name>ModeleAbsUniq</servlet-name>
-        <url-pattern>/ModeleAbsUniq</url-pattern>
-</servlet-mapping>
-
-<servlet>
-	<servlet-name>ModeleAffIndispo</servlet-name>
-	<servlet-class>serviceEnseignant.Voeux.ModeleAffIndispo</servlet-class>
-</servlet>
-<servlet-mapping>
-        <servlet-name>ModeleAffIndispo</servlet-name>
-        <url-pattern>/ModeleAffIndispo</url-pattern>
-</servlet-mapping>
-
-<servlet>
-	<servlet-name>ConnexionEnseignantServlet</servlet-name>
-	<servlet-class>serviceEnseignant.Infos.ConnexionEnseignantServlet</servlet-class>
-</servlet>
-
- <servlet-mapping>
-   <servlet-name>ConnexionEnseignantServlet</servlet-name>
-   <url-pattern>/</url-pattern>
- </servlet-mapping>
- 
- 
- <servlet>
-   <servlet-name>ModifierInfosEnseignant</servlet-name>
-   <servlet-class>serviceEnseignant.Infos.ModifierInfosEnseignantServlet</servlet-class>
- </servlet>
- 
- <servlet-mapping>
-   <servlet-name>ModifierInfosEnseignant</servlet-name>
-   <url-pattern>/ModifierInfosEnseignantServlet</url-pattern>
- </servlet-mapping>
- 
- <servlet>
-   <servlet-name>ModifierMDPEnseignant</servlet-name>
-   <servlet-class>serviceEnseignant.Infos.ModifierMDPEnseignantServlet</servlet-class>
- </servlet>
- 
- <servlet-mapping>
-   <servlet-name>ModifierMDPEnseignant</servlet-name>
-   <url-pattern>/ModifierMDPEnseignantServlet</url-pattern>
- </servlet-mapping>
-
-
-
-
+  <servlet>
+    <servlet-name>ExamenServlet</servlet-name>
+    <servlet-class>serviceEnseignant.Examen.ExamenServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExamenServlet</servlet-name>
+    <url-pattern>/ExamenServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Servlet</servlet-name>
+    <servlet-class>serviceEnseignant.Examen</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ListeExamenServlet</servlet-name>
+    <servlet-class>serviceEnseignant.Examen.ListeExamenServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListeExamenServlet</servlet-name>
+    <url-pattern>/ListeExamenServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ModeleAbsReg</servlet-name>
+    <servlet-class>serviceEnseignant.Voeux.ModeleAbsReg</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModeleAbsReg</servlet-name>
+    <url-pattern>/ModeleAbsReg</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ModeleAbsUniq</servlet-name>
+    <servlet-class>serviceEnseignant.Voeux.ModeleAbsUniq</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModeleAbsUniq</servlet-name>
+    <url-pattern>/ModeleAbsUniq</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ModeleAffIndispo</servlet-name>
+    <servlet-class>serviceEnseignant.Voeux.ModeleAffIndispo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModeleAffIndispo</servlet-name>
+    <url-pattern>/ModeleAffIndispo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ModeleSuppIndispo</servlet-name>
+    <servlet-class>serviceEnseignant.Voeux.ModeleSuppIndispo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModeleSuppIndispo</servlet-name>
+    <url-pattern>/ModeleSuppIndispo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ConnexionEnseignantServlet</servlet-name>
+    <servlet-class>serviceEnseignant.Infos.ConnexionEnseignantServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConnexionEnseignantServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ModifierInfosEnseignant</servlet-name>
+    <servlet-class>serviceEnseignant.Infos.ModifierInfosEnseignantServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModifierInfosEnseignant</servlet-name>
+    <url-pattern>/ModifierInfosEnseignantServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ModifierMDPEnseignant</servlet-name>
+    <servlet-class>serviceEnseignant.Infos.ModifierMDPEnseignantServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModifierMDPEnseignant</servlet-name>
+    <url-pattern>/ModifierMDPEnseignantServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
