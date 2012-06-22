@@ -3,15 +3,16 @@ package serviceEnseignant.DAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-import dao.ECDAO;
+import dao.*;
 
-import beans.Examen;
-import beans.Note;
-import beans.Promotion;
+import beans.*;
+
 
 public class ExamenDAO extends DAO<Examen> {
-	public static String TABLE = "PROMOTION";
+	public static String TABLE = "EXAMEN";
 
 	@Override
 	public Examen find(int id) {
@@ -87,16 +88,14 @@ public class ExamenDAO extends DAO<Examen> {
 				|| obj.getMonEnseignant() == null || obj.getDate() == null) {
 			return null;
 		}
-			if(this.find(obj.getNumeroExamen()) == null){
-				return null;
-			}
-			else{
-				delete(obj);
-				create(obj);
-			}
-			return obj;
-		}	
-
+		if (this.find(obj.getNumeroExamen()) == null) {
+			return null;
+		} else {
+			delete(obj);
+			create(obj);
+		}
+		return obj;
+	}
 
 	@Override
 	public void delete(Examen obj) {
@@ -104,16 +103,48 @@ public class ExamenDAO extends DAO<Examen> {
 			Statement request = this.connect.createStatement();
 			request.executeUpdate("DELETE FROM " + ExamenDAO.TABLE
 					+ " WHERE NO_EXAMEN = " + obj.getNumeroExamen());
-			request.executeUpdate("DELETE FROM " + NoteDAO.TABLE + " WHERE NO_EXAMEN = " + obj.getNumeroExamen());
+			request.executeUpdate("DELETE FROM " + NoteDAO.TABLE
+					+ " WHERE NO_EXAMEN = " + obj.getNumeroExamen());
+
 			request.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public List<Examen> LoadExamnForOneEC(EC obj){
+
+	public List<Examen> LoadAllExamForOneEC(EC obj) {
 		List<Examen> listExam = new ArrayList<Examen>();
-		
+		try {
+			Statement request = this.connect.createStatement();
+			ECDAO ecdao = new ECDAO();
+			EnseignantDAO ensdao = new EnseignantDAO();
+			DateDAO datedao = new DateDAO();
+			TypeDAO typedao = new TypeDAO();
+
+			ResultSet result = request.executeQuery("SELECT FROM "
+					+ ExamenDAO.TABLE + " WHERE NO_EC = " + obj.getNumeroEC()
+					+ " AND NO_UE = " + obj.getMonUE().getNumeroUE()
+					+ " AND NO_FORMATION = "
+					+ obj.getMonUE().getMaFormation().getNumeroFormation()
+					+ ")");
+			while (result.next()) {
+				Examen e = new Examen(result.getInt("NO_EXAMEN"));
+				e.setMonEC(ecdao.find(result.getInt("NO_EC"),
+						result.getInt("NO_UE"), result.getInt("NO_FORMATION")));
+				e.setDate(datedao.find(DAO.dateFromOracleToJava(result
+						.getDate("DATE_EXAMEN"))));
+				e.setMonType(typedao.find(result.getInt("NO_TYPE")));
+				e.setCoefficient(result.getDouble("COEF_EXAMEN"));
+				e.setHoraire(result.getString("HORAIRE_EXAMEN"));
+				e.setMonEnseignant(ensdao.find(result.getInt("NO_ENSEIGNANT")));
+				listExam.add(e);
+			}
+			request.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listExam;
 	}
 }
