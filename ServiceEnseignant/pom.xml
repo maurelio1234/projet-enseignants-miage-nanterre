@@ -323,7 +323,7 @@
           <artifactId>miage.integration</artifactId>
           <version>2.0.1</version>
           <scope>system</scope>
-        <systemPath>${basedir}/WebContent/WEB-INF/lib/Formation_2.0.1.jar</systemPath>
+        <systemPath>/var/lib/hudson/jobs/ServEns-M1A-2011-2012/workspace/ServiceEnseignant/WebContent/WEB-INF/lib/Formation_2.0.1.jar</systemPath>
       </dependency>
       <dependency>
 				<groupId>javax</groupId>
