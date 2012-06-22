@@ -113,7 +113,7 @@ public class ExamenDAO extends DAO<Examen> {
 	}
 	
 	public List<Examen> LoadExamnForOneEC(EC obj){
-		List<Examen> listExam = new ArrayList<Examen>;
+		List<Examen> listExam = new ArrayList<Examen>();
 		
 	}
 }
