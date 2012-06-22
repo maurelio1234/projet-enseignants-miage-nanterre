@@ -30,12 +30,12 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		public static String TABLE = "ENSEIGNANT";
 		
 		private Enseignant ens;
-		private List<EC> lesEC; // liste temporaire en attendant dans le bean Enseignant
+		//private List<EC> lesEC; // liste temporaire en attendant dans le bean Enseignant
 		
 		public EnseignantDAO(){
 			
 			this.ens = new Enseignant();
-			this.lesEC = new ArrayList<EC>(); // a enlever plus tard
+			//this.lesEC = new ArrayList<EC>(); // a enlever plus tard
 			this.chargerDriver();
 		}
 
@@ -43,8 +43,9 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		 * methode qui recupere les informations de la base de donnees 
 		 * @param numEns
 		 */
+		/*
 		public void recupererInfos(int numEns) {
-			
+			/*
 			try {
 				
 				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
@@ -63,10 +64,10 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					this.ens.setPassword(resultat.getString("PWD_ENSEIGNANT"));
 					
 					// cast du string en gregorian calendar
-					/**SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-					Date dateNais = (Date) format.parse(resultat.getString("DATE_NAISSANCE_ENSEIGNANT"));
-					GregorianCalendar gcDate = new GregorianCalendar();
-					gcDate.setTime(dateNais);*/
+					//SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					//Date dateNais = (Date) format.parse(resultat.getString("DATE_NAISSANCE_ENSEIGNANT"));
+					//GregorianCalendar gcDate = new GregorianCalendar();
+					//gcDate.setTime(dateNais);
 					
 					GregorianCalendar gcDate = ConvertirDate(resultat.getString("DATE_NAISSANCE_ENSEIGNANT"));
 													
@@ -85,7 +86,8 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				//System.out.println("Erreur de connexion a la base de donnee ");
 				System.exit(1);
 			}
-		}
+			
+		}*/
 		
 		/**
 		 * methode qui verifie si le login et le mdp existe dans la table ensignant
@@ -138,6 +140,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		 * @param dateNaissance
 		 * @return un boolean si la methode a fait un enregistrement dans la table enseignant
 		 */
+		/*
 		public boolean enregistrerInfos(String nom, String prenom, String adresse, String telephone, String dateNaissance) {
 			boolean testEnreg = false;
 			
@@ -184,17 +187,18 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				System.exit(1);
 			}
 			
-			this.recupererInfos(this.ens.getNumeroEnseignant());
+			//this.recupererInfos(this.ens.getNumeroEnseignant());
+			this.ens = this.find(this.getEns().getNumeroEnseignant());
 			return testEnreg;
 			
-		}
+		}*/
 		
 		/**
 		 * Methode qui verifie que l'ancien mdp est correct
 		 * @param ancienMDP
 		 * @return
 		 */
-		public boolean verifAncienMDP(String ancienMDP){
+		public boolean verifAncienMDP(int numEns, String ancienMDP){
 			boolean ok = false;
 			/*
 			try {
@@ -223,7 +227,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			
 			//System.out.println("je suis dans la méthode verifier ancien mdp");
 			
-			if(this.ens.getPassword().equals(ancienMDP))
+			if(this.find(numEns).getPassword().equals(ancienMDP))
 				ok = true;
 			
 			return ok;
@@ -235,14 +239,14 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		 * @param nouveauMDP
 		 * @return
 		 */
-		public boolean enregistrerMDP(String ancienMDP, String nouveauMDP){
+		public boolean enregistrerMDP(int numEns, String ancienMDP, String nouveauMDP){
 			
 			//System.out.println("je suis dans la méthode enregistrer nouveau mdp");
 			
 			boolean modifOk = false;
 			
 			//si l'ancien mdp est correct pour le numero enseignant, on peut proceder a la modification 
-			if(this.verifAncienMDP(ancienMDP)){
+			if(this.verifAncienMDP(numEns, ancienMDP)){
 				
 				try {
 					
@@ -254,7 +258,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					
 					PreparedStatement pst =  conn.prepareStatement("UPDATE ENSEIGNANT "+
 																"SET PWD_ENSEIGNANT = ? " +
-																"WHERE NO_ENSEIGNANT = "+this.getEns().getNumeroEnseignant());
+																"WHERE NO_ENSEIGNANT = "+numEns);
 					
 					pst.setString(1, nouveauMDP);
 					//pst.setInt(2, this.getEns().getNumeroEnseignant());
@@ -288,7 +292,8 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				
 			}
 			
-			this.recupererInfos(this.getEns().getNumeroEnseignant());
+			//this.recupererInfos(this.getEns().getNumeroEnseignant());
+			this.ens = this.find(numEns);
 			return modifOk;	
 		}
 		
@@ -326,11 +331,11 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		}
 		
 		// methode qui retourne un enseignant en fonction du numero enseignant
-		public Enseignant getEns(int numEns){
+		/*public Enseignant getEns(int numEns){
 			this.recupererInfos(numEns);
 			return this.ens;
 		}
-		
+		*/
 		// methode qui retourne un enseignant dont on connait le nom
 		public Enseignant getEns(String nom){
 			
@@ -370,7 +375,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		}
 			
 		// methode qui recupere les EC enseignes par l'enseignant 
-		public void recupereLesEC(int numEns){
+		/*public void recupereLesEC(int numEns){
 			
 			try {
 				
@@ -428,7 +433,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			}
 			
 			
-		}
+		}*/
 		
 		// methode qui recupere les creneaux de l'enseignant
 		public void loadMesCreneaux(Enseignant obj){
@@ -576,38 +581,109 @@ public class EnseignantDAO extends DAO<Enseignant> {
 								
 								VoeuxECDAO voeuxEcDao = new VoeuxECDAO();
 								
-								 
-								
-								if(voeuxEcDao.find() ==null){
-									ueDAO.create(obj.getMesUE().get(i));
+								int numFormation = obj.getMesVoeuxEC().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation();
+								int numUE = obj.getMesVoeuxEC().get(i).getMonEC().getMonUE().getNumeroUE();
+								int numEC = obj.getMesVoeuxEC().get(i).getMonEC().getNumeroEC();
+								 								
+								if(voeuxEcDao.find(numFormation, numUE, numEC, obj.getNumeroEnseignant()) == null){
+									voeuxEcDao.create(obj.getMesVoeuxEC().get(i));
 								}
 								else{
 									//on met a jour
 								}
 							}
 						}
-					/*	if(!obj.getMesPromotions().isEmpty()){
-							for(int i=0;i<obj.getMesPromotions().size();i++){				
-								PromotionDAO promoDAO = new PromotionDAO();
-								if(promoDAO.find(obj.getMesPromotions().get(i).getNumeroPromotion()) ==null){
-									promoDAO.create(obj.getMesPromotions().get(i));
+						
+						// creation des indisponibilite de l'enseignant
+						if(!obj.getMesIndisponibilites().isEmpty()){
+							for(int i=0;i<obj.getMesIndisponibilites().size();i++){				
+								
+								IndisponibiliteDAO indispoDao = new IndisponibiliteDAO();
+								
+								Jours jIndispo = obj.getMesIndisponibilites().get(i).getDateIndisponibilite();
+								Date d = jIndispo.getDateDuJour().getTime(); 
+								 								
+								if(indispoDao.find(d, obj.getNumeroEnseignant()) == null){
+									indispoDao.create(obj.getMesIndisponibilites().get(i));
 								}
 								else{
 									//on met a jour
 								}
 							}
-						}*/
+						}
+						
+						// creation des creneaux de l'enseignant
+						if(!obj.getMesCreneaux().isEmpty()){
+							for(int i=0;i<obj.getMesCreneaux().size();i++){				
+								
+								CreneauDAO creneauDAO = new CreneauDAO();
+								
+								String numSalle = obj.getMesCreneaux().get(i).getMaSalle().getNumeroSalle();
+								int numEC = obj.getMesCreneaux().get(i).getMonEC().getNumeroEC();
+								int numUE = obj.getMesCreneaux().get(i).getMonEC().getMonUE().getNumeroUE();
+								int numFormation = obj.getMesCreneaux().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation();
+								int numType = obj.getMesCreneaux().get(i).getMonType().getNumeroType();
+								GregorianCalendar gcDate = obj.getMesCreneaux().get(i).getDateCreneau().getDateDuJour();
+																 								
+								if(creneauDAO.find(obj.getNumeroEnseignant(), numSalle, numEC, numUE, numFormation, numType, gcDate) == null){
+									creneauDAO.create(obj.getMesCreneaux().get(i));
+								}
+								else{
+									//on met a jour
+								}
+							}
+						}
+						
+						// creation des services de l'enseignant
+						if(!obj.getMesServices().isEmpty()){
+							for(int i=0;i<obj.getMesServices().size();i++){				
+								
+								ServiceDAO serviceDao = new ServiceDAO();
+								
+								int numType = obj.getMesServices().get(i).getMonType().getNumeroType();
+								int numEC = obj.getMesServices().get(i).getMonEC().getNumeroEC();								
+								
+																 								
+								if(serviceDao.find(obj.getNumeroEnseignant(), numType, numEC) == null){
+									serviceDao.create(obj.getMesServices().get(i));
+								}
+								else{
+									//on met a jour
+								}
+							}
+						}
+						
+						// creation des examens de l'enseignant
+						if(!obj.getMesExamens().isEmpty()){
+							for(int i=0;i<obj.getMesExamens().size();i++){				
+								
+								ExamenDAO examDao = new ExamenDAO();
+																 								
+								if(examDao.find(obj.getMesExamens().get(i).getNumeroExamen()) == null){
+									examDao.create(obj.getMesExamens().get(i));
+								}
+								else{
+									//on met a jour
+								}
+							}
+						}
+						
+					
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
 					return obj;
 				}
 		}
 
 		@Override
 		public Enseignant update(Enseignant obj) {
-			// TODO Auto-generated method stub
+			
+			
+			// a faire : met a jour la table enseignant et toutes les tables des listes de l'enseignant !!
+			
 			return null;
 		}
 
@@ -615,7 +691,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		public void delete(Enseignant obj) {
 				try {
 					Statement request = this.connect.createStatement();
-					request.executeUpdate("DELETE FROM " + EnseignantDAO.TABLE +" WHERE NO_FORMATION = " +obj.getNumeroFormation());
+					request.executeUpdate("DELETE FROM " + EnseignantDAO.TABLE +" WHERE NO_ENSEIGNANT = " +obj.getNumeroEnseignant());
 					request.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
