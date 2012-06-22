@@ -28,6 +28,10 @@
                    	<td align="right" style="padding-top: 8px;"> 
                    		<a href="/ServiceEnseignant/jsp/jspInfos/consulterECenseignant.jsp">Consulter mes EC</a> 
                    	</td>  
+                   	
+                   	 	<td align="right" style="padding-top: 8px;"> 
+                   		<a href="/ServiceEnseignant/jsp/jspExamen/ListeExamen.jsp">Consulter mes Examens</a> 
+                   	</td> 
                  </tr> 
              </table> 
              
