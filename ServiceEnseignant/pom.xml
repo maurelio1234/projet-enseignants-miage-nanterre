@@ -316,13 +316,6 @@
 		<!-- Section des dependances a gerer selon vos besoins -->
 		<dependencies>
 			<dependency>
-				<groupId>fr.paris10.miage.m1a</groupId>
-				<artifactId>projetintegration</artifactId>
-				<version>2.1</version>
-				<scope>system</scope>
-				<systemPath>${integration.lib.path}/Formation_2.1.jar</systemPath>
-			</dependency>
-			<dependency>
 				<groupId>javax</groupId>
 				<artifactId>servlet</artifactId>
 				<version>2.4.0</version>
@@ -368,6 +361,13 @@
 			<artifactId>javaee-web-api</artifactId>
 			<version>6.0</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>fr.paris10.miage.m1a</groupId>
+			<artifactId>projetintegration</artifactId>
+			<version>2.1</version>
+			<scope>system</scope>
+			<systemPath>${integration.lib.path}/Formation_2.1.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>
