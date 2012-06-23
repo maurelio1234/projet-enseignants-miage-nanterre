@@ -52,9 +52,12 @@
 			<url>http://repo1.maven.org/maven2</url>
 		</pluginRepository>
 	</pluginRepositories>
+	<properties>
+		<integration.lib.path>/var/lib/hudson/jobs/ServEns-M1A-2011-2012/workspace/ServiceEnseignant/WebContent/WEB-INF/lib</integration.lib.path>
+	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-  	<scriptSourceDirectory>src/scripts</scriptSourceDirectory>
+		<scriptSourceDirectory>src/scripts</scriptSourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 		<outputDirectory>target/classes</outputDirectory>
 		<testOutputDirectory>target/test-classes</testOutputDirectory>
@@ -259,12 +262,6 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>Release</id>
-			<build>
-				<finalName>${project.groupId}.${project.artifactId}_${release.version}</finalName>
-			</build>
-		</profile>
-		<profile>
 			<id>deployetu</id>
 			<build>
 				<plugins>
@@ -316,16 +313,16 @@
 		<outputDirectory>target/site</outputDirectory>
 	</reporting>
 	<dependencyManagement>
-	<!-- Section des dependances a gerer selon vos besoins -->
+		<!-- Section des dependances a gerer selon vos besoins -->
 		<dependencies>
-      <dependency>
-          <groupId>miage</groupId>
-          <artifactId>miage.integration</artifactId>
-          <version>2.0.1</version>
-          <scope>system</scope>
-        <systemPath>/var/lib/hudson/jobs/ServEns-M1A-2011-2012/workspace/ServiceEnseignant/WebContent/WEB-INF/lib/Formation_2.0.1.jar</systemPath>
-      </dependency>
-      <dependency>
+			<dependency>
+				<groupId>fr.paris10.miage.m1a</groupId>
+				<artifactId>projetintegration</artifactId>
+				<version>2.1</version>
+				<scope>system</scope>
+				<systemPath>${integration.lib.path}/Formation_2.1.jar</systemPath>
+			</dependency>
+			<dependency>
 				<groupId>javax</groupId>
 				<artifactId>servlet</artifactId>
 				<version>2.4.0</version>
