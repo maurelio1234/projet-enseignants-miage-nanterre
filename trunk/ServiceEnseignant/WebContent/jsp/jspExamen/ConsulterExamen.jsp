@@ -12,10 +12,14 @@
 <jsp:useBean id="ExamBeans" scope="request" class="beans.Examen" />
 <input type="hidden" name = "num_exam" value=<%= ExamBeans.getNumeroExamen() %>>
 <TABLE BORDER=0>
+<tr>
+	<td><input type=hidden name="num_exam" value = <%= ExamBeans.getNumeroExamen() %>></td>
+	<td><input type=hidden name="nb_notes" value = <%= ExamBeans.getMesNotes().size() %>></td>
+</tr>
 <TR>
 	<TD>Intitule</TD>
 	<TD>
-	<INPUT type=text name="intitule" value=<%= ExamBeans.getLibelle() %>>
+	<INPUT type=text name="libelle" value=<%= ExamBeans.getLibelle() %>>
 	</TD>
 </TR>
 
@@ -24,6 +28,7 @@
 	<TD>
 	<INPUT type=text name="date" value="Test">
 	</TD>
+	<td> à <input type=text name="heure" value="10:30">
 </TR>
 
 
@@ -41,9 +46,13 @@
 	</TD>
 </TR>
 
+<tr>
+	<td> Matière </td>
+	<td>TODO</td>td>
+</tr>
 <TR>
 	<TD>
-    <INPUT TYPE ='SUBMIT' NAME='Enregistrer les modifications' VALUE='Enregistrer les modifications'>
+    <INPUT TYPE ='SUBMIT' NAME='Update' VALUE='Enregistrer les modifications'>
 	</TD>
 	
 	<TD>
