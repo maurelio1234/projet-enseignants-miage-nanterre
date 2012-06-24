@@ -10,7 +10,6 @@ import dao.*;
 
 import beans.*;
 
-
 public class ExamenDAO extends DAO<Examen> {
 	public static String TABLE = "EXAMEN";
 
@@ -49,6 +48,7 @@ public class ExamenDAO extends DAO<Examen> {
 
 	@Override
 	public Examen create(Examen obj) {
+		//TO_DO : manque l'initialisation des Notes.
 		if (obj.getMonEC() == null || obj.getMonType() == null
 				|| obj.getMonEnseignant() == null || obj.getDate() == null) {
 			return null;
@@ -92,8 +92,32 @@ public class ExamenDAO extends DAO<Examen> {
 		if (this.find(obj.getNumeroExamen()) == null) {
 			return null;
 		} else {
-			delete(obj);
-			create(obj);
+			try {
+				Statement request = this.connect.createStatement();
+				request.executeUpdate("INSERT INTO "
+						+ ExamenDAO.TABLE
+						+ " (HORAIRE_EXAMEN, LIBELLE_EXAMEN, COEF_EXAMEN, NO_EC, NO_UE, NO_FORMATION, NO_TYPE, NO_ENSEIGNANT) "
+						+ "VALUES (SEQ_PROMOTION.NEXTVAL, "
+						+ obj.getHoraire()
+						+ ", "
+						+ obj.getLibelle()
+						+ ", "
+						+ obj.getCoefficient()
+						+ ", "
+						+ obj.getMonEC().getNumeroEC()
+						+ ", "
+						+ obj.getMonEC().getMonUE().getNumeroUE()
+						+ ", "
+						+ obj.getMonEC().getMonUE().getMaFormation()
+								.getNumeroFormation() + ", "
+						+ obj.getMonType().getNumeroType() + ", "
+						+ obj.getMonEnseignant().getNumeroEnseignant() + ") WHERE NO_EXAMEN = " + obj.getNumeroExamen());
+				request.getConnection().commit();
+				request.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return obj;
 	}
@@ -147,5 +171,28 @@ public class ExamenDAO extends DAO<Examen> {
 			e.printStackTrace();
 		}
 		return listExam;
+	}
+	
+	public List<Note> LoadNote(Examen obj){
+		List<Note> listeNotes = new ArrayList<Note>();
+		try {
+			Statement request = this.connect.createStatement();
+			NoteDAO noteDAO = new NoteDAO();
+			ExamenDAO examDAO = new ExamenDAO();
+			EtudiantDAO etudiantDAO = new EtudiantDAO();
+
+			ResultSet result = request.executeQuery("SELECT FROM "
+					+ NoteDAO.TABLE + " WHERE NO_EXAMEN = " + obj.getNumeroExamen());
+			while (result.next()) {
+				Note n = new Note(etudiantDAO.find(result.getInt("NO_ETUDIANT")), examDAO.find(result.getInt("NO_EXAMEN")), result.getDouble("NOTE"));
+				listeNotes.add(n);
+			}
+			request.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return listeNotes;
 	}
 }
