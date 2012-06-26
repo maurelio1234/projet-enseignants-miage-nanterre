@@ -340,14 +340,14 @@
 				<artifactId>js</artifactId>
 				<version>1.6R5</version>
 			</dependency>
-			<dependency>
+			<!-- <dependency>
 				<groupId>org.glassfish.packager</groupId>
 				<artifactId>jersey</artifactId>
 			</dependency>
 			<dependency>
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-json</artifactId>
-			</dependency>
+			</dependency> -->
 			<dependency>
 				<groupId>org.mnode.ical4j</groupId>
 				<artifactId>ical4j</artifactId>
