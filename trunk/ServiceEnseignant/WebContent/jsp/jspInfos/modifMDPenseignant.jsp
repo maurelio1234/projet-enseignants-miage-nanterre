@@ -25,29 +25,32 @@
                 <form name="form_modifMDP" method="post" action="../../ModifierMDPEnseignantServlet">
             <% } %>
           			
-             <table border = 1>
-                    <tr align="left"> 
-                    	<td style="padding-top: 8px;"> Ancien mot de passe : </td> 
-                    	<td> <input type="text" name="ancienMDP" value="" />  </td>                    	
-                    </tr>
-                    
-                    <tr align="left"> 
-                    	<td style="padding-top: 8px;"> Nouveau mot de passe : </td> 
-                    	<td> <input type="text" name="nouveauMDP1" value="" />  </td>                    	
-                    </tr>
-                    
-                    <tr align="left"> 
-                    	<td style="padding-top: 8px;"> Confirmez le nouveau mot de passe : </td> 
-                    	<td> <input type="text" name="nouveauMDP2" value="" />  </td>                    	
-                    </tr>
-                                       
-                    <tr> 
-                    	<td colspan="2" align="right" style="padding-top: 8px;"> 
-                    		<input type="submit" name="valider" value="Valider" /> 
-                    	</td> 
-                    </tr>
-   
-              </table>     
+          	<fieldset style="width: 400px; background-color:#FAFAFA;">
+				<legend> Mon mot de passe </legend>
+	             <table border = 1>
+	                    <tr align="left"> 
+	                    	<td style="padding-top: 8px;"> Ancien mot de passe : </td> 
+	                    	<td> <input type="text" name="ancienMDP" value="" />  </td>                    	
+	                    </tr>
+	                    
+	                    <tr align="left"> 
+	                    	<td style="padding-top: 8px;"> Nouveau mot de passe : </td> 
+	                    	<td> <input type="text" name="nouveauMDP1" value="" />  </td>                    	
+	                    </tr>
+	                    
+	                    <tr align="left"> 
+	                    	<td style="padding-top: 8px;"> Confirmez le nouveau mot de passe : </td> 
+	                    	<td> <input type="text" name="nouveauMDP2" value="" />  </td>                    	
+	                    </tr>
+	                                       
+	                    <tr> 
+	                    	<td colspan="2" align="right" style="padding-top: 8px;"> 
+	                    		<input type="submit" name="valider" value="Valider" /> 
+	                    	</td> 
+	                    </tr>
+	   
+	              </table>   
+	       </fieldset>
 
             </form>
         </center>
