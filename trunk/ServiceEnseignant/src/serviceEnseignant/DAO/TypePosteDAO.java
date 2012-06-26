@@ -103,7 +103,7 @@ public class TypePosteDAO extends DAO<TypePoste>{
 			e.printStackTrace();
 		}
 		
-		return obj;
+		return this.find(obj.getNumeroPoste());
 		
 	}
 
