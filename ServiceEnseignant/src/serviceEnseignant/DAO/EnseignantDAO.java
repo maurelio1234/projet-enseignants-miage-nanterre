@@ -10,12 +10,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import dao.CreneauDAO;
+import dao.ECDAO;
+import dao.FormationDAO;
+import dao.JoursDAO;
+import dao.SalleDAO;
+import dao.TypeDAO;
+import dao.UEDAO;
 import dao.VoeuxECDAO;
 
 
 import beans.Creneau;
 import beans.EC;
 import beans.Enseignant;
+import beans.Examen;
 import beans.Formation;
 import beans.Jours;
 import beans.Promotion;
@@ -29,65 +37,15 @@ public class EnseignantDAO extends DAO<Enseignant> {
 	
 		public static String TABLE = "ENSEIGNANT";
 		
-		private Enseignant ens;
-		//private List<EC> lesEC; // liste temporaire en attendant dans le bean Enseignant
+		//private Enseignant ens;		
 		
 		public EnseignantDAO(){
 			
-			this.ens = new Enseignant();
-			//this.lesEC = new ArrayList<EC>(); // a enlever plus tard
-			this.chargerDriver();
+			//this.ens = new Enseignant();
+			//this.chargerDriver();
 		}
 
-		/**
-		 * methode qui recupere les informations de la base de donnees 
-		 * @param numEns
-		 */
-		/*
-		public void recupererInfos(int numEns) {
-			/*
-			try {
-				
-				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
-				
-				Statement st =  conn.createStatement();
-				
-				ResultSet resultat =  st.executeQuery("select * from ENSEIGNANT e "+
-														"where e.NO_ENSEIGNANT = "+ numEns); 
-				
-				while(resultat.next()){
-					this.ens.setNom(resultat.getString("NOM_ENSEIGNANT"));
-					this.ens.setPrenom(resultat.getString("PRENOM_ENSEIGNANT"));
-					this.ens.setAdresse(resultat.getString("ADRESSE_ENSEIGNANT"));
-					this.ens.setTelephone(resultat.getString("TELEPHONE_ENSEIGNANT"));
-					this.ens.setLogin(resultat.getString("LOGIN_ENSEIGNANT"));
-					this.ens.setPassword(resultat.getString("PWD_ENSEIGNANT"));
-					
-					// cast du string en gregorian calendar
-					//SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-					//Date dateNais = (Date) format.parse(resultat.getString("DATE_NAISSANCE_ENSEIGNANT"));
-					//GregorianCalendar gcDate = new GregorianCalendar();
-					//gcDate.setTime(dateNais);
-					
-					GregorianCalendar gcDate = ConvertirDate(resultat.getString("DATE_NAISSANCE_ENSEIGNANT"));
-													
-					//SimpleDateFormat dateF = new SimpleDateFormat("dd/MM/yyyy");
-					//System.out.println("date : "+dateF.format(gcDate.getTime()));
-					
-					this.ens.setDateNaissance(gcDate);
-				}
-				
-				resultat.close();
-				st.close();
-				conn.close();
-				
-			}
-			catch (Exception e){
-				//System.out.println("Erreur de connexion a la base de donnee ");
-				System.exit(1);
-			}
-			
-		}*/
+		
 		
 		/**
 		 * methode qui verifie si le login et le mdp existe dans la table ensignant
@@ -95,30 +53,48 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		 * @param mdp
 		 * @return un boolean si l'enseignant existe
 		 */	
-		public boolean verifierLoginMdp(String login, String mdp){
-			boolean testConn = false;
-			//System.out.println("VERIFIE LOGIN MDP");
+		public Enseignant find(String login, String mdp){
+			Enseignant obj = null;
+			
+			System.out.println("VERIFIE LOGIN MDP");
+			
 			try {
 				
 				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
-				//System.out.println("je suis connecté");		
-				Statement st =  conn.createStatement();
+				System.out.println("je suis connecté");		
+				//Statement st =  conn.createStatement();
 				
-				ResultSet resultat =  st.executeQuery("select * from ENSEIGNANT e "+
+				Statement request = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+				ResultSet result =  request.executeQuery("select * from ENSEIGNANT e "+
 														"where e.LOGIN_ENSEIGNANT = '"+ login +"' and e.PWD_ENSEIGNANT = '"+ mdp+ "'"); 
 				
-				//System.out.println("j'ai fai ma requete");	
-				while(resultat.next()){
-					this.ens.setNumeroEnseignant(resultat.getInt("NO_ENSEIGNANT"));
-					this.ens.setLogin(resultat.getString("LOGIN_ENSEIGNANT"));
-					this.ens.setPassword(resultat.getString("PWD_ENSEIGNANT"));
-					testConn = true;
-					//System.out.println("LOGIN ET MDP OK");
-				}
+				System.out.println("j'ai fai ma requete");	
 				
-				//System.out.println("fin requete");	
-				resultat.close();
-				st.close();
+				if(result.first()){
+					
+					String date = result.getString("DATE_NAISSANCE_ENSEIGNANT");
+					GregorianCalendar gcDate = ConvertirDate(date);
+					
+					obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),result.getString("NOM_ENSEIGNANT"),result.getString("PRENOM_ENSEIGNANT"),result.getString("ADRESSE_ENSEIGNANT"),result.getString("TELEPHONE_ENSEIGNANT"),gcDate,result.getString("LOGIN_ENSEIGNANT"),result.getString("PWD_ENSEIGNANT"));
+					
+					TypePosteDAO typePosteDAO = new TypePosteDAO();
+					obj.setMonPoste(typePosteDAO.find(result.getInt("NO_POSTE")));
+					
+					this.loadMesVoeuxEC(obj);
+					
+					IndisponibiliteDAO indispoDAO = new IndisponibiliteDAO();
+					indispoDAO.loadMesIndisponibilites(obj);
+					
+					this.loadMesCreneaux(obj);
+					
+					this.loadMesServices(obj);
+					
+					this.loadMesExamens(obj);				
+					
+				}
+				System.out.println("fin requete");	
+				result.close();
+				request.close();
 				conn.close();
 				
 			}
@@ -127,7 +103,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				System.exit(1);
 			}
 			
-			return testConn;
+			return obj;
 		}
 		
 		/**
@@ -140,65 +116,14 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		 * @param dateNaissance
 		 * @return un boolean si la methode a fait un enregistrement dans la table enseignant
 		 */
-		/*
-		public boolean enregistrerInfos(String nom, String prenom, String adresse, String telephone, String dateNaissance) {
-			boolean testEnreg = false;
-			
-			//SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			//java.sql.Date dateNais = (java.sql.Date) format.parse(dateNaissance);
-			
-			//System.out.println("dans enregistrerInfos de DAO");
-			
-			try {
-				
-				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
-				
-				//System.out.println("je suis connecté a la bdd");
-				
-				PreparedStatement pst =  conn.prepareStatement("UPDATE ENSEIGNANT "+
-															"SET NOM_ENSEIGNANT = ?, PRENOM_ENSEIGNANT = ?, ADRESSE_ENSEIGNANT = ?, TELEPHONE_ENSEIGNANT = ?, DATE_NAISSANCE_ENSEIGNANT = ? " +
-															"WHERE NO_ENSEIGNANT = ?");
-				
-				//System.out.println("je prepare la requete update");
-				
-				pst.setString(1, nom);
-				pst.setString(2, prenom);
-				pst.setString(3, adresse);
-				pst.setString(4, telephone);
-				pst.setString(5, dateNaissance);
-				pst.setInt(6, this.ens.getNumeroEnseignant());
-				
-				int result = pst.executeUpdate();
-				//retourne le nombre de lignes mises a jour
-				
-				//System.out.println("j'execute la requete");
-				
-				if(result>0) {
-					testEnreg = true;
-					//System.out.println("la requete a ete execute ac succes");
-				}
-				
-				pst.close();
-				conn.close();
-				
-			}
-			catch (Exception e){
-				System.out.println("Erreur de connexion a la base de donnee ");
-				System.exit(1);
-			}
-			
-			//this.recupererInfos(this.ens.getNumeroEnseignant());
-			this.ens = this.find(this.getEns().getNumeroEnseignant());
-			return testEnreg;
-			
-		}*/
+		
 		
 		/**
 		 * Methode qui verifie que l'ancien mdp est correct
 		 * @param ancienMDP
 		 * @return
 		 */
-		public boolean verifAncienMDP(int numEns, String ancienMDP){
+		/*public boolean verifAncienMDP(int numEns, String ancienMDP){
 			boolean ok = false;
 			/*
 			try {
@@ -226,12 +151,12 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			*/
 			
 			//System.out.println("je suis dans la méthode verifier ancien mdp");
-			
+			/*
 			if(this.find(numEns).getPassword().equals(ancienMDP))
 				ok = true;
 			
 			return ok;
-		}
+		}*/
 		
 		/**
 		 * Methode qui enregistre le novueau mdp 
@@ -239,6 +164,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		 * @param nouveauMDP
 		 * @return
 		 */
+		/*
 		public boolean enregistrerMDP(int numEns, String ancienMDP, String nouveauMDP){
 			
 			//System.out.println("je suis dans la méthode enregistrer nouveau mdp");
@@ -250,15 +176,17 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				
 				try {
 					
-					java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
-					
-					conn.setAutoCommit(false);
+					//java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
+										
+					//conn.setAutoCommit(false);
 					
 					//System.out.println("je suis connectée dans bdd");
 					
-					PreparedStatement pst =  conn.prepareStatement("UPDATE ENSEIGNANT "+
+					PreparedStatement pst =  this.connect.prepareStatement("UPDATE ENSEIGNANT "+
 																"SET PWD_ENSEIGNANT = ? " +
 																"WHERE NO_ENSEIGNANT = "+numEns);
+					
+					this.connect.setAutoCommit(false);
 					
 					pst.setString(1, nouveauMDP);
 					//pst.setInt(2, this.getEns().getNumeroEnseignant());
@@ -266,7 +194,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					int result = pst.executeUpdate();
 					//retourne le nombre de lignes mises a jour
 					
-					conn.commit();
+					this.connect.commit();
 					
 					/*System.out.println("j'execute la requete");
 					System.out.println("UPDATE ENSEIGNANT "+
@@ -275,14 +203,14 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					
 					System.out.println("nb lignes mis a jour : "+result);
 					*/
-					
+					/*
 					if(result>0) {
 						modifOk = true;
 						//System.out.println("succes de la requete update mdp");
 					}
 					
 					pst.close();
-					conn.close();
+					//this.connect.close();
 					
 				}
 				catch (Exception e){
@@ -295,7 +223,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			//this.recupererInfos(this.getEns().getNumeroEnseignant());
 			this.ens = this.find(numEns);
 			return modifOk;	
-		}
+		}*/
 		
 		/**
 		 * methode qui transforme un string en gregorian calendar
@@ -321,120 +249,50 @@ public class EnseignantDAO extends DAO<Enseignant> {
 	        }
 	        return gDate;
 	    }
-		
-		public void setEns(Enseignant ens){
-			this.ens = ens;
-		}
-		
-		public Enseignant getEns(){
-			return this.ens;
-		}
-		
-		// methode qui retourne un enseignant en fonction du numero enseignant
-		/*public Enseignant getEns(int numEns){
-			this.recupererInfos(numEns);
-			return this.ens;
-		}
-		*/
+				
+				
 		// methode qui retourne un enseignant dont on connait le nom
-		public Enseignant getEns(String nom){
+		public Enseignant find(String nom){
+			
+			Enseignant obj = null;
 			
 			try {
-				
-				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
-				
-				Statement st =  conn.createStatement();
-				
-				ResultSet resultat =  st.executeQuery("select * from ENSEIGNANT e "+
-														"where e.NOM_ENSEIGNANT = '"+ nom +"'"); 
-				
-				while(resultat.next()){
-					this.ens.setNom(resultat.getString("NOM_ENSEIGNANT"));
-					this.ens.setPrenom(resultat.getString("PRENOM_ENSEIGNANT"));
-					this.ens.setAdresse(resultat.getString("ADRESSE_ENSEIGNANT"));
-					this.ens.setTelephone(resultat.getString("TELEPHONE_ENSEIGNANT"));
-					this.ens.setLogin(resultat.getString("LOGIN_ENSEIGNANT"));
-					this.ens.setPassword(resultat.getString("PWD_ENSEIGNANT"));
-					
-					// cast du string en gregorian calendar				
-					GregorianCalendar gcDate = ConvertirDate(resultat.getString("DATE_NAISSANCE_ENSEIGNANT"));				
-					this.ens.setDateNaissance(gcDate);
-				}
-				
-				resultat.close();
-				st.close();
-				conn.close();
-				
-			}
-			catch (Exception e){
-				System.out.println("Erreur de connexion a la base de donnee ");
-				System.exit(1);
-			}
-					
-			return this.ens;
-		}
-			
-		// methode qui recupere les EC enseignes par l'enseignant 
-		/*public void recupereLesEC(int numEns){
-			
-			try {
-				
-				java.sql.Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE","maletell","matthieu");
-				
-				System.out.println("je suis connectée dans bdd");
-				
-				// requete qui recupere les EC d'un enseignant
-				PreparedStatement pst =  conn.prepareStatement("SELECT * " +
-															"FROM ec "+
-															"WHERE ec.NO_EC = (SELECT DISTINCT NO_EC " +
-																			"FROM creneau " +
-																			"WHERE creneau.NO_ENSEIGNANT = ? " +
-																			")");
-				pst.setInt(1, numEns);
-				
-				System.out.println("je prepare la requete");
-				
-				ResultSet resultat = pst.executeQuery();
+				Statement request = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+				ResultSet result = request.executeQuery("SELECT * FROM " + EnseignantDAO.TABLE + " WHERE NOM_ENSEIGNANT = '" +nom+"'");
 
-				while(resultat.next()){
-									
-					int numEC = resultat.getInt("NO_EC");
-					String libelleEC = resultat.getString("LIBELLE_EC");
-					int coeffEC = resultat.getInt("COEF_EC");
-					int numUE = resultat.getInt("NO_UE");
-					int numFormation = resultat.getInt("NO_FORMATION");
+				if(result.first()){
+				
+					String date = result.getString("DATE_NAISSANCE_ENSEIGNANT");
+					GregorianCalendar gcDate = ConvertirDate(date);
 					
-					System.out.println("EC : "+numEC+" "+libelleEC+" "+coeffEC);
+					obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),result.getString("NOM_ENSEIGNANT"),result.getString("PRENOM_ENSEIGNANT"),result.getString("ADRESSE_ENSEIGNANT"),result.getString("TELEPHONE_ENSEIGNANT"),gcDate,result.getString("LOGIN_ENSEIGNANT"),result.getString("PWD_ENSEIGNANT"));
 					
-					// creation de la formation 
-					Formation maFormation = new Formation(numFormation);
+					TypePosteDAO typePosteDAO = new TypePosteDAO();
+					obj.setMonPoste(typePosteDAO.find(result.getInt("NO_POSTE")));
 					
-					// creation de l'ue
-					UE monUE = new UE(numUE, maFormation);
+					this.loadMesVoeuxEC(obj);
 					
-					// creation de l'EC
-					EC monEC = new EC(numEC, monUE);
+					IndisponibiliteDAO indispoDAO = new IndisponibiliteDAO();
+					indispoDAO.loadMesIndisponibilites(obj);
 					
-					// ajout de l'EC dans la liste des EC de l'enseignant 
-					this.lesEC.add(monEC);
+					this.loadMesCreneaux(obj);
 					
-					System.out.println("ajout ec dans liste");
-							
+					this.loadMesServices(obj);
+					
+					this.loadMesExamens(obj);					
+					
 				}
 				
-				resultat.close();
-				pst.close();
-				conn.close();
+				request.close();
 				
+		    } catch (SQLException e) {
+		            e.printStackTrace();
+		    } catch (Exception e) {				
+				e.printStackTrace();
 			}
-			catch (Exception e){
-				System.out.println("Erreur de connexion a la base de donnee ");
-				System.exit(1);
-			}
-			
-			
-		}*/
-		
+		    return obj;
+		}
+				
 		// methode qui recupere les creneaux de l'enseignant
 		public void loadMesCreneaux(Enseignant obj){
 			int id = obj.getNumeroEnseignant();
@@ -453,21 +311,13 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					Date date = resultat.getDate("DATE_CRENEAU");
 					int horaire = resultat.getInt("HORAIRE_CRENEAU");
 					int duree = resultat.getInt("DUREE_CRENEAU");
+									
+					ECDAO ecDao = new ECDAO();
 					
-					// creation de la formation 
-					Formation maFormation = new Formation(numFormation);
+					SalleDAO salleDao = new SalleDAO();
+
+					TypeDAO typeDao = new TypeDAO();
 					
-					// creation de l'ue
-					UE monUE = new UE(numUE, maFormation);
-					
-					// creation de l'ec
-					EC monEC = new EC(numEC, monUE);
-					
-					// creation de la salle
-					Salle maSalle = new Salle(numSalle);
-					
-					// creation du type 
-					Type monType = new Type(numType);
 					
 					// conversion date en gregorian calendar puis en type "jours"
 					GregorianCalendar gcDate = new GregorianCalendar();
@@ -478,7 +328,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					String h = String.valueOf(horaire);
 					
 					// creation du creneau
-					Creneau monCreneau = new Creneau(obj, maSalle, monEC, monType, monJour, h);
+					Creneau monCreneau = new Creneau(obj, salleDao.find(numSalle), ecDao.find(numEC, numUE, numFormation), typeDao.find(numType), monJour, h, duree);
 					
 					// ajout du creneau dans la liste des creneaux de l'enseignant 					
 					obj.getMesCreneaux().add(monCreneau);
@@ -490,11 +340,9 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			catch (SQLException e) {
 		            e.printStackTrace();
 		    }
-
-			
 			
 		}
-		
+		/*
 		// méthode statique qui charge le driver passé en paramètre
 		public static void chargerDriver(){
 			
@@ -506,7 +354,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 	            System.exit(1);
 	        }       
 		}
-		
+		*/
 		
 		@Override
 		public Enseignant find(int id) {
@@ -535,8 +383,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					
 					this.loadMesServices(obj);
 					
-					ExamenDAO examDAO = new ExamenDAO();
-					examDAO.loadMesExamens(obj);					
+					this.loadMesExamens(obj);					
 					
 				}
 				
@@ -792,4 +639,35 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		    }
 		}
 		
+		public List<Examen> loadMesExamens(Enseignant obj){
+			List<Examen> listExam = new ArrayList<Examen>();
+			try {
+				Statement request = this.connect.createStatement();
+				ECDAO ecdao = new ECDAO();
+				EnseignantDAO ensdao = new EnseignantDAO();
+				JoursDAO datedao = new JoursDAO();
+				TypeDAO typedao = new TypeDAO();
+
+				ResultSet result = request.executeQuery("SELECT FROM "
+						+ ExamenDAO.TABLE + " WHERE NO_ENSEIGNANT = " + obj.getNumeroEnseignant() + ")");
+				while (result.next()) {
+					Examen e = new Examen(result.getInt("NO_EXAMEN"));
+					e.setMonEC(ecdao.find(result.getInt("NO_EC"),
+							result.getInt("NO_UE"), result.getInt("NO_FORMATION")));
+					e.setDate(datedao.find(DAO.dateFromOracleToJava(result
+							.getDate("DATE_EXAMEN"))));
+					e.setMonType(typedao.find(result.getInt("NO_TYPE")));
+					e.setCoefficient(result.getDouble("COEF_EXAMEN"));
+					e.setHoraire(result.getString("HORAIRE_EXAMEN"));
+					e.setMonEnseignant(ensdao.find(result.getInt("NO_ENSEIGNANT")));
+					listExam.add(e);
+				}
+				request.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return listExam;
+		}
 	}
