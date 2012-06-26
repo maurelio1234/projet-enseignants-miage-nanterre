@@ -14,12 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 public class ModeleSuppIndispo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        private EnsIndispo enseignant;
+       private int refEns;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ModeleSuppIndispo() {
         super();
         enseignant = new EnsIndispo();
+        refEns=2;
     }
 
 	/**
@@ -38,8 +40,8 @@ public class ModeleSuppIndispo extends HttpServlet {
 		 * On doit récupérer la date de l'indisponibilité
 		 * chercher l'indispo associé
 		 */
-		System.out.println("Coucou je suis là " );
-		System.out.println(request.getParameter("date"));
+		String date = request.getParameter("date");
+		System.out.println(date);
 	}
 
 }

@@ -300,7 +300,7 @@ public class EnsIndispo {
 	
 	
 	
-public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseignant) throws ParseException{
+public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseignant, int duree) throws ParseException{
 		
 		try {
 			
@@ -350,7 +350,7 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 				
 				pst.setInt(2, refEnseignant);
 				pst.setInt(3, poids);
-				pst.setInt(4,2);//par defaut, pour une periode, c'est la journee entière
+				pst.setInt(4,duree);
 				
 				System.out.println("DANS BOUCLE FOR " + date);
 				
@@ -416,13 +416,34 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 		
 	}
 	
-	
-	public void SuppIndispo(int refEnseignant){
+	/*
+	public void SuppIndispo(String date, int refEnseignant){
 		
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date dte = format.parse(date);
+			GregorianCalendar gregcal = new GregorianCalendar();
+			gregcal.setTime(dte);
+			EnseignantDAO ensdao = new EnseignantDAO();
+			Enseignant ens =ensdao.find(refEnseignant);
+			IndisponibiliteDAO inddao= new IndisponibiliteDAO();
+			JoursDAO jdao= new JoursDAO();
+			Jours jrs = jdao.find(gregcal);
+			Indisponibilite ind = new Indisponibilite();
+			ind.setDateIndisponibilite(jrs);
+			ind.setMonEnseignant(ens);
+			
+			inddao.delete(ind);
+			
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
-	
+	*/
 	
 	
 	

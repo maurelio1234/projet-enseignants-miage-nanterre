@@ -1,6 +1,7 @@
 package serviceEnseignant.Voeux;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,16 +26,16 @@ public class ModeleAbsReg extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private EnsIndispo enseignant;
-	
+
 	private Enseignant ens;
-	
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public ModeleAbsReg() {
 		super();
 		enseignant = new EnsIndispo();
-		ens= new Enseignant();
+		ens = new Enseignant();
 	}
 
 	/**
@@ -52,58 +53,91 @@ public class ModeleAbsReg extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
-		
+
+		RequestDispatcher dispatch = this.getServletContext()
+				.getRequestDispatcher("/jsp/jspVoeux/index.jsp");
 		
 		ens.setNumeroEnseignant(1);
-		String dD = request.getParameter("dateDbt");
 
+		String dD = request.getParameter("dateDbt");
 		String j = request.getParameter("jour");
 		String tI = request.getParameter("type");
 		String prio = request.getParameter("poids");
 		String nbO = request.getParameter("nbOccu");
 		String dur = request.getParameter("demiJ");
-		
-		/*SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
-		Calendar d = format.getCalendar();
-*/
 
-		/*Date date = format.parse(dD);
-			Date daF = format.parse(dF);
+		String valNulle = "";
 
-			// pour le jour de début
-			GregorianCalendar dateD = new GregorianCalendar();
-			dateD.setTime(date);
+		System.out.println("avant le premier IF de modeleAbsReg");
+		
+		// si toutes les valeurs sont renseignées
+		if (!dD.equalsIgnoreCase(valNulle) && !j.equalsIgnoreCase(valNulle)
+				&& !tI.equalsIgnoreCase(valNulle)
+				&& !prio.equalsIgnoreCase(valNulle)
+				&& !nbO.equalsIgnoreCase(valNulle)
+				&& !dur.equalsIgnoreCase(valNulle)) {
 
-			// pour le jour de fin
-			GregorianCalendar dateF = new GregorianCalendar();
-			dateF.setTime(daF);	
-			*/	
-		
-		int typeI = Integer.parseInt(tI);
-		int priorite = Integer.parseInt(prio);
-		int duree = Integer.parseInt(dur);
-		int nbOccu = Integer.parseInt(nbO);
-		int jour = Integer.parseInt(j);
-		
-		System.out.println("Type : " + typeI + " Priorite : " + priorite + " Duree : " + duree);
-		System.out.println("\nDate debut : " + dD + " jour : " + jour + " nb occ : " + nbOccu);
-		
-		
-		try {
-			enseignant.ajoutIndispoReg(dD,duree,priorite,ens,typeI,nbOccu,jour);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+			System.out.println("dans le premier IF de modeleAbsReg");
+			
+			int typeI = Integer.parseInt(tI);
+			int priorite = Integer.parseInt(prio);
+			int duree = Integer.parseInt(dur);
+			int nbOccu = Integer.parseInt(nbO);
+			int jour = Integer.parseInt(j);
 
-		
-		RequestDispatcher dispatch =
-				this.getServletContext().getRequestDispatcher("/jsp/jspVoeux/index.jsp");
-				dispatch.forward(request, response);
+			System.out.println("Type : " + typeI + " Priorite : " + priorite
+					+ " Duree : " + duree);
+			System.out.println("\nDate debut : " + dD + " jour : " + jour
+					+ " nb occ : " + nbOccu);
+
+			try {
+
+				// transformer le format string en calendar pour comparer les
+				// dates
+				SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+				Calendar d = format.getCalendar();
+				Date date;
+				date = format.parse(dD);
+				GregorianCalendar dateD = new GregorianCalendar();
+				dateD.setTime(date);
+
+				// si la date entrée est bien postérieure à la date du jour
+				// courant
+				if (dateD.after(Calendar.getInstance().getTime())) {
+
+					enseignant.ajoutIndispoReg(dD, duree, priorite, ens, typeI,
+							nbOccu, jour);
+
+					
+					dispatch.forward(request, response);
+				}
+				else{ 
+					System.out.println("dans le premier ELSE de modeleAbsReg");
+					
+					//si date entrée avant date du jour
+					
+					request.setAttribute("erreur", "La date entrée est déjà passée.");
+					
+					dispatch.forward(request, response);
+					
+				}
+
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{ //si pas toutes renseignées
+			
+			System.out.println("dans le deuxieme ELSE de modeleAbsReg");
+			
+			request.setAttribute("erreur", "ERREUR : un (ou plusieurs) paramètre n'a pas été renseigné.");
+			
+			dispatch.forward(request, response);
+			
+		}
 	}
 
 }
