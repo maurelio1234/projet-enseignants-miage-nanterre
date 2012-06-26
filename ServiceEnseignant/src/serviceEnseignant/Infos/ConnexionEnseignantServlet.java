@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import serviceEnseignant.*;
-import serviceEnseignant.DAO.EnseignantDAO;
 import beans.Enseignant;
+import dao.EnseignantDAO;
 
 /**
  * Servlet implementation class ConnexionEnseignantServlet
