@@ -86,7 +86,7 @@ public class ServiceDAO extends DAO<Service>{
 			e.printStackTrace();
 		}
 		
-		return obj;
+		return this.find(obj.getMonEnseignant().getNumeroEnseignant(), obj.getMonType().getNumeroType(), obj.getMonEC().getMonUE().getMaFormation().getNumeroFormation(), obj.getMonEC().getMonUE().getNumeroUE(), obj.getMonEC().getNumeroEC());
 		
 	}
 
