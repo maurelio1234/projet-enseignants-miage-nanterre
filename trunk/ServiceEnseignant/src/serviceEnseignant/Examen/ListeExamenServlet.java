@@ -1,6 +1,7 @@
 package serviceEnseignant.Examen;
 
 import java.io.IOException;
+import dao.*;
 import java.io.PrintWriter;
 import java.util.GregorianCalendar;
 
@@ -12,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import serviceEnseignant.Infos.EnseignantDAO;
-
 import beans.*;
 /**
  * Servlet implementation class ExamenServlet
@@ -22,7 +21,7 @@ import beans.*;
 
 public class ListeExamenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private EnseignantDAO ensDAO = new EnseignantDAO();
+	private dao.EnseignantDAO ensDAO = new dao.EnseignantDAO();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -51,7 +50,7 @@ public class ListeExamenServlet extends HttpServlet {
 		String UEChoix = request.getParameter("UEChoix");
 		
 		// recuperation des informations de l'enseignant			
-		ensDAO.recupererInfos(ensDAO.getEns().getNumeroEnseignant());
+		//ensDAO.recupererInfos(ensDAO.getEns().getNumeroEnseignant());
 		Enseignant beanEns = ensDAO.getEns();		
 		
 		
