@@ -50,8 +50,8 @@ public class ListeExamenServlet extends HttpServlet {
 		String UEChoix = request.getParameter("UEChoix");
 		
 		// recuperation des informations de l'enseignant			
-		//ensDAO.recupererInfos(ensDAO.getEns().getNumeroEnseignant());
-		Enseignant beanEns = ensDAO.getEns();		
+
+		Enseignant beanEns = ensDAO.find(1);		
 		
 		
 		// creation d'une session pour stocker le bean enseignant
