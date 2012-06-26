@@ -18,8 +18,7 @@ import beans.Examen;
 import beans.Jours;
 import beans.Note;
 
-import serviceEnseignant.DAO.ExamenDAO;
-import serviceEnseignant.DAO.NoteDAO;
+import dao.*;
 
 /**
  * Servlet implementation class UpdateExamenServlet
@@ -89,7 +88,7 @@ public class UpdateExamenServlet extends HttpServlet {
 		// Mise à jour des notes
 		List<Note> listeNotes = new ArrayList<Note>();
 		Etudiant etudiant;
-		Note note;
+		Note note=null;
 		for (int i = 0; i < Integer.parseInt(request.getParameter("nb_notes")); i++){
 			exam = examDAO.find(Integer.parseInt(request.getParameter("RefExamen"+i)));
 			etudiant = etudiantDAO.find(Integer.parseInt(request.getParameter("RefEtudiant"+i)));

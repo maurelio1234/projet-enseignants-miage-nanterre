@@ -73,7 +73,7 @@ public class Servlet extends HttpServlet  {
 		String promo = request.getParameter("promo");
 
 	
-		exam = new Examen(1,date, intitule, coeff);
+		exam = new Examen(1,"10:30", intitule, coeff);
 		
 			request.setAttribute("ExamBeans", exam);
 			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/Bienvenu.jsp");
