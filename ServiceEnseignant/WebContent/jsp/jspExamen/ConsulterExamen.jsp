@@ -42,13 +42,13 @@
 <TR>
 	<TD>Promotion</TD>
 	<TD>
-	TODO
+	<%= ExamBeans.getMonEC().getMonUE().getMaFormation().getMesPromotions().get(0).getNumeroPromotion()%>
 	</TD>
 </TR>
 
 <tr>
 	<td> Matière </td>
-	<td>TODO</td>td>
+	<td><%= ExamBeans.getMonEC().getLibelle() %></td>
 </tr>
 <TR>
 	<TD>
