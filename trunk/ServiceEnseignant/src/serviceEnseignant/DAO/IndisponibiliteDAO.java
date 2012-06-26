@@ -1,18 +1,19 @@
 package serviceEnseignant.DAO;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-import DAO.JoursDAO;
+import dao.*;
 import beans.*;
 
 public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 	
-	private final String TABLE = "INDISPONIBILITE";
+	private static String TABLE = "INDISPONIBILITE";
 
 	public Indisponibilite find(Date date, int refEnseig) {
 		Indisponibilite obj = null;
@@ -25,7 +26,7 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 			java.sql.Date sqlDate = new java.sql.Date(calendar.getTimeInMillis());
 			
 			Statement request = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-			ResultSet result = request.executeQuery("SELECT * FROM " + this.TABLE + " WHERE NO_ENSEIGNANT = " + refEnseig + " AND DATE_INDISPO = " + sqlDate);
+			ResultSet result = request.executeQuery("SELECT * FROM " + IndisponibiliteDAO.TABLE + " WHERE NO_ENSEIGNANT = " + refEnseig + " AND DATE_INDISPO = " + sqlDate);
 
 			if(result.first()){
 				JoursDAO jdao = new JoursDAO();
@@ -85,7 +86,7 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 			GregorianCalendar calendar = obj.getDateIndisponibilite().getDateDuJour();
 			java.sql.Date sqldate = new java.sql.Date(calendar.getTimeInMillis());
 			
-			request.executeUpdate("DELETE FROM " + this.TABLE 
+			request.executeUpdate("DELETE FROM " + IndisponibiliteDAO.TABLE 
 					+ " WHERE NO_ENSEIGNANT = " + obj.getMonEnseignant().getNumeroEnseignant() 
 					+ " AND DATE_INDISPO = " + sqldate);
 		
@@ -125,11 +126,29 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 				
 				i.setDateIndisponibilite(j);
 				obj.getMesIndisponibilites().add(i);
-				obj.setMesIndisponibilites(obj.getMesIndisponibilites());
 				
 			}
 	    } catch (SQLException e) {
 	            e.printStackTrace();
 	    }
+	}
+
+
+	@Override
+	public List<Indisponibilite> findAll() {
+		List<Indisponibilite> listIndispo = new ArrayList<Indisponibilite>();
+		
+		try {
+			Statement request = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			ResultSet result = request.executeQuery("SELECT * FROM " + IndisponibiliteDAO.TABLE);
+
+			while(result.next()){
+				listIndispo.add(find(result.getDate("DATE_INDISPO"), result.getInt("NO_ENSEIGNANT")));
+			}
+			request.close(); 
+			} catch (SQLException e) {
+	            e.printStackTrace();
+	    }
+	    return listIndispo;
 	}
 }
