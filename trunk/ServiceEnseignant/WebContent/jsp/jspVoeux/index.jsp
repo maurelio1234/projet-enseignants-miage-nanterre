@@ -239,6 +239,7 @@ function view_microcal(actif, ki, source, mxS, axS) {
 <body>
 
 
+
 <table border="3" bordercolor='blue' cellpadding='65'>
 <tr>
 <th> Absence Unique</th>
@@ -247,7 +248,16 @@ function view_microcal(actif, ki, source, mxS, axS) {
 <tr>
 
 <td>
+<font color="red"><strong>
+<% String erreur = (String) request.getAttribute("erreur");
 
+if(erreur != null){
+	%>
+	<%=request.getAttribute("erreur")%>
+	
+	<%} %></strong></font>
+	<br/>
+	<br/>
 	Saisissez une date au format JJ/MM/AAAA
 	<table cellpadding="0" cellspacing="0">
 		<tr>
@@ -305,7 +315,16 @@ function view_microcal(actif, ki, source, mxS, axS) {
 </td>
 
 <td valign='top'>
+<font color="red"><strong>
+<% String erreur2 = (String) request.getAttribute("erreurUniq");
 
+if(erreur2 != null){
+	%>
+	<%=request.getAttribute("erreurUniq")%>
+	
+	<%} %></strong></font>
+	<br/>
+	<br/>
 
 	Saisissez une date au format JJ/MM/AAAA 
 	<table cellpadding="0" cellspacing="0">
@@ -342,6 +361,11 @@ function view_microcal(actif, ki, source, mxS, axS) {
 		<input type="radio" name="poids" value="2" id="2b" /> <label for="2b">incapacité forte</label><br />
 		 <input type="radio" name="poids" value="3" id="3b" /> <label for="3b">incapacité normale</label><br />
 		 <input type="radio" name="poids" value="4" id="4b" /> <label for="4b">incapacité faible</label><br /></br> 
+		 
+		Durée de votre indisponibilité : </br>
+		<input type="radio"	name="demiJ" value="0" id="amb" /> <label for="amb">matinée</label><br />
+		<input type="radio" name="demiJ" value="1" id="pmb" /> <label for="pmb">après-midi</label><br />
+		<input type="radio" name="demiJ" value="2" id="jb" /> <label for="jb">journée	entière</label><br /></br> 
 		 
 		<input type="button" maxlength="10" id="valider" value="Valider" onclick="sendForm();"/>
 	</FORM>			
