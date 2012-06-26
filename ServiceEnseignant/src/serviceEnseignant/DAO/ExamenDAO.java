@@ -165,37 +165,7 @@ public class ExamenDAO extends DAO<Examen> {
 		return listExam;
 	}
 	
-	public List<Examen> LoadAllForEnseignant(Enseignant obj){
-		List<Examen> listExam = new ArrayList<Examen>();
-		try {
-			Statement request = this.connect.createStatement();
-			ECDAO ecdao = new ECDAO();
-			EnseignantDAO ensdao = new EnseignantDAO();
-			JoursDAO datedao = new JoursDAO();
-			TypeDAO typedao = new TypeDAO();
-
-			ResultSet result = request.executeQuery("SELECT FROM "
-					+ ExamenDAO.TABLE + " WHERE NO_ENSEIGNANT = " + obj.getNumeroEnseignant() + ")");
-			while (result.next()) {
-				Examen e = new Examen(result.getInt("NO_EXAMEN"));
-				e.setMonEC(ecdao.find(result.getInt("NO_EC"),
-						result.getInt("NO_UE"), result.getInt("NO_FORMATION")));
-				e.setDate(datedao.find(DAO.dateFromOracleToJava(result
-						.getDate("DATE_EXAMEN"))));
-				e.setMonType(typedao.find(result.getInt("NO_TYPE")));
-				e.setCoefficient(result.getDouble("COEF_EXAMEN"));
-				e.setHoraire(result.getString("HORAIRE_EXAMEN"));
-				e.setMonEnseignant(ensdao.find(result.getInt("NO_ENSEIGNANT")));
-				listExam.add(e);
-			}
-			request.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return listExam;
-	}
+	
 	
 	public List<Note> LoadNote(Examen obj){
 		List<Note> listeNotes = new ArrayList<Note>();
