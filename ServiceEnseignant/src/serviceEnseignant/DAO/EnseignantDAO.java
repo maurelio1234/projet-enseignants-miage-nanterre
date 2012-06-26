@@ -531,6 +531,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		public Enseignant update(Enseignant obj) {
 			
 			int id = obj.getNumeroEnseignant();
+			int nbLignesModifies = 0;
 			
 			try {
 								
@@ -539,11 +540,10 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				String date = dateF.format(obj.getDateNaissance().getTime());   
 				
 				Statement request = this.connect.createStatement();
-				request.executeUpdate("UPDATE "+ EnseignantDAO.TABLE +
+				nbLignesModifies = request.executeUpdate("UPDATE "+ EnseignantDAO.TABLE +
 						" SET NO_POSTE ="+ obj.getMonPoste().getNumeroPoste()+", NOM_ENSEIGNANT = '"+obj.getNom()+"',PRENOM_ENSEIGNANT = '"+obj.getPrenom()+"'," +
-						"ADRESSE_ENSEIGNANT ='"+obj.getAdresse()+"',TELEPHONE_ENSEIGNANT='"+obj.getTelephone()+"', DATE_NAISSANCE_ENSEIGNANT='"+date+"', PWD_ENSEIGNANT = '"+obj.getPassword()+"'" +
-						"WHERE NO_ENSEIGNANT ="+id);
-			
+						"ADRESSE_ENSEIGNANT ='"+obj.getAdresse()+"',TELEPHONE_ENSEIGNANT='"+obj.getTelephone()+"', DATE_NAISSANCE_ENSEIGNANT='"+date+"', LOGIN_ENSEIGNANT='"+obj.getLogin()+"', PWD_ENSEIGNANT = '"+obj.getPassword()+"'" +
+						" WHERE NO_ENSEIGNANT ="+id);
 				request.close();
 				
 				// mettre a jour les listes ??
@@ -554,7 +554,10 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				e.printStackTrace();
 			}
 			
-			return obj;
+			if(nbLignesModifies>0)
+				return this.find(obj.getNumeroEnseignant());
+			else
+				return null;
 			
 
 		}
