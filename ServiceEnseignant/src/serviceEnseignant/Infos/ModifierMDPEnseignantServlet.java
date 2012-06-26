@@ -59,18 +59,13 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 		RequestDispatcher disp;
 		
 		EnseignantDAO ensDAO =  new EnseignantDAO();
-		ensDAO.setEns(beanEns); // on initialise l'enseignant associé au DAO 
-		
-		// recupere les infos de l'enseignant
-		//ensDAO.recupererInfos(beanEns.getNumeroEnseignant());
-		beanEns = ensDAO.find(beanEns.getNumeroEnseignant());
-		
+
 		String erreur; 
 		
 		// verifier l'ancien mdp
-		if (!ensDAO.verifAncienMDP(ancienMDP)){
+		if(!beanEns.getPassword().equals(ancienMDP)){
 			
-			//System.out.println("l'ancien mdp n'est pas bon");
+			System.out.println("l'ancien mdp n'est pas bon");
 			
 			erreur = "L'ancien mot de passe n'est pas valide.";
 			request.setAttribute("erreur", erreur);
@@ -82,7 +77,7 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 			
 			// si les nouveaux mdp ne sont pas identiques, on redirige vers la page avec une erreur
 			if(!nouveauMDP1.equals(nouveauMDP2)){
-				//System.out.println("le nouveau mdp ne correspond pas");
+				System.out.println("le nouveau mdp ne correspond pas");
 				
 				erreur = "La confirmation du nouveau mot de passe est incorrecte.";
 				request.setAttribute("erreur", erreur);
@@ -92,14 +87,14 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 			// sinon, on procede a la mise a jour dans la base de donnees
 			else{
 				
-				//System.out.println("on appelle ensDAO pour enregistrer mdp");
+				System.out.println("on appelle ensDAO pour enregistrer mdp");
 				
 				String msg;
 				
-				if (ensDAO.enregistrerMDP(beanEns.getNumeroEnseignant(), ancienMDP, nouveauMDP1)){
-					
-					beanEns = ensDAO.find(beanEns.getNumeroEnseignant());
-					
+				beanEns.setPassword(nouveauMDP1);
+				
+				if ((beanEns = ensDAO.update(beanEns)) != null){
+									
 					msg = "Le mot de passe a été modifié avec succès.";
 					request.setAttribute("msg", msg);
 					

@@ -46,7 +46,7 @@ public class ModifierInfosEnseignantServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		//System.out.println("dans le controleur modifier infos ens");
+		System.out.println("dans le controleur modifier infos ens");
 		
 		Enseignant beanEns;
 		
@@ -54,8 +54,7 @@ public class ModifierInfosEnseignantServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);   
 		beanEns = (Enseignant) session.getAttribute("ens");
 		
-		EnseignantDAO ensDAO =  new EnseignantDAO();
-		ensDAO.setEns(beanEns);	
+		EnseignantDAO ensDAO =  new EnseignantDAO();		
 	
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
@@ -78,12 +77,12 @@ public class ModifierInfosEnseignantServlet extends HttpServlet {
 		
 		RequestDispatcher disp;	
 		
-		//System.out.println(nom+" "+prenom+" "+adresse+" "+dateNaiss);
+		System.out.println(nom+" "+prenom+" "+adresse+" "+dateNaiss);
 		
 		String msg; 
 		
 		// enregistrement des données dans la base
-		if (ensDAO.update(beanEns) != null){
+		if ((beanEns = ensDAO.update(beanEns)) != null){
 			msg = "La modification de vos informations a été effectuée avec succès.";			
 		}
 		else{
@@ -91,9 +90,7 @@ public class ModifierInfosEnseignantServlet extends HttpServlet {
 		}
 		
 		request.setAttribute("msg", msg);
-		
-		beanEns = ensDAO.find(beanEns.getNumeroEnseignant()); //beanEnseignant qui sera envoye a la JSP PageInfoPerso.jsp
-		
+			
 		session.setAttribute("ens", beanEns); // associe le bean mis a jour a la session "ens"
 		
 		disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");
