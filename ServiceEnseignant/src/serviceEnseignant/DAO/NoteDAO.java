@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import dao.*;
+
 import beans.Note;
 import beans.Promotion;
 import beans.Examen;
@@ -22,7 +24,7 @@ public class NoteDAO extends DAO<Note> {
 			if(result.first()){
 				ExamenDAO examdao = new ExamenDAO();
 				EtudiantDAO etudiantdao = new EtudiantDAO();
-				obj = new Note(etudiantdao.find(id_etudiant), examdao.find(id_examen), -1,0);
+				obj = new Note(etudiantdao.find(id_etudiant), examdao.find(id_examen), -1.0);
 				if((Double)result.getDouble("NOTE") != null){
 					obj.setNote((Double)result.getDouble("NOTE"));
 				}
