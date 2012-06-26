@@ -15,13 +15,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import DAO.JoursDAO;
+import dao.*;
 import beans.*;
 import serviceEnseignant.*;
-import serviceEnseignant.DAO.EnseignantDAO;
-import serviceEnseignant.DAO.IndisponibiliteDAO;
-//import serviceEnseignant.DAO.Jour;
-//import serviceEnseignant.DAO.JourDAO;
+
 
 
 public class EnsIndispo {
