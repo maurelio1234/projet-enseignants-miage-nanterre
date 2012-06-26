@@ -3,15 +3,10 @@ package serviceEnseignant.DAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.List;
 
-import dao.VoeuxECDAO;
-
-import beans.Enseignant;
-import beans.Jours;
-import beans.TypePoste;
+import dao.*;
+import beans.*;
 
 public class TypePosteDAO extends DAO<TypePoste>{
 
@@ -118,6 +113,12 @@ public class TypePosteDAO extends DAO<TypePoste>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<TypePoste> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

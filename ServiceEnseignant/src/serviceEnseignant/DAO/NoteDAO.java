@@ -4,17 +4,25 @@ package serviceEnseignant.DAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import dao.*;
-
-import beans.Note;
-import beans.Promotion;
-import beans.Examen;
-import beans.Etudiant;
+import beans.*;
 
 public class NoteDAO extends DAO<Note> {
 	public static String TABLE = "PROMOTION";
 
+	@Override
+	/**
+	 * Utiliser la fonction find(int id, int id)
+	 */
+	public Note find(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	public Note find(int id_etudiant, int id_examen) {
 		Note obj = null;
 		try {
@@ -89,12 +97,30 @@ public class NoteDAO extends DAO<Note> {
 			e.printStackTrace();
 		}		
 	}
+
+
 	@Override
-	/**
-	 * Utiliser la fonction find(int id, int id)
-	 */
-	public Note find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Note> findAll() {
+		List<Note> listeNote = new ArrayList<Note>();
+		
+		try{
+			Statement request = this.connect.createStatement();
+			ExamenDAO examDAO = new ExamenDAO();
+			EtudiantDAO etudiantDAO = new EtudiantDAO();
+
+			ResultSet result = request.executeQuery("SELECT FROM "
+					+ NoteDAO.TABLE);
+			while (result.next()) {
+				Note n = new Note(etudiantDAO.find(result.getInt("NO_ETUDIANT")), examDAO.find(result.getInt("NO_EXAMEN")), result.getDouble("NOTE"));
+				listeNote.add(n);
+			}
+			request.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return listeNote;
 	}
+
 }
