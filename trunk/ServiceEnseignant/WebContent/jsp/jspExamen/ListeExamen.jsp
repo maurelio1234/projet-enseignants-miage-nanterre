@@ -20,7 +20,37 @@
 						"_blank",
 						"toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, left=00, top=0, width=605, height=360")
 	}
+	
+	/**Retourne la valeur du select selectId*/
+	function getSelectValue(selectId)
+	{
+		/**On récupère l'élement html <select>*/
+		var selectElmt = document.getElementById(selectId);
+		/**
+		selectElmt.options correspond au tableau des balises <option> du select
+		selectElmt.selectedIndex correspond à l'index du tableau options qui est actuellement sélectionné
+		*/
+		return selectElmt.options[selectElmt.selectedIndex].value;
+	}
+	
+	function afficherExam(choixUE, choixFormation){
+		var choixUE2 = getSelectValue(choixUE);
+		var choixFormation2 = getSelectValue(choixFormation);
+		var liste = new Array;
+		var k, j;
+		
+		for(k=0; k<ens.getMesExamens().size(); k++){
+			for(j=0;j<ens.getMesServices().size();j++){
+				if(ens.getMesServices().get(j).getMonEC().getMonUE().equals(choixUE2) && ens.getMesServices().get(j).getMonEC().getMonUE().getMaFormation().getNumeroFormation().equals(choixFormation2)){
+						liste.push( ens.getMesServices().get(j).getMonEnseignant().getMesExamens(k));					
+				}
+			}	
+		}
+		return list;
+	}
+	
 </script>
+
 
 
 <body>
@@ -36,26 +66,28 @@
 				<table border=1>
 					<tr align="left">
 						<td style="padding-top: 8px;">Formation :</td>
-						<td><SELECT name="formationChoix" size="1">
-								<%-- 	<%int i=0; --%>
-								<!-- 	for(i=0;i<ensBeans.getMesServices().size();i++){ %> -->
-								<%-- 	<OPTION VALUE="formationChoix"><%= ensBeans.getMesServices().get(i).getMonEC().getMaFormation().getNiveau() %>  --%>
-								<%-- 	<%= ensBeans.getMesServices().get(i).getMonEC().getMaFormation().getLibelle() %> --%>
-								<%-- 	<%= ensBeans.getMesServices().get(i).getMonEC().getMaFormation().getType() %> --%>
-								<!-- 	</OPTION> -->
-								<%-- 	<%} %> --%>
+						<td><SELECT id="formationChoix" size="1"> 
+<%-- 									<%int i=0; --%>
+<!-- 									for(i=0;i<ens.getMesServices().size();i++){ %> -->
+<%-- 									<OPTION VALUE="formationChoix"><%= ens.getMesServices().get(i).getMonEC().getMaFormation().getNiveau() %>  --%>
+<%-- 									<%= ens.getMesServices().get(i).getMonEC().getMaFormation().getLibelle() %> --%>
+<%-- 									<%= ens.getMesServices().get(i).getMonEC().getMaFormation().getType() %> --%>
+<!-- 									</OPTION> -->
+<%-- 									<%} %> --%>
+
 						</SELECT></td>
 					</tr>
 
 					<tr align="left">
 						<td style="padding-top: 8px;">UE :</td>
-						<td><SELECT name="UEChoix" size="1">
+						<td><SELECT id="UEChoix" size="1">
 								<%-- 	<%int j=0; --%>
 								<!-- 	for(j=0;j<ensBeans.getMesServices().size();j++){ %> -->
 								<%-- 	<OPTION VALUE="UEChoix"><%= ensBeans.getMesServices().get(j).getMonEC().getMonUE().getNumeroUE() %> --%>
 								<%-- 	<%} %> --%>
 						</SELECT></td>
 					</tr>
+
 
 					<tr align="left">
 						<td style="padding-top: 8px;">Année de la promotion :</td>
@@ -74,6 +106,54 @@
 					</tr>
 
 				</table>
+				
+				<br>
+				<br>
+					
+								
+				<table border=1>
+					<tr align="left">
+						<td style="padding-top: 8px;">Formation :</td>
+						<td><SELECT name="formationChoix" size="1"> 
+<%-- 									<%int i=0; --%>
+<!-- 									for(i=0;i<ens.getMesServices().size();i++){ %> -->
+<%-- 									<OPTION VALUE="formationChoix"><%= ens.getMesServices().get(i).getMonEC().getMaFormation().getNiveau() %>  --%>
+<%-- 									<%= ens.getMesServices().get(i).getMonEC().getMaFormation().getLibelle() %> --%>
+<%-- 									<%= ens.getMesServices().get(i).getMonEC().getMaFormation().getType() %> --%>
+<!-- 									</OPTION> -->
+<%-- 									<%} %> --%>
+						</SELECT></td>
+					</tr>
+
+					<tr align="left">
+						<td style="padding-top: 8px;">UE :</td>
+						<td><SELECT name="UEChoix" size="1">
+								<%-- 	<%int j=0; --%>
+								<!-- 	for(j=0;j<ensBeans.getMesServices().size();j++){ %> -->
+								<%-- 	<OPTION VALUE="UEChoix"><%= ensBeans.getMesServices().get(j).getMonEC().getMonUE().getNumeroUE() %> --%>
+								<%-- 	<%} %> --%>
+						</SELECT></td>
+					</tr>
+
+
+					<tr align="left">
+						<td style="padding-top: 8px;">Année de la promotion :</td>
+						<td><SELECT name="annee" size="1">
+						</SELECT></td>
+					</tr>
+
+					<tr>
+						
+						<td colspan="2" align="right" style="padding-top: 8px;">
+						<input type="button" onclick="open_win()" name="NewExamen" value="Créer un examen" />
+						<input type="submit" name="valider" value="Valider" />
+						</td>
+						
+							
+					</tr>
+
+				</table>
+				
 
 			</form>
 	</center>
