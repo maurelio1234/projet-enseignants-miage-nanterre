@@ -641,10 +641,12 @@ public class EnseignantDAO extends DAO<Enseignant> {
 								ServiceDAO serviceDao = new ServiceDAO();
 								
 								int numType = obj.getMesServices().get(i).getMonType().getNumeroType();
-								int numEC = obj.getMesServices().get(i).getMonEC().getNumeroEC();								
+								int numEC = obj.getMesServices().get(i).getMonEC().getNumeroEC();	
+								int numFormation =  obj.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation();
+								int numUE = obj.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE();
 								
 																 								
-								if(serviceDao.find(obj.getNumeroEnseignant(), numType, numEC) == null){
+								if(serviceDao.find(obj.getNumeroEnseignant(), numType, numFormation, numUE, numEC) == null){
 									serviceDao.create(obj.getMesServices().get(i));
 								}
 								else{
@@ -681,10 +683,33 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		@Override
 		public Enseignant update(Enseignant obj) {
 			
+			int id = obj.getNumeroEnseignant();
 			
-			// a faire : met a jour la table enseignant et toutes les tables des listes de l'enseignant !!
+			try {
+								
+				// cast du gregorianCalendar en String 
+				SimpleDateFormat dateF = new SimpleDateFormat("dd/MM/yyyy");
+				String date = dateF.format(obj.getDateNaissance().getTime());   
+				
+				Statement request = this.connect.createStatement();
+				request.executeUpdate("UPDATE "+ EnseignantDAO.TABLE +
+						" SET NO_POSTE ="+ obj.getMonPoste().getNumeroPoste()+", NOM_ENSEIGNANT = '"+obj.getNom()+"',PRENOM_ENSEIGNANT = '"+obj.getPrenom()+"'," +
+						"ADRESSE_ENSEIGNANT ='"+obj.getAdresse()+"',TELEPHONE_ENSEIGNANT='"+obj.getTelephone()+"', DATE_NAISSANCE_ENSEIGNANT='"+date+"', PWD_ENSEIGNANT = '"+obj.getPassword()+"'" +
+						"WHERE NO_ENSEIGNANT ="+id);
 			
-			return null;
+				request.close();
+				
+				// mettre a jour les listes ??
+				
+			
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return obj;
+			
+
 		}
 
 		@Override
@@ -767,21 +792,4 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		    }
 		}
 		
-		/*
-		public void loadMesIndisponibilites(Enseignant obj) {
-			int id = obj.getNumeroEnseignant();
-			try {
-				Statement request = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-				ResultSet result = request.executeQuery("SELECT * FROM " + IndisponibiliteDAO.TABLE + " WHERE NO_FORMATION = " + id);
-
-				while(result.next()){
-					Promotion p = new Promotion(result.getInt("NO_PROMOTION"));
-					p.setMaFormation(obj);
-					obj.getMesPromotions().add(p);
-				}
-		    } catch (SQLException e) {
-		            e.printStackTrace();
-		    }
-		}*/
-
 	}
