@@ -84,14 +84,40 @@ public class TypePosteDAO extends DAO<TypePoste>{
 
 	@Override
 	public TypePoste update(TypePoste obj) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int id = obj.getNumeroPoste();
+		
+		try {
+							
+			Statement request = this.connect.createStatement();
+			request.executeUpdate("UPDATE "+ TypePosteDAO.TABLE +
+					" SET TYPE_POSTE = '"+obj.getType()+"', DESCRIPTION_POSTE = '"+obj.getDescription()+"'," +
+					"NB_HEURES ="+obj.getNbHeures()+
+					" WHERE NO_POSTE ="+id);
+		
+			request.close();
+				
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return obj;
+		
 	}
 
 	@Override
 	public void delete(TypePoste obj) {
-		// TODO Auto-generated method stub
 		
+		try {
+			Statement request = this.connect.createStatement();
+			request.executeUpdate("DELETE FROM " + TypePosteDAO.TABLE +" WHERE NO_POSTE = " +obj.getNumeroPoste());
+			request.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
