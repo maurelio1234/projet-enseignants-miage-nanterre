@@ -72,7 +72,7 @@
 			</testResource>
 		</testResources>
 		<directory>target</directory>
-		<finalName>Formation_${project.version}</finalName>
+		<finalName>${project.groupId}.${project.artifactId}_${project.version}</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
