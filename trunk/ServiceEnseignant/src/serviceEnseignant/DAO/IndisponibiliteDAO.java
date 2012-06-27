@@ -3,6 +3,7 @@ package serviceEnseignant.DAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -49,10 +50,12 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 		try {
 			this.connect.setAutoCommit(false);
 			Statement request = this.connect.createStatement();
-			GregorianCalendar calendar = obj.getDateIndisponibilite().getDateDuJour();
-			java.sql.Date sqldate = new java.sql.Date(calendar.getTimeInMillis());
+			GregorianCalendar calendar = obj.getDateIndisponibilite().getDateDuJour();	
+			System.out.println(obj.getDateIndisponibilite().getDateDuJour());
+			//java.sql.Date sqldate = new java.sql.Date(calendar.getTimeInMillis());
+			System.out.println(calendar.get(Calendar.YEAR));
 			
-			request.executeUpdate("INSERT INTO " + TABLE  +" VALUES (" + sqldate + ", " 
+			request.executeUpdate("INSERT INTO " + TABLE  +" VALUES (" + DAO.dateFromJavaToOracle(calendar) + ", " 
 						+ obj.getMonEnseignant().getNumeroEnseignant() + ", " 
 					+ obj.getPoids() + ", " + obj.getDemiJournee() + ")");
 			
