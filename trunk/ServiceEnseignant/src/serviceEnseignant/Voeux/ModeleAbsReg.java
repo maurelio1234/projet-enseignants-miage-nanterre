@@ -94,16 +94,19 @@ public class ModeleAbsReg extends HttpServlet {
 
 				// transformer le format string en calendar pour comparer les
 				// dates
-				SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 				Calendar d = format.getCalendar();
 				Date date;
 				date = format.parse(dD);
 				GregorianCalendar dateD = new GregorianCalendar();
 				dateD.setTime(date);
-
+				
+				Date dt=Calendar.getInstance().getTime();
 				// si la date entrée est bien postérieure à la date du jour
 				// courant
-				if (dateD.after(Calendar.getInstance().getTime())) {
+				System.out.println(date);
+				System.out.println(Calendar.getInstance().getTime());
+				if (date.after(dt)) {
 
 					enseignant.ajoutIndispoReg(dD, duree, priorite, ens, typeI,
 							nbOccu, jour);
