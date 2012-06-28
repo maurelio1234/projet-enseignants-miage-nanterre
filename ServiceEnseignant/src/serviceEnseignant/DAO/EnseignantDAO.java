@@ -385,7 +385,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 
 
 	
-public void LoadAll(Enseignant obj){
+public void loadAll(Enseignant obj){
 	this.loadMesVoeuxEC(obj);
 	IndisponibiliteDAO indispoDAO = new IndisponibiliteDAO();
 	indispoDAO.loadMesIndisponibilites(obj);
