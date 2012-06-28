@@ -8,13 +8,13 @@
 <title>Consulter Examen</title>
 </head>
 <body>
-<form method='POST' action='../../UpdateExamenServlet'>
+<form method='POST' action='UpdateExamenServlet'>
 <jsp:useBean id="ExamBeans" scope="request" class="beans.Examen" />
 <input type="hidden" name = "num_exam" value=<%= ExamBeans.getNumeroExamen() %>>
 <TABLE BORDER=0>
 <tr>
-	<td><input type=hidden name="num_exam" value = <%= ExamBeans.getNumeroExamen() %>></td>
-	<td><input type=hidden name="nb_notes" value = <%= ExamBeans.getMesNotes().size() %>></td>
+	<td><input type=text name="num_exam" value = <%= ExamBeans.getNumeroExamen() %>></td>
+	<td><input type=text name="nb_notes" value = <%= ExamBeans.getMesNotes().size() %>></td>
 </tr>
 <TR>
 	<TD>Intitule</TD>
@@ -28,7 +28,7 @@
 	<TD>
 	<INPUT type=text name="date" value="Test">
 	</TD>
-	<td> à <input type=text name="heure" value="10:30">
+	<td> à <input type=text name="heure" value=<%= ExamBeans.getHoraire() %>>
 </TR>
 
 
@@ -42,7 +42,7 @@
 <TR>
 	<TD>Promotion</TD>
 	<TD>
-	<%= "test" %>
+	<%= "MIAGE" %>
 	</TD>
 </TR>
 
@@ -82,8 +82,8 @@ for(i=0;i<ExamBeans.getMesNotes().size();i++) {%>
 	<td><INPUT TYPE="radio" NAME=<%= "choix" + i %> VALUE="1" checked></td>
 	<td><INPUT TYPE="radio" NAME=<%= "choix" + i %> VALUE="2" <% if(ExamBeans.getMesNotes().get(i).getNote()==-2) { %> checked <%} %>></td> 
 	<td><INPUT TYPE="radio" NAME=<%= "choix" + i %> VALUE="3" <% if(ExamBeans.getMesNotes().get(i).getNote()==-3) { %> checked <%} %>></td>
-	<td><input type="hidden" name = <%= "RefEtudiant" + i %> value = <%=ExamBeans.getMesNotes().get(i).getMonEtudiant() %>></td>
-	<td><input type="hidden" name = <%= "RefExamen" + i %> value = <%=ExamBeans.getMesNotes().get(i).getMonExamen() %>></td>
+	<td><input type="hidden" name = <%= "RefEtudiant" + i %> value = <%=ExamBeans.getMesNotes().get(i).getMonEtudiant().getNumeroEtudiant() %>></td>
+
 	</tr>
 <% } %>
 
