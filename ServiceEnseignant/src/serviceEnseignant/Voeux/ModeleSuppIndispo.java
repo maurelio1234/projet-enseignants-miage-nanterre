@@ -1,6 +1,9 @@
 package serviceEnseignant.Voeux;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,7 +44,17 @@ public class ModeleSuppIndispo extends HttpServlet {
 		 * chercher l'indispo associé
 		 */
 		String date = request.getParameter("date");
-		System.out.println(date);
+		try {
+			enseignant.SuppIndispo(date, refEns);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		RequestDispatcher dispatch = this.getServletContext()
+				.getRequestDispatcher("/ModeleAffIndispo");
+		dispatch.forward(request, response);
+		
 	}
 
 }
