@@ -65,7 +65,7 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 		// verifier l'ancien mdp
 		if(!beanEns.getPassword().equals(ancienMDP)){
 			
-			System.out.println("l'ancien mdp n'est pas bon");
+			//System.out.println("l'ancien mdp n'est pas bon");
 			
 			erreur = "L'ancien mot de passe n'est pas valide.";
 			request.setAttribute("erreur", erreur);
@@ -77,7 +77,7 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 			
 			// si les nouveaux mdp ne sont pas identiques, on redirige vers la page avec une erreur
 			if(!nouveauMDP1.equals(nouveauMDP2)){
-				System.out.println("le nouveau mdp ne correspond pas");
+				//System.out.println("le nouveau mdp ne correspond pas");
 				
 				erreur = "La confirmation du nouveau mot de passe est incorrecte.";
 				request.setAttribute("erreur", erreur);
@@ -87,7 +87,7 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 			// sinon, on procede a la mise a jour dans la base de donnees
 			else{
 				
-				System.out.println("on appelle ensDAO pour enregistrer mdp");
+				//System.out.println("on appelle ensDAO pour enregistrer mdp");
 				
 				String msg;
 				
@@ -98,6 +98,7 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 					msg = "Le mot de passe a été modifié avec succès.";
 					request.setAttribute("msg", msg);
 					
+					ensDAO.LoadAll(beanEns);
 					session.setAttribute("ens", beanEns); // associe le bean mis a jour a la session "ens"
 					
 					disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");	

@@ -2,8 +2,10 @@ package serviceEnseignant.Infos;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import serviceEnseignant.*;
 import serviceEnseignant.DAO.EnseignantDAO;
 import beans.Enseignant;
+import beans.UE;
 
 /**
  * Servlet implementation class ConnexionEnseignantServlet
@@ -47,7 +50,7 @@ public class ConnexionEnseignantServlet extends HttpServlet {
 		
 		Enseignant beanEns;
 		
-		System.out.println("je suis dans la servlet connexion");
+		//System.out.println("je suis dans la servlet connexion");
 		
 		//recuperation des valeurs saisies
 		String login = request.getParameter("login");
@@ -58,21 +61,23 @@ public class ConnexionEnseignantServlet extends HttpServlet {
 		// on verifie que le login et le mdp saisis sont corrects
 		if((beanEns = ensDAO.find(login, mdp))!=null){
 		
-			System.out.println("login mdp ok");
+			//System.out.println("login mdp ok");
 						
-			System.out.println("infos beans ens : "+beanEns.getLogin()+ " " + beanEns.getPassword()+" "+beanEns.getDateNaissance());
+			//System.out.println("infos beans ens : "+beanEns.getLogin()+ " " + beanEns.getPassword()+" "+beanEns.getDateNaissance());
+			
+			ensDAO.LoadAll(beanEns);
 			
 			// creation d'une session pour stocker le bean enseignant
 			HttpSession session = request.getSession(true);    
 			session.setAttribute("ens", beanEns);
 			
-			System.out.println("envoi bean a la jsp");
+			//System.out.println("envoi bean a la jsp");
 						
 			disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");
 		}
 		else{
 			
-			System.out.println("login mdp non ok");
+			//System.out.println("login mdp non ok");
 			
 			String msg = "Le login ou le mot de passe est incorrect. Veuillez réessayer à nouveau.";
 			request.setAttribute("msg", msg);

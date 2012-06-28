@@ -46,7 +46,7 @@ public class ModifierInfosEnseignantServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		System.out.println("dans le controleur modifier infos ens");
+		//System.out.println("dans le controleur modifier infos ens");
 		
 		Enseignant beanEns;
 		
@@ -77,13 +77,14 @@ public class ModifierInfosEnseignantServlet extends HttpServlet {
 		
 		RequestDispatcher disp;	
 		
-		System.out.println(nom+" "+prenom+" "+adresse+" "+dateNaiss);
+		//System.out.println(nom+" "+prenom+" "+adresse+" "+dateNaiss);
 		
 		String msg; 
 		
 		// enregistrement des données dans la base
 		if ((beanEns = ensDAO.update(beanEns)) != null){
-			msg = "La modification de vos informations a été effectuée avec succès.";			
+			msg = "La modification de vos informations a été effectuée avec succès.";	
+			ensDAO.LoadAll(beanEns);
 		}
 		else{
 			msg = "Une erreur est survenue lors de la modification de vos informations. Veuillez réessayer une nouvelle fois.";				
