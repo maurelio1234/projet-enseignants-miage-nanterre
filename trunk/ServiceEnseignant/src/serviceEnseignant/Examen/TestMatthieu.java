@@ -19,7 +19,7 @@ public class TestMatthieu {
 		
 		EnseignantDAO ensDAO = new EnseignantDAO();
 		Enseignant ens = ensDAO.find(1);
-		ensDAO.LoadAll(ens);
+		ensDAO.loadAll(ens);
 		System.out.println(ens.getNom());
 		System.out.println(ens.getPrenom());
 		System.out.println(ens.getMesExamens().get(0).getLibelle());
