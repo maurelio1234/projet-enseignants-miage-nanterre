@@ -34,6 +34,7 @@ public class ExamenDAO extends DAO<Examen> {
 						result.getInt("NO_UE"), result.getInt("NO_FORMATION")));
 				obj.setDate(datedao.find(DAO.dateFromOracleToJava(result
 						.getDate("DATE_EXAMEN"))));
+				obj.setLibelle(result.getString("LIBELLE_EXAMEN"));
 				obj.setMonType(typedao.find(result.getInt("NO_TYPE")));
 				obj.setCoefficient(result.getDouble("COEF_EXAMEN"));
 				obj.setHoraire(result.getString("HORAIRE_EXAMEN"));
@@ -96,9 +97,9 @@ public class ExamenDAO extends DAO<Examen> {
 				Statement request = this.connect.createStatement();
 				request.executeUpdate("UPDATE "
 						+ ExamenDAO.TABLE
-						+ " SET HORAIRE_EXAMEN = " + obj.getHoraire() 
-						+ ", LIBELLE_EXAMEN = " + obj.getLibelle() 
-						+ ", COEF_EXAMEN = " + obj.getCoefficient()
+						+ " SET HORAIRE_EXAMEN = '" + obj.getHoraire() 
+						+ "', LIBELLE_EXAMEN = '" + obj.getLibelle() 
+						+ "', COEF_EXAMEN = " + obj.getCoefficient()
 						+ ", NO_EC = "+ obj.getMonEC().getNumeroEC()
 						+ ", NO_UE = " + obj.getMonEC().getMonUE().getNumeroUE()
 						+ ", NO_FORMATION = " + obj.getMonEC().getMonUE().getMaFormation()
