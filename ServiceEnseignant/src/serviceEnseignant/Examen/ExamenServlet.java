@@ -51,8 +51,6 @@ public class ExamenServlet extends HttpServlet {
 		
 		Examen exam;
 		ExamenDAO examDAO = new ExamenDAO();
-		NoteDAO noteDAO = new NoteDAO();
-
 
 		if (SimpleInit) {
 			exam = ExamenServlet.InitTest();
