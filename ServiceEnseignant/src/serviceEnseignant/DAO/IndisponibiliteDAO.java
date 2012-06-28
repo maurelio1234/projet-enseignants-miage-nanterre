@@ -127,6 +127,8 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 	public void loadMesIndisponibilites(Enseignant obj) {
 		
 		try {
+			
+			
 			Statement request = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			ResultSet result = request.executeQuery("SELECT * FROM Indisponibilite WHERE NO_ENSEIGNANT ="
 					+ obj.getNumeroEnseignant() + " ORDER BY DATE_INDISPO");
