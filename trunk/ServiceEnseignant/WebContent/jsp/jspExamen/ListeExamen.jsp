@@ -32,6 +32,11 @@
 		return selectElmt.options[selectElmt.selectedIndex].value;
 	}
 
+	function updateChoix(i){
+		document.getElementsByName("choixExam")[0].value = document.getElementsByName("Exam")[0].value;
+		document.getElementsByName("ValiderExam")[0].disabled = false;
+	}
+	
 	function afficherExam(id1) {
 		int
 		choixUE2 = getSelectValue(id1);
@@ -67,9 +72,9 @@
 		<jsp:useBean id="ens" scope="session" class="beans.Enseignant" />
 		<%=ens.getPrenom()%>
 		<%=ens.getNom()%>
-
-		<form name="ListeExamen" method="post"
-			action="../../ServiceEnseignant/ListeExamenServlet">
+		<input type = "hidden" name="choixExam">
+		<form method="post"
+			action="/ServiceEnseignant/ExamenServlet">
 
 			<table border=1>
 				<tr align="left">
@@ -140,10 +145,10 @@
 		
 		for(x=0;x<ens.getMesExamens().size();x++){
 			if(ens.getMesExamens().get(x).getMonEC().getMonUE().getNumeroUE()==numUE && ens.getMesExamens().get(x).getMonEC().getMonUE().getMaFormation().getNumeroFormation()==numForm){%>
-				 <input type="radio" name="Exam" value=<%= ens.getMesExamens().get(x).getLibelle()%> onclick="self.location.href='ExamenServlet.java'"> 
+				 <input type="radio" name="Exam" value=<%= ens.getMesExamens().get(x).getNumeroExamen()%> onclick="updateChoix(<%=i %>)"> 
 			<%}	
  		}	%>
-		<input type="button" onclick="self.location.href='ExamenServlet.java'" name="Exam" value="Afficher Examen" /> 
+		<input type="submit" name="ValiderExam" value="Afficher Examen" disabled="disabled"/> 
 
 
 				</td>

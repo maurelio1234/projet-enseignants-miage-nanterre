@@ -10,9 +10,10 @@
 	font-weight: bold;
 }
 -->
+
+
 </style>
-
-
+<jsp:useBean id="ens" scope="session" class="beans.Enseignant" />
 </HEAD>
 <BODY BGCOLOR="#ffffff">
 <CENTER>
@@ -42,7 +43,7 @@
 
 <FONT size=+1>
 
-<form method='POST' action='http://localhost:8080/ServiceEnseignant/Servlet'>
+<form method='POST' action='/Servlet'>
 
 <TABLE BORDER=0>
 <TR>
@@ -58,7 +59,12 @@
 	<INPUT type=date name="date">
 	</TD>
 </TR>
-
+<TR>
+	<TD>Horaire (format HH:mm) </TD>
+	<TD>
+	<INPUT type=date name="date">
+	</TD>
+</TR>
 
 <TR>
 	<TD>Coefficient</TD>
@@ -79,6 +85,17 @@
 	</TD>
 </TR>
 
+<tr>
+<td>Matière</td>
+<td>
+<select name="matiere">
+	<%
+	int i = 0;
+	for(i=0;i<ens.getMesServices().size();i++){
+		%><option value= <%= ens.getMesServices().get(i).getMonEC()%>><%=ens.getMesServices().get(i).getMonEC().getLibelle() %> </option>
+	<%} %>
+</select>
+</td>
 <TR>
 	<TD>
 	<br>
