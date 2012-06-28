@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import java.util.Set;
 import dao.*;
 import beans.*;
 import serviceEnseignant.*;
+import serviceEnseignant.DAO.IndisponibiliteDAO;
 
 
 
@@ -128,7 +130,7 @@ public class EnsIndispo {
 	
 	
 	
-	public void ajoutIndispoSimple(Date debut,int poids, Enseignant ensei, int dj) throws SQLException{
+	public void ajoutIndispoSimple(Date debut,int poids, Enseignant ensei, int dj) throws SQLException, SQLIntegrityConstraintViolationException{
 		
 		
 		PreparedStatement pst=null;
@@ -136,7 +138,7 @@ public class EnsIndispo {
 		
 		Connection cx=null;
 		
-		try {
+		//try {
 			
 			/** Connection à la base - Étape 2 */
 			this.loadBD();
@@ -167,14 +169,13 @@ public class EnsIndispo {
 			pst.close();
 		
 			cx.close();
-		}catch (SQLException ex) {
+		//}catch (SQLException ex) {
 			pst.close();
 			
 			cx.close();
-			ex.printStackTrace();
-			System.err.println("Erreur lors de la cx à la base");
-			System.exit(1);
-		}
+			
+			//System.exit(1);
+		//}
 	}	
 //		try {
 //			System.out.println("coucou!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -412,6 +413,42 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 		//ensei.setMesIndisponibilites(listInd);
 		
 	}
+	
+public void SuppIndispo(String date, int refEnseignant) throws SQLException{
+		
+		try {
+			
+			
+			/** Connection à la base - Étape 2 */
+			String url = "jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE";
+			Connection cx = DriverManager.getConnection(url, "maletell",
+					"matthieu");
+			Statement request = cx.createStatement();
+			
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date dateD = format.parse(date);
+		    GregorianCalendar cal = new java.util.GregorianCalendar(); 
+			cal.setTime(dateD);
+			java.sql.Date sqldate = new java.sql.Date(cal.getTimeInMillis());
+			System.out.println("date : " + dateD + " sql date : " + sqldate);
+			
+			System.out.println("DELETE FROM Indisponibilite WHERE NO_ENSEIGNANT = " + refEnseignant 
+					+ " AND DATE_INDISPO = " + DAO.dateFromJavaToOracle(cal));
+			System.out.println(request.executeUpdate("DELETE FROM Indisponibilite WHERE NO_ENSEIGNANT = " + refEnseignant 
+					+ " AND DATE_INDISPO = " + DAO.dateFromJavaToOracle(cal)));
+		
+		cx.commit();
+		request.close();
+		cx.close();
+		
+		
+			
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+}
 	
 	/*
 	public void SuppIndispo(String date, int refEnseignant){

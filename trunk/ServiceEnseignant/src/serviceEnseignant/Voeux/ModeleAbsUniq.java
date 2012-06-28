@@ -60,10 +60,7 @@ public class ModeleAbsUniq extends HttpServlet {
 		try {
 
 			// si toutes les valeurs sont renseignées
-			if (!dD.equalsIgnoreCase(valNulle)
-					&& !dF.equalsIgnoreCase(valNulle)
-					&& !prio.equalsIgnoreCase(valNulle)
-					&& !dur.equalsIgnoreCase(valNulle)) {
+			if (dD != "" && dF != "" && prio != null && dur != null) {
 
 				System.out.println("dans le premier IF de modeleAbsUniq");
 
@@ -73,7 +70,7 @@ public class ModeleAbsUniq extends HttpServlet {
 
 				// transformer le format string en calendar pour comparer les
 				// dates
-				SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 				Calendar d = format.getCalendar();
 
 				// date de debut
@@ -87,28 +84,22 @@ public class ModeleAbsUniq extends HttpServlet {
 				dateFin = format.parse(dF);
 				GregorianCalendar dateF = new GregorianCalendar();
 				dateF.setTime(dateFin);
-
+				
+				
 				// si la date entrée est bien postérieure à la date du jour
 				// courant
-				if (dateD.after(Calendar.getInstance().getTime())) {
+				if (dateDbt.after(Calendar.getInstance().getTime())) {
 
 					if (dateD.before(dateF)) {
 						enseignant.ajoutIndispoUniq(dD, dF, priorite, ref,
 								duree);
-
-						dispatch.forward(request, response);
-
 					} else {
 						// si date début apres date de fin
 
 						request.setAttribute("erreurUniq","La date de début est postérieure à la date de fin");
-
-						dispatch.forward(request, response);
 					}
 				} else {
 					request.setAttribute("erreurUniq","La date de début est antérieure à la date d'aujourd'hui");
-
-					dispatch.forward(request, response);
 				}
 
 			} else { // si pas toutes renseignées
@@ -116,15 +107,13 @@ public class ModeleAbsUniq extends HttpServlet {
 				System.out.println("dans le deuxieme ELSE de modeleAbsUniq");
 
 				request.setAttribute("erreurUniq","ERREUR : un (ou plusieurs) paramètre n'a pas été renseigné.");
-
-				dispatch.forward(request, response);
-
 			}
 
 		} catch (ParseException e) {
 			e.printStackTrace();
 			System.out.println("erreur ex");
 		}
+		dispatch.forward(request, response);
 	}
 
 }

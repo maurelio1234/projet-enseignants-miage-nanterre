@@ -1,8 +1,8 @@
 package serviceEnseignant.Voeux;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -66,22 +66,21 @@ public class ModeleAbsReg extends HttpServlet {
 		String nbO = request.getParameter("nbOccu");
 		String dur = request.getParameter("demiJ");
 
-		String valNulle = "";
+		String valVide = "";
+		String valNulle = null;
 
 		System.out.println("avant le premier IF de modeleAbsReg");
+		System.out.println(dD + " (date) " + j + " (jour) " + tI + " (type) " + prio + " (prio)" + nbO + "(nbO) " + dur + " (duree)");
 		
 		// si toutes les valeurs sont renseignées
-		if (!dD.equalsIgnoreCase(valNulle) && !j.equalsIgnoreCase(valNulle)
-				&& !tI.equalsIgnoreCase(valNulle)
-				&& !prio.equalsIgnoreCase(valNulle)
-				&& !nbO.equalsIgnoreCase(valNulle)
-				&& !dur.equalsIgnoreCase(valNulle)) {
+		if (dD != "" && j != null && tI != null && prio != null && nbO != "" && dur != null) {
 
 			System.out.println("dans le premier IF de modeleAbsReg");
-			
+			try {
 			int typeI = Integer.parseInt(tI);
 			int priorite = Integer.parseInt(prio);
 			int duree = Integer.parseInt(dur);
+			
 			int nbOccu = Integer.parseInt(nbO);
 			int jour = Integer.parseInt(j);
 
@@ -90,7 +89,7 @@ public class ModeleAbsReg extends HttpServlet {
 			System.out.println("\nDate debut : " + dD + " jour : " + jour
 					+ " nb occ : " + nbOccu);
 
-			try {
+			
 
 				// transformer le format string en calendar pour comparer les
 				// dates
@@ -100,6 +99,9 @@ public class ModeleAbsReg extends HttpServlet {
 				date = format.parse(dD);
 				GregorianCalendar dateD = new GregorianCalendar();
 				dateD.setTime(date);
+				
+				System.out.println("date : " + dateD.get(Calendar.DAY_OF_WEEK));
+				if(dateD.get(Calendar.DAY_OF_WEEK) == jour){
 				
 				Date dt=Calendar.getInstance().getTime();
 				// si la date entrée est bien postérieure à la date du jour
@@ -111,8 +113,8 @@ public class ModeleAbsReg extends HttpServlet {
 					enseignant.ajoutIndispoReg(dD, duree, priorite, ens, typeI,
 							nbOccu, jour);
 
+					request.setAttribute("erreur", "SUCCES : l'indisponibilité saisie a bien été enregistrée.");
 					
-					dispatch.forward(request, response);
 				}
 				else{ 
 					System.out.println("dans le premier ELSE de modeleAbsReg");
@@ -121,26 +123,37 @@ public class ModeleAbsReg extends HttpServlet {
 					
 					request.setAttribute("erreur", "La date entrée est déjà passée.");
 					
-					dispatch.forward(request, response);
+					
 					
 				}
-
-			} catch (ParseException e) {
+				}else{
+					System.out.println("dans le deuxieme ELSE de modeleAbsReg");
+					
+					request.setAttribute("erreur", "ERREUR : le jour sélectionné ne correspond pas à la date");
+					
+				}	
+					} catch (ParseException e) {
+				
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (SQLException e) {
+			} catch(SQLIntegrityConstraintViolationException sicv){
+				request.setAttribute("erreur", "ERREUR : il existe déjà une indisponibilité dans la base.");
+			}catch (SQLException e) {
 				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
+			}catch(NumberFormatException nfe){
+				request.setAttribute("erreur", "ERREUR : il faut entrer un chiffre et non un caractère.");
 			}
 		}else{ //si pas toutes renseignées
 			
-			System.out.println("dans le deuxieme ELSE de modeleAbsReg");
+			System.out.println("dans le troisieme ELSE de modeleAbsReg");
 			
 			request.setAttribute("erreur", "ERREUR : un (ou plusieurs) paramètre n'a pas été renseigné.");
-			
-			dispatch.forward(request, response);
+
 			
 		}
+		dispatch.forward(request, response);
 	}
 
 }
