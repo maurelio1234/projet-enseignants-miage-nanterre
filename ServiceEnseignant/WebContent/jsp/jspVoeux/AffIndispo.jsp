@@ -67,7 +67,10 @@
 
 </table>
 
-<a href="index.jsp">Entrer de nouvelles indisponibilités</a>
+<FORM method="post" action="Menu_Indispo.jsp">
+</br>
+<input type="submit" value="Retour au Menu" />
+</FORM>
 
 </body>
 </html>

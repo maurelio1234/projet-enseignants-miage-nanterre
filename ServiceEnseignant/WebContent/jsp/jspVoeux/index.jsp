@@ -242,8 +242,8 @@ function view_microcal(actif, ki, source, mxS, axS) {
 
 <table border="3" bordercolor='blue' cellpadding='65'>
 <tr>
-<th> Absence Unique</th>
 <th> Absence Régulière</th>
+<th> Absence Unique</th>
 </tr>
 <tr>
 
@@ -356,6 +356,7 @@ if(erreur2 != null){
 		<input type="hidden" maxlength="10" id="dateDebut" name="dateDebut"/>
 		<input type="hidden" maxlength="10" id="dateFin"   name="dateFin"/>
 		
+		<br/>
 		Priorité de votre indisponibilité : </br> 
 		<input type="radio" name="poids" value="1" id="1b" /> <label for="1b">incapacité totale</label><br />
 		<input type="radio" name="poids" value="2" id="2b" /> <label for="2b">incapacité forte</label><br />
@@ -373,7 +374,10 @@ if(erreur2 != null){
 	
 	</tr>
 	</table>
-
+<FORM method="post" action="Menu_Indispo.jsp">
+</br>
+<input type="submit" value="Retour au Menu" />
+</FORM>
 	</body>	
 </head>
 </body>

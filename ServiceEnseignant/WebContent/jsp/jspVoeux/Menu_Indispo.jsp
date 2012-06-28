@@ -12,7 +12,12 @@
 
 <FORM method="post" action="../../ModeleAffIndispo">
 </br>
-<input type="submit" value="AFF INDISPO" />
+<input type="submit" value="Afficher les indisponibilités" />
+</FORM>
+
+<FORM method="post" action="index.jsp">
+</br>
+<input type="submit" value="Ajouter des indisponibilités" />
 </FORM>
 
 </body>
