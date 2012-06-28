@@ -26,11 +26,18 @@
                    	</td>  
 
                    	<td align="right" style="padding-top: 8px;"> 
-                   		<a href="/ServiceEnseignant/jsp/jspInfos/consulterECenseignant.jsp">Consulter mes EC</a> 
+                   		<a href="/ServiceEnseignant/jsp/jspInfos/voeuxECenseignant.jsp">Consulter mes EC</a> 
                    	</td>  
                    	
-                   	 	<td align="right" style="padding-top: 8px;"> 
+                   	<td align="right" style="padding-top: 8px;"> 
                    		<a href="/ServiceEnseignant/jsp/jspExamen/ListeExamen.jsp">Consulter mes Examens</a> 
+                   	</td> 
+                   	
+                   	<td align="right" style="padding-top: 8px;"> 
+                   		<a href="/ServiceEnseignant/jsp/jspVoeux/index.jsp">Ajouter une indisponibilité</a> 
+                   	</td> 
+                   	<td align="right" style="padding-top: 8px;"> 
+                   		<a href="/ServiceEnseignant/jsp/jspVoeux/Menu_Indispo.jsp">Afficher mes indisponibilités</a> 
                    	</td> 
                  </tr> 
              </table> 
@@ -42,9 +49,9 @@
             	<br/> <b> <%= request.getAttribute("msg") %> </b> <br/>
             <% } %>
             
-             <table border = 1>
+             <table border=1 width="300px" cellpadding="5px">
                    <tr align="left"> 
-                   	<td style="padding-top: 8px;"> N° enseignant : </td> 
+                   	<td style="padding-top: 8px; width:100px;"> N° enseignant : </td> 
                    	<td> <%= ens.getNumeroEnseignant() %></td>
                    </tr>
                    
@@ -61,7 +68,7 @@
                 	</tr>
                 	
                 	<tr>   	
-                   	<td> Prenom * : </td>
+                   	<td> Pr&eacute;nom * : </td>
                    	<td>
                    	<%= ens.getPrenom() %>
                    	</td> 
@@ -73,7 +80,7 @@
     				%>
     				
                    	<tr>   	
-                   	<td> Date de naissance * : </td>
+                   	<td> N&eacute;(e) le * : </td>
                    	<td> <%= date %> </td> 
                  	</tr> 
                  	
@@ -85,7 +92,7 @@
                  	</tr>
                   
                   <tr>
-                   	<td> Telephone * : </td>
+                   	<td> T&eacute;l&eacute;phone * : </td>
                    	<td>
                    	<%= ens.getTelephone() %>
                    	</td>
