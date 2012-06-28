@@ -7,7 +7,13 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import dao.*;
+import dao.CreneauDAO;
+import dao.DAO;
+import dao.ECDAO;
+import dao.TypeDAO;
+import dao.VoeuxECDAO;
+
+
 
 import beans.*;
 
@@ -174,8 +180,8 @@ public class EnseignantDAO extends DAO<Enseignant> {
 	
 	
 	/**
-	 * Méthode find en fonction du nom de l'enseignant. !! Retourne uniquement
-	 * le premier enseignant trouvé !!
+	 * MÃ©thode find en fonction du nom de l'enseignant. !! Retourne uniquement
+	 * le premier enseignant trouvÃ© !!
 	 * 
 	 * @param nom
 	 * @return Ref de l'enseignant
@@ -231,17 +237,16 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				String horaire = resultat.getString("HORAIRE_CRENEAU");
 				int duree = resultat.getInt("DUREE_CRENEAU");
 
-				ECDAO ecDao = new ECDAO();
-				SalleDAO salleDao = new SalleDAO();
-				TypeDAO typeDao = new TypeDAO();
 
-				JoursDAO joursDAO = new JoursDAO();
-				Jours monJour = joursDAO.find(date);
+				
+				CreneauDAO creneauDAO = new CreneauDAO();
 
-				Creneau monCreneau = new Creneau(obj, salleDao.find(numSalle),
+				Creneau monCreneau = creneauDAO.find(obj.getNumeroEnseignant(), numSalle, numEC, numUE, numUE, numType, date); 
+				/*		
+						new Creneau(obj, ,
 						ecDao.find(numEC, numUE, numFormation),
 						typeDao.find(numType), monJour, horaire, duree);
-
+*/
 				obj.getMesCreneaux().add(monCreneau);
 
 			}
@@ -339,13 +344,12 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		try {
 			Statement request = this.connect.createStatement();
 			ECDAO ecdao = new ECDAO();
-			EnseignantDAO ensdao = new EnseignantDAO();
 			JoursDAO datedao = new JoursDAO();
 			TypeDAO typedao = new TypeDAO();
 
-			ResultSet result = request.executeQuery("SELECT FROM "
+			ResultSet result = request.executeQuery("SELECT * FROM "
 					+ ExamenDAO.TABLE + " WHERE NO_ENSEIGNANT = "
-					+ obj.getNumeroEnseignant() + ")");
+					+ obj.getNumeroEnseignant());
 			while (result.next()) {
 				Examen e = new Examen(result.getInt("NO_EXAMEN"));
 				e.setMonEC(ecdao.find(result.getInt("NO_EC"),
@@ -355,7 +359,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				e.setMonType(typedao.find(result.getInt("NO_TYPE")));
 				e.setCoefficient(result.getDouble("COEF_EXAMEN"));
 				e.setHoraire(result.getString("HORAIRE_EXAMEN"));
-				e.setMonEnseignant(ensdao.find(result.getInt("NO_ENSEIGNANT")));
+				e.setMonEnseignant(obj);
 				listExam.add(e);
 			}
 			request.close();
@@ -379,26 +383,19 @@ public class EnseignantDAO extends DAO<Enseignant> {
 
 		GregorianCalendar date;
 		try {
-			date = DAO.dateFromOracleToJava(result
-					.getDate("DATE_NAISSANCE_ENSEIGNANT"));
+			//date = DAO.dateFromOracleToJava(result
+					//.getDate("DATE_NAISSANCE_ENSEIGNANT"));
 
 			obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
 					result.getString("NOM_ENSEIGNANT"),
 					result.getString("PRENOM_ENSEIGNANT"),
 					result.getString("ADRESSE_ENSEIGNANT"),
-					result.getString("TELEPHONE_ENSEIGNANT"), date,
+					result.getString("TELEPHONE_ENSEIGNANT"), null,//date,
 					result.getString("LOGIN_ENSEIGNANT"),
 					result.getString("PWD_ENSEIGNANT"));
 
 			TypePosteDAO typePosteDAO = new TypePosteDAO();
 			obj.setMonPoste(typePosteDAO.find(result.getInt("NO_POSTE")));
-
-			this.loadMesVoeuxEC(obj);
-			IndisponibiliteDAO indispoDAO = new IndisponibiliteDAO();
-			indispoDAO.loadMesIndisponibilites(obj);
-			this.loadMesCreneaux(obj);
-			this.loadMesServices(obj);
-			this.loadMesExamens(obj);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -406,29 +403,14 @@ public class EnseignantDAO extends DAO<Enseignant> {
 		}
 		return null;
 	}
-	/**
-	 * Transforme un String au format "jj/mm/aaaa" en GregorianCalendar.
-	 * 
-	 * @param date
-	 * @return GregorianCalendar
-	 * @throws Exception
-	 */
-	public GregorianCalendar ConvertirDate(String date) throws Exception {
-		String delims = "[/]";
-		String[] tokens = date.split(delims);
-		GregorianCalendar gDate = null;
-		if (tokens.length == 3) {
-			int jour = Integer.parseInt(tokens[0]);
-			int mois = Integer.parseInt(tokens[1]) - 1;
-			int annee = Integer.parseInt(tokens[2]);
-			try {
-				gDate = new GregorianCalendar(annee, mois, jour);
-				gDate.setLenient(false);
-			} catch (Exception e) {
-				System.out.println("Le Format de la date n'est pas valide");
-				return null;
-			}
-		}
-		return gDate;
-	}
+
+
+public void LoadAll(Enseignant obj){
+	this.loadMesVoeuxEC(obj);
+	IndisponibiliteDAO indispoDAO = new IndisponibiliteDAO();
+	indispoDAO.loadMesIndisponibilites(obj);
+	this.loadMesCreneaux(obj);
+	this.loadMesServices(obj);
+	this.loadMesExamens(obj);
+}
 }
