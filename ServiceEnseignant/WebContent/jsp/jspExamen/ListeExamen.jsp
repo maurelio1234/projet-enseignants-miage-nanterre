@@ -72,10 +72,10 @@
 		<jsp:useBean id="ens" scope="session" class="beans.Enseignant" />
 		<%=ens.getPrenom()%>
 		<%=ens.getNom()%>
-		<input type = "text" name="choixExam" value="">
+
 		<form method="post"
 			action="/ServiceEnseignant/ExamenServlet">
-
+		<input type = "text" name="choixExam" value="">
 			<table border=1>
 				<tr align="left">
 					<td style="padding-top: 8px;">Formation :</td>
