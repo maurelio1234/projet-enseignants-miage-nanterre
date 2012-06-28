@@ -16,10 +16,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import dao.*;
+import dao.DAO;
 import beans.*;
-import serviceEnseignant.*;
+
 import serviceEnseignant.DAO.IndisponibiliteDAO;
+import serviceEnseignant.DAO.JoursDAO;
+import serviceEnseignant.DAO.EnseignantDAO;
 
 
 
@@ -123,7 +125,7 @@ public class EnsIndispo {
 		
 		for(Date ind : collectionIndispo) {
 			System.out.println("je suis dans le DEBUT DU FOR de ajoutIndispoREG");
-			ajoutIndispoSimple(ind, poids, ensei, dj); //ajouter juste une ligne dans la table indispo
+			ajoutIndispoSimpleDAO(ind, poids, ensei, dj); //ajouter juste une ligne dans la table indispo
 			System.out.println("je suis dans le FOR de ajoutIndispoREG");
 		}
 	}
@@ -385,6 +387,9 @@ public void ajoutIndispoUniq(String debut, String fin, int poids, int refEnseign
 
 		/** Création et exécution d'une requête - Étapes 3 & 4 */
 		Statement st = cx.createStatement();
+		
+		System.out.println("Num ensei : " + ensei.getNumeroEnseignant());
+		
 		ResultSet rs = st.executeQuery("SELECT * FROM Indisponibilite WHERE NO_ENSEIGNANT ="+ ensei.getNumeroEnseignant() + " ORDER BY DATE_INDISPO");
 				
 		List<Indisponibilite> listInd = new ArrayList<Indisponibilite>();
@@ -451,7 +456,7 @@ public void SuppIndispo(String date, int refEnseignant) throws SQLException{
 }
 	
 	/*
-	public void SuppIndispo(String date, int refEnseignant){
+	public void SuppIndispoDAO(String date, int refEnseignant){
 		
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -493,18 +498,20 @@ public void SuppIndispo(String date, int refEnseignant) throws SQLException{
 	 * @param dj
 	 * @throws SQLException
 	 */
-/**	
+
 	public void ajoutIndispoSimpleDAO(Date debut,int poids, Enseignant ensei, int dj) throws SQLException{
 					
 			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 			calendar.setTime(debut);
-			**/
+			
 			/**
 			 * APPEL AU DAO
 			 */
-			/** JoursDAO jdao = new JoursDAO();
+			serviceEnseignant.DAO.JoursDAO jdao = new serviceEnseignant.DAO.JoursDAO();
 			Jours j = jdao.find(calendar);
 			Indisponibilite i = new Indisponibilite();
+			System.out.println("jours " + j.getDateDuJour());
+			i.setDateIndisponibilite(j);
 			i.setDemiJournee(dj);
 			i.setPoids(poids);
 			i.setMonEnseignant(ensei);
@@ -512,7 +519,7 @@ public void SuppIndispo(String date, int refEnseignant) throws SQLException{
 			idao.create(i);
 					
 	}	
-	**/
+	
 	/**
 	 * AJOUT PERIODE UNIQUE INDISPOS
 	 * @param debut
@@ -521,35 +528,35 @@ public void SuppIndispo(String date, int refEnseignant) throws SQLException{
 	 * @param refEnseignant
 	 * @throws ParseException
 	 */
-/** public void ajoutIndispoUniqDAO(String debut, String fin, int poids, int refEnseignant) throws ParseException{
+public void ajoutIndispoUniqDAO(String debut, String fin, int poids, int refEnseignant, int duree) throws ParseException{
 		
 		
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			java.util.Date dateD = format.parse(debut);
-			java.util.Date dateF = format.parse(fin);**/
+			java.util.Date dateF = format.parse(fin);
 
 			/* 
 			 * pour qu'on s'arrete au jour de fin INCLUS
 			 * il faut transformer la dateF en calendar pour ajouter 1 JOUR 
 			 */
-		/**	GregorianCalendar cal = new java.util.GregorianCalendar(); 
+		GregorianCalendar cal = new java.util.GregorianCalendar(); 
 			cal.setTime(dateF);
-			cal.add(Calendar.DAY_OF_WEEK, 1);**/
+			cal.add(Calendar.DAY_OF_WEEK, 1);
 			/*
 			 * On retransforme en date pour la boucle
 			 */
-		/**	java.util.Date f = cal.getTime();
+	java.util.Date f = cal.getTime();
 			
 			
 			
-			java.sql.Date sqlDate;**/
+			java.sql.Date sqlDate;
 			/*
 			 * Maintenant on boucle tant qu'on n'est pas
 			 * la date de fin
 			 * et on ajoute dans la base
 			 */
 			
-		/**	EnseignantDAO ensdao = new EnseignantDAO();
+			EnseignantDAO ensdao = new EnseignantDAO();
 			Enseignant ens = ensdao.find(refEnseignant);
 			
 			java.util.Date date= new java.util.Date();
@@ -562,10 +569,12 @@ public void SuppIndispo(String date, int refEnseignant) throws SQLException{
 				
 				JoursDAO jdao = new JoursDAO();
 				Jours j = jdao.find(calendar);
-			
+				
+				System.out.println("jours " + j.getDateDuJour());
 				
 				Indisponibilite i = new Indisponibilite();
-				i.setDemiJournee(2);
+				i.setDateIndisponibilite(j);
+				i.setDemiJournee(duree);
 				i.setPoids(poids);
 				i.setMonEnseignant(ens);
 				IndisponibiliteDAO idao = new IndisponibiliteDAO();
@@ -581,14 +590,8 @@ public void SuppIndispo(String date, int refEnseignant) throws SQLException{
 		
     }
     
-    **/
-    	/*public void SuppIndispoDAO(int refEnseignant){
-    		EnseignantDAO ensdao = new EnseignantDAO();
-			Enseignant ens = ensdao.find(refEnseignant);
-			
-	  }
-	
-	*/
+   
+    	
 /**
  * FIN APPEL AU DAO
  */

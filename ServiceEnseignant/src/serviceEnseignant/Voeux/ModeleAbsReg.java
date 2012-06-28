@@ -100,7 +100,7 @@ public class ModeleAbsReg extends HttpServlet {
 				GregorianCalendar dateD = new GregorianCalendar();
 				dateD.setTime(date);
 				
-				System.out.println("date : " + dateD.get(Calendar.DAY_OF_WEEK));
+				System.out.println("date ds la sem : " + dateD.get(Calendar.DAY_OF_WEEK));
 				if(dateD.get(Calendar.DAY_OF_WEEK) == jour){
 				
 				Date dt=Calendar.getInstance().getTime();

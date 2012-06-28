@@ -2,8 +2,6 @@ package serviceEnseignant.Voeux;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,30 +10,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import serviceEnseignant.DAO.IndisponibiliteDAO;
-import beans.*;
+import beans.Enseignant;
+
+import serviceEnseignant.DAO.EnseignantDAO;
 
 /**
- * Servlet implementation class ModeleAffIndispo
+ * Servlet implementation class ModeleRechEnseignant
  */
-@WebServlet("/ModeleAffIndispo")
-public class ModeleAffIndispo extends HttpServlet {
+@WebServlet("/ModeleRechEnseignant")
+public class ModeleRechEnseignant extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
 	private EnsIndispo ensIndispo;
-	private Enseignant ens;
-	private int ref = 2;
-	private IndisponibiliteDAO indao;
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ModeleAffIndispo() {
+    public ModeleRechEnseignant() {
         super();
         ensIndispo = new EnsIndispo();
-        ens = new Enseignant();
-        ens.setNumeroEnseignant(2);
-        indao = new IndisponibiliteDAO();
-        
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -49,25 +42,28 @@ public class ModeleAffIndispo extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String ref = request.getParameter("nEns");
+		int refEns = Integer.parseInt(ref);
 		
-	System.out.println("JE SUIS DANS AFFINDISPO");
-	//	try {
+		System.out.println(" mon numéro " + refEns);
+		EnseignantDAO ensdao= new EnseignantDAO();
+		Enseignant ens = ensdao.find(refEns);
+		System.out.println("je suis là " + ens.getNumeroEnseignant());
 		
-				
-		//	ensIndispo.afficherIndispo(ens);		
+		try {
+			ensIndispo.afficherIndispo(ens);
 			
-			indao.loadMesIndisponibilites(ens);
-				request.setAttribute("EnseiBean", ens);
+			request.setAttribute("EnseiBean", ens);
 			
 			
-			RequestDispatcher disp = getServletContext().getRequestDispatcher("/jsp/jspVoeux/AffIndispo.jsp");
+			RequestDispatcher disp = getServletContext().getRequestDispatcher("/jsp/jspVoeux/AffEnsIndispo.jsp");
 			disp.forward(request, response);
 			
-			
-		//} catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-		//	e.printStackTrace();
-		//}
+			e.printStackTrace();
+		}	
 	}
 
 }
