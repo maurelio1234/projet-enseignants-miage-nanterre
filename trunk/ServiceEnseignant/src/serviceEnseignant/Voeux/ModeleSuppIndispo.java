@@ -9,6 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import beans.Enseignant;
 
 /**
  * Servlet implementation class ModeleSuppInd
@@ -24,7 +27,7 @@ public class ModeleSuppIndispo extends HttpServlet {
     public ModeleSuppIndispo() {
         super();
         enseignant = new EnsIndispo();
-        refEns=2;
+       // refEns=2;
     }
 
 	/**
@@ -43,9 +46,14 @@ public class ModeleSuppIndispo extends HttpServlet {
 		 * On doit récupérer la date de l'indisponibilité
 		 * chercher l'indispo associé
 		 */
+		
+		HttpSession session = request.getSession(true);
+		Enseignant beanEns = (Enseignant) session.getAttribute("ens");
+		
 		String date = request.getParameter("date");
 		try {
-			enseignant.SuppIndispo(date, refEns);
+			enseignant.SuppIndispo(date, beanEns.getNumeroEnseignant());
+			session.setAttribute("ens",beanEns);
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
