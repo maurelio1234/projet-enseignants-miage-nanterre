@@ -98,7 +98,7 @@ public class ModifierMDPEnseignantServlet extends HttpServlet {
 					msg = "Le mot de passe a été modifié avec succès.";
 					request.setAttribute("msg", msg);
 					
-					ensDAO.LoadAll(beanEns);
+					ensDAO.loadAll(beanEns);
 					session.setAttribute("ens", beanEns); // associe le bean mis a jour a la session "ens"
 					
 					disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");	

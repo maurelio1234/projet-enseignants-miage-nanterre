@@ -84,7 +84,7 @@ public class ModifierInfosEnseignantServlet extends HttpServlet {
 		// enregistrement des données dans la base
 		if ((beanEns = ensDAO.update(beanEns)) != null){
 			msg = "La modification de vos informations a été effectuée avec succès.";	
-			ensDAO.LoadAll(beanEns);
+			ensDAO.loadAll(beanEns);
 		}
 		else{
 			msg = "Une erreur est survenue lors de la modification de vos informations. Veuillez réessayer une nouvelle fois.";				

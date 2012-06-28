@@ -100,7 +100,7 @@ public class ModifierVoeuxEnseignantServlet extends HttpServlet {
 		} // fin for
 		
 		beanEns = ensDAO.find(beanEns.getNumeroEnseignant());
-		ensDAO.LoadAll(beanEns);
+		ensDAO.loadAll(beanEns);
 		session.setAttribute("ens", beanEns); 
 		
 		disp = this.getServletContext().getRequestDispatcher("/jsp/jspInfos/accueilEnseignant.jsp");
