@@ -24,7 +24,7 @@
 			<fieldset style="width: 400px; background-color:#FAFAFA;">
 				<legend> Mes informations </legend>
 			
-				<table border = 1>
+				<table border =0>
 	                    <tr align="left"> 
 	                    	<td style="padding-top: 8px;"> N° enseignant : </td> 
 	                    	<td> <%= ens.getNumeroEnseignant() %> </td>

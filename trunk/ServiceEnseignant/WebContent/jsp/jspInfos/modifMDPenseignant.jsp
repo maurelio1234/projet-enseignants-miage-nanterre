@@ -27,7 +27,7 @@
           			
           	<fieldset style="width: 400px; background-color:#FAFAFA;">
 				<legend> Mon mot de passe </legend>
-	             <table border = 1>
+	             <table border =0>
 	                    <tr align="left"> 
 	                    	<td style="padding-top: 8px;"> Ancien mot de passe : </td> 
 	                    	<td> <input type="text" name="ancienMDP" value="" />  </td>                    	
