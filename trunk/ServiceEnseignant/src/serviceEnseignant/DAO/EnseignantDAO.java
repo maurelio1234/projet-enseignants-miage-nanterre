@@ -9,9 +9,10 @@ import java.util.List;
 
 import dao.CreneauDAO;
 import dao.DAO;
+import dao.JoursDAO;
 import dao.TypeDAO;
 import dao.VoeuxECDAO;
-import serviceEnseignant.DAO.ECDAO;
+import dao.ECDAO;
 
 
 
@@ -34,6 +35,8 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			ResultSet result = request.executeQuery("SELECT * FROM "
 					+ EnseignantDAO.TABLE + " WHERE NO_ENSEIGNANT = " + id);
 			if (result.first()) {
+				date = DAO.ConvertirDate(result.getString("DATE_NAISSANCE_ENSEIGNANT"));
+				
 				obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
 						result.getString("NOM_ENSEIGNANT"),
 						result.getString("PRENOM_ENSEIGNANT"),
@@ -48,6 +51,9 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			request.close();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return obj;
@@ -67,8 +73,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			ResultSet result = request.executeQuery("SELECT * FROM "
 					+ EnseignantDAO.TABLE);
 			while(result.next()) {
-				date = DAO.dateFromOracleToJava(result
-						.getDate("DATE_NAISSANCE_ENSEIGNANT"));
+				date = DAO.ConvertirDate(result.getString("DATE_NAISSANCE_ENSEIGNANT"));
 
 				obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
 						result.getString("NOM_ENSEIGNANT"),
@@ -86,6 +91,9 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			request.close();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return listEns;
@@ -192,8 +200,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 							+ "' and e.PWD_ENSEIGNANT = '" + mdp + "'");
 
 			if (result.first()) {
-				date = DAO.dateFromOracleToJava(result
-						.getDate("DATE_NAISSANCE_ENSEIGNANT"));
+				date = DAO.ConvertirDate(result.getString("DATE_NAISSANCE_ENSEIGNANT"));
 
 				obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
 						result.getString("NOM_ENSEIGNANT"),
@@ -211,6 +218,9 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			request.close();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return obj;
@@ -239,8 +249,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					+ EnseignantDAO.TABLE + " WHERE NOM_ENSEIGNANT = '" + nom
 					+ "'");
 			if (result.first()) {
-				date = DAO.dateFromOracleToJava(result
-						.getDate("DATE_NAISSANCE_ENSEIGNANT"));
+				date = DAO.ConvertirDate(result.getString("DATE_NAISSANCE_ENSEIGNANT"));
 
 				obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
 						result.getString("NOM_ENSEIGNANT"),
@@ -256,6 +265,9 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			}
 			request.close();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return obj;
@@ -427,37 +439,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 
 
 
-	/**
-	 * Methode privee de creation d'un enseignant, en fonction du resultat d'une requete.
-	 * @param result Resultat d'une requete SQL
-	 * @return Un objet Enseignant instancie.
-	 */
-	private Enseignant createEns(ResultSet result) {
-		Enseignant obj;
-		GregorianCalendar date;
-		try {
-			date = DAO.dateFromOracleToJava(result
-					.getDate("DATE_NAISSANCE_ENSEIGNANT"));
-
-			obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
-					result.getString("NOM_ENSEIGNANT"),
-					result.getString("PRENOM_ENSEIGNANT"),
-					result.getString("ADRESSE_ENSEIGNANT"),
-					result.getString("TELEPHONE_ENSEIGNANT"), null,//date,
-					result.getString("LOGIN_ENSEIGNANT"),
-					result.getString("PWD_ENSEIGNANT"));
-
-			TypePosteDAO typePosteDAO = new TypePosteDAO();
-			obj.setMonPoste(typePosteDAO.find(result.getInt("NO_POSTE")));
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-
+	
 public void LoadAll(Enseignant obj){
 	this.loadMesVoeuxEC(obj);
 	IndisponibiliteDAO indispoDAO = new IndisponibiliteDAO();
