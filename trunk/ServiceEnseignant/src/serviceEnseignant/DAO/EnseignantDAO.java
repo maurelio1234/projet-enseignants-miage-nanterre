@@ -300,19 +300,10 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				int numType = resultat.getInt("NO_TYPE");
 				GregorianCalendar date = DAO.dateFromOracleToJava(resultat
 						.getDate("DATE_CRENEAU"));
-				String horaire = resultat.getString("HORAIRE_CRENEAU");
-				int duree = resultat.getInt("DUREE_CRENEAU");
-
-
 				
 				CreneauDAO creneauDAO = new CreneauDAO();
 
-				Creneau monCreneau = creneauDAO.find(obj.getNumeroEnseignant(), numSalle, numEC, numUE, numUE, numType, date); 
-				/*		
-						new Creneau(obj, ,
-						ecDao.find(numEC, numUE, numFormation),
-						typeDao.find(numType), monJour, horaire, duree);
-*/
+				Creneau monCreneau = creneauDAO.find(obj.getNumeroEnseignant(), numSalle, numEC, numUE, numFormation, numType, date); 
 				obj.getMesCreneaux().add(monCreneau);
 
 			}
@@ -336,23 +327,8 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					+ VoeuxECDAO.TABLE + " WHERE NO_ENSEIGNANT = " + id);
 
 			while (result.next()) {
-
-				// creation de la formation
-				Formation maFormation = new Formation(
-						result.getInt("NO_FORMATION"));
-
-				// creation de l'ue
-				UE monUE = new UE(result.getInt("NO_UE"), maFormation);
-
-				// creation de l'ec
-				EC monEC = new EC(result.getInt("NO_EC"), monUE);
-
-				boolean choix = DAO.booleanFromOracleToJava(result
-						.getInt("CHOIX"));
-
-				// creation du voeux
-				VoeuxEC voeux = new VoeuxEC(monEC, obj, choix);
-
+				VoeuxECDAO voeuxDAO = new VoeuxECDAO();
+				VoeuxEC voeux = voeuxDAO.find(result.getInt("NO_FORMATION"),result.getInt("NO_UE"), result.getInt("NO_EC"),obj.getNumeroEnseignant());
 				obj.getMesVoeuxEC().add(voeux);
 			}
 		} catch (SQLException e) {
@@ -373,25 +349,8 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					+ ServiceDAO.TABLE + " WHERE NO_ENSEIGNANT = " + id);
 
 			while (result.next()) {
-
-				// creation de la formation
-				Formation maFormation = new Formation(
-						result.getInt("NO_FORMATION"));
-
-				// creation de l'ue
-				UE monUE = new UE(result.getInt("NO_UE"), maFormation);
-
-				// creation de l'ec
-				EC monEC = new EC(result.getInt("NO_EC"), monUE);
-
-				// creation du type
-				Type monType = new Type(result.getInt("NO_TYPE"));
-
-				// conversion des minutes en heure
-				int nbHeures = result.getInt("NB_MINUTES_SERVICE") / 60;
-
-				// creation du service
-				Service monService = new Service(monEC, obj, monType, nbHeures);
+				ServiceDAO servDAO = new ServiceDAO();
+				Service monService = servDAO.find(obj.getNumeroEnseignant(), result.getInt("NO_TYPE"), result.getInt("NO_FORMATION"), result.getInt("NO_UE"), result.getInt("NO_EC"));
 
 				obj.getMesServices().add(monService);
 			}
@@ -405,36 +364,22 @@ public class EnseignantDAO extends DAO<Enseignant> {
 
 
 	
-	public List<Examen> loadMesExamens(Enseignant obj) {
-		List<Examen> listExam = new ArrayList<Examen>();
+	public void loadMesExamens(Enseignant obj) {
 		try {
 			Statement request = this.connect.createStatement();
-			ECDAO ecdao = new ECDAO();
-			JoursDAO datedao = new JoursDAO();
-			TypeDAO typedao = new TypeDAO();
 
 			ResultSet result = request.executeQuery("SELECT * FROM "
 					+ ExamenDAO.TABLE + " WHERE NO_ENSEIGNANT = "
 					+ obj.getNumeroEnseignant());
 			while (result.next()) {
-				Examen e = new Examen(result.getInt("NO_EXAMEN"));
-				e.setMonEC(ecdao.find(result.getInt("NO_EC"),
-						result.getInt("NO_UE"), result.getInt("NO_FORMATION")));
-				e.setDate(datedao.find(DAO.dateFromOracleToJava(result
-						.getDate("DATE_EXAMEN"))));
-				e.setMonType(typedao.find(result.getInt("NO_TYPE")));
-				e.setCoefficient(result.getDouble("COEF_EXAMEN"));
-				e.setHoraire(result.getString("HORAIRE_EXAMEN"));
-				e.setMonEnseignant(obj);
-				listExam.add(e);
+				ExamenDAO examDAO = new ExamenDAO();
+				obj.getMesExamens().add(examDAO.find(result.getInt("NO_EXAMEN")));
 			}
 			request.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return listExam;
 	}
 
 

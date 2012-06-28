@@ -38,7 +38,7 @@ public class ServiceDAO extends DAO<Service> {
 				EnseignantDAO ensDao = new EnseignantDAO();
 				TypeDAO typeDao = new TypeDAO();
 
-				obj = new Service(ecDao.find(numEC), ensDao.find(numEns),
+				obj = new Service(ecDao.find(numEC, numUE, numFormation), ensDao.find(numEns),
 						typeDao.find(numType),
 						result.getInt("NB_MINUTES_SERVICE") / 60);
 			}
