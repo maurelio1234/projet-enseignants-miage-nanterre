@@ -1,5 +1,7 @@
 package serviceEnseignant.DAO;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,7 +11,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import dao.*;
+import dao.DAO;
+
+import serviceEnseignant.DAO.JoursDAO;
+import serviceEnseignant.DAO.EnseignantDAO;
 import beans.*;
 
 public class IndisponibiliteDAO extends DAO<Indisponibilite>{
@@ -21,6 +26,8 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 		
 		try {
 			
+		
+			
 			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 			calendar.setTime(date);
 			
@@ -30,13 +37,14 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 			ResultSet result = request.executeQuery("SELECT * FROM " + IndisponibiliteDAO.TABLE + " WHERE NO_ENSEIGNANT = " + refEnseig + " AND DATE_INDISPO = " + sqlDate);
 
 			if(result.first()){
-				JoursDAO jdao = new JoursDAO();
+				serviceEnseignant.DAO.JoursDAO jdao = new serviceEnseignant.DAO.JoursDAO();
 				Jours j = jdao.find(calendar);
 				EnseignantDAO edao = new EnseignantDAO();
 				Enseignant e = edao.find(refEnseig);
 				obj = new Indisponibilite(e,j,result.getInt("DEMI_JOURNEE"),result.getInt("POIDS_INDISPO"));
 			}
-			request.close(); 
+			request.close();
+			
 			} catch (SQLException e) {
 	            e.printStackTrace();
 	    }
@@ -48,8 +56,14 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 	public Indisponibilite create(Indisponibilite obj)  {
 		
 		try {
+			
+			
+			
+			//this.connect.setAutoCommit(false);
 			this.connect.setAutoCommit(false);
+			//Statement request = this.connect.createStatement();
 			Statement request = this.connect.createStatement();
+			System.out.println(obj.getDateIndisponibilite().getDateDuJour());
 			GregorianCalendar calendar = obj.getDateIndisponibilite().getDateDuJour();	
 			System.out.println(obj.getDateIndisponibilite().getDateDuJour());
 			//java.sql.Date sqldate = new java.sql.Date(calendar.getTimeInMillis());
@@ -60,8 +74,10 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 					+ obj.getPoids() + ", " + obj.getDemiJournee() + ")");
 			
 			this.connect.commit();
+			
 			request.close();
-			this.connect.close();
+			
+			
 					
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -95,7 +111,6 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 		
 		this.connect.commit();
 		request.close();
-		this.connect.close();
 		
 		}catch(SQLException e) {
 			// TODO Auto-generated catch block
