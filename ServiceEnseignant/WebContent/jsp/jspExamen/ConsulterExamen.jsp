@@ -13,8 +13,8 @@
 <input type="hidden" name = "num_exam" value=<%= ExamBeans.getNumeroExamen() %>>
 <TABLE BORDER=0>
 <tr>
-	<td><input type=text name="num_exam" value = <%= ExamBeans.getNumeroExamen() %>></td>
-	<td><input type=text name="nb_notes" value = <%= ExamBeans.getMesNotes().size() %>></td>
+	<td><input type=hidden name="num_exam" value = <%= ExamBeans.getNumeroExamen() %>></td>
+	<td><input type=hidden name="nb_notes" value = <%= ExamBeans.getMesNotes().size() %>></td>
 </tr>
 <TR>
 	<TD>Intitule</TD>
