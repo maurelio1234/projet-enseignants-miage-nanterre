@@ -214,7 +214,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 				obj.setMonPoste(typePosteDAO.find(result.getInt("NO_POSTE")));
 
 			}
-			System.out.println("fin requete");
+			
 			request.close();
 
 		} catch (SQLException e) {
