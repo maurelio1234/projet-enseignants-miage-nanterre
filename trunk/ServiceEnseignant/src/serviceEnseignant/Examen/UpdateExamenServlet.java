@@ -1,7 +1,6 @@
 package serviceEnseignant.Examen;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.GregorianCalendar;
 
 
@@ -12,12 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import serviceEnseignant.DAO.ExamenDAO;
+import serviceEnseignant.DAO.NoteDAO;
+
 import beans.Etudiant;
 import beans.Examen;
 import beans.Jours;
 import beans.Note;
 
-import dao.*;
+import dao.EtudiantDAO;
 
 /**
  * Servlet implementation class UpdateExamenServlet
@@ -72,7 +74,7 @@ public class UpdateExamenServlet extends HttpServlet {
 		Integer num_exam = Integer.parseInt(request.getParameter("num_exam"));
 		String libelle = request.getParameter("libelle");
 		String date = request.getParameter("date");
-		String horaire = request.getParameter("horaire");
+		String horaire = request.getParameter("heure");
 		Double coeff = Double.parseDouble(request.getParameter("coeff"));
 		
 		Examen exam = examDAO.find(num_exam);
@@ -86,20 +88,20 @@ public class UpdateExamenServlet extends HttpServlet {
 		// Mise à jour des notes
 		Etudiant etudiant;
 		Note note=null;
+		exam.getMesNotes().clear();
 		for (int i = 0; i < Integer.parseInt(request.getParameter("nb_notes")); i++){
-			exam = examDAO.find(Integer.parseInt(request.getParameter("RefExamen"+i)));
+			
 			etudiant = etudiantDAO.find(Integer.parseInt(request.getParameter("RefEtudiant"+i)));
 			switch(Integer.parseInt(request.getParameter("choix"+i))){
 			case 1 : note = new Note(etudiant, exam, Double.parseDouble(request.getParameter("Note"+i))); break;
 			case 2 : note = new Note(etudiant, exam, -2); break;
 			case 3 : note = new Note(etudiant, exam, -3); break;
-			}
-			
+			}		
 			noteDAO.update(note);
 		}
 
 		// Renvoi vers la page d'affichage des notes.
-		RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ConsulterExamen.jsp");
+		RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ExamenServlet");
 		disp.forward(request, response);
 	}
 
