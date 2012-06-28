@@ -53,7 +53,7 @@
 	
 	function myFunction(id)
 	{
-	alerte(document.getElementById(selectId));
+	alerte(document.getElementById(Id));
 	alert(getSelectValue(id));
 	}
 	
