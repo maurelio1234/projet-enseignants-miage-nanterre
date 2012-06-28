@@ -374,10 +374,9 @@ if(erreur2 != null){
 	
 	</tr>
 	</table>
-<FORM method="post" action="Menu_Indispo.jsp">
+
 </br>
-<input type="submit" value="Retour au Menu" />
-</FORM>
+<a href="/ServiceEnseignant/jsp/jspInfos/accueilEnseignant.jsp">Retour à l'accueil</a> 
 	</body>	
 </head>
 </body>
