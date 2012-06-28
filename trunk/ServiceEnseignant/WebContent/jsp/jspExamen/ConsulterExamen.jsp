@@ -42,7 +42,7 @@
 <TR>
 	<TD>Promotion</TD>
 	<TD>
-	<%= ExamBeans.getMonEC().getMonUE().getMaFormation().getMesPromotions().get(0).getNumeroPromotion()%>
+	<%= "test" %>
 	</TD>
 </TR>
 

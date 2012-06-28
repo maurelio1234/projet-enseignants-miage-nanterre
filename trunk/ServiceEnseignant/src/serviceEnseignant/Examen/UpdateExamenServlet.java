@@ -1,10 +1,9 @@
 package serviceEnseignant.Examen;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.GregorianCalendar;
-import java.util.List;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -66,11 +65,10 @@ public class UpdateExamenServlet extends HttpServlet {
 		// TO_DO : dans ConsulterExamen. Comment gérer le -1 ? (non visible à la saisie, mais doit pouvoir être récupéré ...)
 		//Mise à jour des informations de l'examen : Libelle, Date, Horaire, Coefficent.
 		ExamenDAO examDAO = new ExamenDAO();
-		EtudiantDAO etudiantDAO = new EtudiantDAO();
+		EtudiantDAO etudiantDAO;
+		etudiantDAO = new EtudiantDAO();
 		NoteDAO noteDAO = new NoteDAO();
-		
-		PrintWriter out = response.getWriter(); 
-		
+			
 		Integer num_exam = Integer.parseInt(request.getParameter("num_exam"));
 		String libelle = request.getParameter("libelle");
 		String date = request.getParameter("date");
@@ -86,7 +84,6 @@ public class UpdateExamenServlet extends HttpServlet {
 		examDAO.update(exam);
 		
 		// Mise à jour des notes
-		List<Note> listeNotes = new ArrayList<Note>();
 		Etudiant etudiant;
 		Note note=null;
 		for (int i = 0; i < Integer.parseInt(request.getParameter("nb_notes")); i++){
@@ -100,7 +97,7 @@ public class UpdateExamenServlet extends HttpServlet {
 			
 			noteDAO.update(note);
 		}
-		
+
 		// Renvoi vers la page d'affichage des notes.
 		RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ConsulterExamen.jsp");
 		disp.forward(request, response);
