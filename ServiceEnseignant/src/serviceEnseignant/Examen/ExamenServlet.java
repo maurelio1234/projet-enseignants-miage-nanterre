@@ -52,7 +52,8 @@ public class ExamenServlet extends HttpServlet {
 		if (SimpleInit) {
 			exam = ExamenServlet.InitTest();
 		} else {
-			int num_examen = 1;
+			System.out.println("Examen choisi = " + request.getParameter("choixExam"));
+			int num_examen = 1; //Integer.parseInt(request.getParameter("choixExam"));
 			// A initialiser via un num_Examen récupéré.
 			exam = examDAO.find(num_examen);
 			System.out.println("Examen " + exam.getLibelle() + " chargé.");

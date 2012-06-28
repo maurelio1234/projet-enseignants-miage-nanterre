@@ -102,6 +102,8 @@ public class UpdateExamenServlet extends HttpServlet {
 		}
 
 		// Renvoi vers la page d'affichage des notes.
+		String msg = "L'examen a été mis à jour. Les notes ont été sauvegardées.";
+		request.setAttribute("msg", msg);
 		RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ExamenServlet");
 		disp.forward(request, response);
 	}
