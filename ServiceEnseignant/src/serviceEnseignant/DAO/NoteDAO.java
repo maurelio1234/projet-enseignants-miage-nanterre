@@ -11,7 +11,7 @@ import dao.*;
 import beans.*;
 
 public class NoteDAO extends DAO<Note> {
-	public static String TABLE = "PROMOTION";
+	public static String TABLE = "EVALUATION";
 
 	@Override
 	/**
