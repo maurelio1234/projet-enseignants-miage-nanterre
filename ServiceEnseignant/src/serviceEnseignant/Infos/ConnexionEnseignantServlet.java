@@ -65,7 +65,7 @@ public class ConnexionEnseignantServlet extends HttpServlet {
 						
 			//System.out.println("infos beans ens : "+beanEns.getLogin()+ " " + beanEns.getPassword()+" "+beanEns.getDateNaissance());
 			
-			ensDAO.LoadAll(beanEns);
+			ensDAO.loadAll(beanEns);
 			
 			// creation d'une session pour stocker le bean enseignant
 			HttpSession session = request.getSession(true);    
