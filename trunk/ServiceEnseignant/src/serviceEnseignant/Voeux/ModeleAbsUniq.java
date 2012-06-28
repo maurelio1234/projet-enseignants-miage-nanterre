@@ -91,7 +91,7 @@ public class ModeleAbsUniq extends HttpServlet {
 				if (dateDbt.after(Calendar.getInstance().getTime())) {
 
 					if (dateD.before(dateF)) {
-						enseignant.ajoutIndispoUniq(dD, dF, priorite, ref,
+						enseignant.ajoutIndispoUniqDAO(dD, dF, priorite, ref,
 								duree);
 					} else {
 						// si date début apres date de fin
