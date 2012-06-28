@@ -67,13 +67,14 @@
 					<tr align="left">
 						<td style="padding-top: 8px;">Formation :</td>
 						<td><SELECT id="formationChoix" size="1"> 
-<%-- 									<%int i=0; --%>
-<!-- 									for(i=0;i<ens.getMesServices().size();i++){ %> -->
-<%-- 									<OPTION VALUE="formationChoix"><%= ens.getMesServices().get(i).getMonEC().getMaFormation().getNiveau() %>  --%>
-<%-- 									<%= ens.getMesServices().get(i).getMonEC().getMaFormation().getLibelle() %> --%>
-<%-- 									<%= ens.getMesServices().get(i).getMonEC().getMaFormation().getType() %> --%>
-<!-- 									</OPTION> -->
-<%-- 									<%} %> --%>
+									<%int i;
+ 									for(i=0;i<ens.getMesServices().size();i++){ %>
+ 									<OPTION VALUE="formationChoix4"><%= ens.getMesServices().get(i) %> </OPTION>									
+									<OPTION VALUE="formationChoix1"><%= ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation() %> </OPTION>
+									<OPTION VALUE="formationChoix2"><%= ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getGrade() %></OPTION>
+									<OPTION VALUE="formationChoix3"><%= ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNiveau() %> </OPTION>
+									<OPTION VALUE="formationChoix5"><%= ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getType() %> </OPTION>
+									<%} %>
 
 						</SELECT></td>
 					</tr>
@@ -114,14 +115,13 @@
 				<table border=1>
 					<tr align="left">
 						<td style="padding-top: 8px;">Formation :</td>
-						<td><SELECT name="formationChoix" size="1"> 
-<%-- 									<%int i=0; --%>
-<!-- 									for(i=0;i<ens.getMesServices().size();i++){ %> -->
-<%-- 									<OPTION VALUE="formationChoix"><%= ens.getMesServices().get(i).getMonEC().getMaFormation().getNiveau() %>  --%>
-<%-- 									<%= ens.getMesServices().get(i).getMonEC().getMaFormation().getLibelle() %> --%>
-<%-- 									<%= ens.getMesServices().get(i).getMonEC().getMaFormation().getType() %> --%>
-<!-- 									</OPTION> -->
-<%-- 									<%} %> --%>
+						<td><SELECT name="formationChoix10" size="1"> 
+									<%int j=0;
+									for(j=0;i<ens.getMesServices().size();j++){ %>
+									<OPTION VALUE="formationChoix10"><%= ens.getMesServices().get(j).getMonEC().getMonUE().getMaFormation().getLibelle() %>
+									<%= ens.getMesServices().get(j).getMonEC().getMonUE().getMaFormation().getGrade() %>
+									</OPTION>
+									<%} %>
 						</SELECT></td>
 					</tr>
 
