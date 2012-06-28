@@ -69,7 +69,7 @@
 	<center>
 		<h3>Consultation des Examens</h3>
 
-		<jsp:useBean id="ens" scope="session" class="beans.Enseignant" />
+		<jsp:useBean id="ens" scope="session" class="beans.Enseignant"/>
 		<%=ens.getPrenom()%>
 		<%=ens.getNom()%>
 
@@ -124,18 +124,14 @@
 
 				<tr>
 
-					<td colspan="2" align="right" style="padding-top: 8px;"><input
-						type="button" onclick="open_win()" name="NewExamen"
-						value="Créer un examen" /> <input type="submit" name="valider"
-						value="Valider" /> <br> <input type="button"
-						onclick="myFunction('UEChoix')" name="ListExamen"
-						value="Afficher examen" /></td>
+					<td colspan="2" align="right" style="padding-top: 8px;">
+					<input type="button" onclick="open_win()" name="NewExamen" value="Créer un examen" /> 
 
 
 				</tr>
-				<tr>
-					<td>
-=
+
+			</table>
+<HR ALIGN=LEFT NOSHADE SIZE="1">
 		
 		Liste examens 2 : <br>
 		<%
@@ -145,16 +141,11 @@
 		
 		for(x=0;x<ens.getMesExamens().size();x++){
 			if(ens.getMesExamens().get(x).getMonEC().getMonUE().getNumeroUE()==numUE && ens.getMesExamens().get(x).getMonEC().getMonUE().getMaFormation().getNumeroFormation()==numForm){%>
-				 <input type="radio" name="Exam" value=<%= ens.getMesExamens().get(x).getNumeroExamen()%> onclick="updateChoix(<%=i %>)"> 
+				<%= ens.getMesExamens().get(x).getLibelle()%> <input type="radio" name="Exam" value=<%= ens.getMesExamens().get(x).getNumeroExamen()%> onclick="updateChoix(<%=i %>)"> 
 			<%}	
  		}	%>
+ 		<br>
 		<input type="submit" name="ValiderExam" value="Afficher Examen" disabled="disabled"/> 
-
-
-				</td>
-				</tr>
-
-			</table>
 
 		</form>
 
