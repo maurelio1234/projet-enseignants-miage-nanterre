@@ -37,7 +37,7 @@
 				 					
 					if(mesUE.isEmpty() || !mesUE.contains(ens.getMesServices().get(i).getMonEC().getMonUE())){
 				
-						System.out.println("ajout dans liste intermediaire UE n° "+ens.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE());
+						System.out.println("UE n° "+ens.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE());
 						mesUE.add(ens.getMesServices().get(i).getMonEC().getMonUE());
 					%>					
 						<tr> <td colspan="2"> UE n°<%= ens.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE() %> </td> </tr>	
@@ -46,35 +46,42 @@
 			               	<td style="padding-top: 8px;"> Voeux </td>  
 			             </tr>	
 					<% 					
-						System.out.println("size ec : "+ens.getMesServices().get(i).getMonEC().getMonUE().getMesEC().size());
+										
+						UEDAO ueDao = new UEDAO();
+						UE monUE = ueDao.find(ens.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE(), ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation());
+						ueDao.loadMesEC(monUE);
+						
+						System.out.println("  --> size ec pour cet ue : "+monUE.getMesEC().size());
 						// on parcourt les EC de l'UE
-						for(int j=0; j<ens.getMesServices().get(i).getMonEC().getMonUE().getMesEC().size(); j++){
+						for(int j=0; j<monUE.getMesEC().size(); j++){
 							
-							System.out.println("EC n° : "+ens.getMesServices().get(i).getMonEC().getMonUE().getMesEC().get(j).getNumeroEC());
+							System.out.println("  --> EC n° : "+monUE.getMesEC().get(j).getNumeroEC());
 							
 							// variables intermediaires
-			      		 	int numForm = ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation();
-			      		 	int numUE = ens.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE();
-			      		 	int numEC = ens.getMesServices().get(i).getMonEC().getMonUE().getMesEC().get(j).getNumeroEC();
+			      		 	int numForm = monUE.getMaFormation().getNumeroFormation();
+			      		 	int numUE = monUE.getNumeroUE();
+			      		 	int numEC = monUE.getMesEC().get(j).getNumeroEC();
 			      		 	int numEns = ens.getNumeroEnseignant();
 			      		 	
 			      		 	// on recupere le voeux pour cet EC
-			      		 	VoeuxEC voeux; // voeux EC de l'enseignant
+			      		 	VoeuxEC voeux = null; // voeux EC de l'enseignant
 			      		 	boolean choix = false; // variable intermediaire pour tester le choix de l'enseignant pour cet EC
 			      		 	
 			      		 	if((voeux=voeuxECdao.find(numForm, numUE, numEC, numEns)) != null){ 
 			      		 		
 			      		 		if(voeux.isChoixEC())
-			      		 			choix = true;     		 		
+			      		 			choix = true; 
+			      		 		
+			      		 		System.out.println("  --> voeux de l'enseignant pour cet EC : "+choix);
 			      		 	}
 			      		 	%>
 			      		 	<tr> 
-			               	<td style="padding-top: 8px;"> <%= ens.getMesServices().get(i).getMonEC().getMonUE().getMesEC().get(j).getLibelle() %> </td> 
+			               	<td style="padding-top: 8px;"> <%= monUE.getMesEC().get(j).getLibelle() %> </td> 
 			
 			               	<td style="padding-top: 8px;">                		 
 			               		 
-		               		 	<input type="radio" name="choix_<%= numEC %>" value="oui" <% if(choix){ %> checked <% } %> /> Oui
-		               		 	<input type="radio" name="choix_<%= numEC %>" value="non" <% if(!choix){ %> checked <% } %>/> Non
+		               		 	<input type="radio" name="choix_<%= numEC %>" value="oui" <% if(choix && (voeux!=null)){ %> checked <% } %> /> Oui
+		               		 	<input type="radio" name="choix_<%= numEC %>" value="non" <% if(!choix && (voeux!=null)){ %> checked <% } %>/> Non
 		               		 			               		
 			               	</td>  
 			
