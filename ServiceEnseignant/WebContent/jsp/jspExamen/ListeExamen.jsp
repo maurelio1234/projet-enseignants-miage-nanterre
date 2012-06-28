@@ -33,20 +33,27 @@
 		return selectElmt.options[selectElmt.selectedIndex].value;
 	}
 	
-	function afficherExam(choixUE, choixFormation){
-		var choixUE2 = getSelectValue(choixUE);
-		var choixFormation2 = getSelectValue(choixFormation);
-		var liste = new Array;
-		var k, j;
+	function afficherExam(id1){
+		int choixUE2 = getSelectValue(id1);
+		int choixFormation2 = getSelectValue(id1);
+		alerte(choixUE2);
 		
-		for(k=0; k<ens.getMesExamens().size(); k++){
-			for(j=0;j<ens.getMesServices().size();j++){
-				if(ens.getMesServices().get(j).getMonEC().getMonUE().equals(choixUE2) && ens.getMesServices().get(j).getMonEC().getMonUE().getMaFormation().getNumeroFormation().equals(choixFormation2)){
-						liste.push( ens.getMesServices().get(j).getMonEnseignant().getMesExamens(k));					
-				}
-			}	
-		}
-		return list;
+		//var liste = new Array;
+		//var m,n;
+		
+// 		for(m=0; m<ens.getMesExamens().size(); m++){
+// 			for(n=0;n<ens.getMesServices().size();n++){
+// 				if(ens.getMesServices().get(n).getMonEC().getMonUE().equals(choixUE2) && ens.getMesServices().get(n).getMonEC().getMonUE().getMaFormation().getNumeroFormation().equals(choixFormation2)){
+// 						document.write( ens.getMesServices().get(n).getMonEnseignant().getMesExamens(m));					
+// 				}
+// 			}	
+// 		}
+
+	}
+	
+	function myFunction(id)
+	{
+	alert(document.getElementById(id).valueOf());
 	}
 	
 </script>
@@ -66,11 +73,11 @@
 				<table border=1>
 					<tr align="left">
 						<td style="padding-top: 8px;">Formation :</td>
-						<td><SELECT id="formationChoix" size="1"> 
+						<td><SELECT id="formationChoix"  name="formationChoix"  size="1"> 
 									<%int i;
  									for(i=0;i<ens.getMesServices().size();i++){ %>
- 									<OPTION VALUE="formationChoix1" visibility = 'hidden' ><%= ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation() %> </Option>
-									<OPTION VALUE="formationChoix2"><%= ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getGrade() %>
+ 									<OPTION VALUE=<%=ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation()%> >
+									<%= ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getGrade() %>
 									<%= ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNiveau() %> 
 									<%= ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getType() %> </OPTION>
 									<%} %>
@@ -80,60 +87,16 @@
 
 					<tr align="left">
 						<td style="padding-top: 8px;">UE :</td>
-						<td><SELECT id="UEChoix" size="1">
-								<%-- 	<%int j=0; --%>
-								<!-- 	for(j=0;j<ensBeans.getMesServices().size();j++){ %> -->
-								<%-- 	<OPTION VALUE="UEChoix"><%= ensBeans.getMesServices().get(j).getMonEC().getMonUE().getNumeroUE() %> --%>
-								<%-- 	<%} %> --%>
-						</SELECT></td>
-					</tr>
-
-
-					<tr align="left">
-						<td style="padding-top: 8px;">Année de la promotion :</td>
-						<td><SELECT name="annee" size="1">
-						</SELECT></td>
-					</tr>
-
-					<tr>
-						
-						<td colspan="2" align="right" style="padding-top: 8px;">
-						<input type="button" onclick="open_win()" name="NewExamen" value="Créer un examen" />
-						<input type="submit" name="valider" value="Valider" />
-						</td>
-						
-							
-					</tr>
-
-				</table>
-				
-				<br>
-				<br>
-					
-								
-				<table border=1>
-					<tr align="left">
-						<td style="padding-top: 8px;">Formation :</td>
-						<td><SELECT name="formationChoix10" size="1"> 
+						<td><SELECT id="UEChoix" name="UEChoix" size="1">
 									<%int j=0;
-									for(j=0;i<ens.getMesServices().size();j++){ %>
-									<OPTION VALUE="formationChoix10"><%= ens.getMesServices().get(j).getMonEC().getMonUE().getMaFormation().getLibelle() %>
-									<%= ens.getMesServices().get(j).getMonEC().getMonUE().getMaFormation().getGrade() %>
+									for(j=0;j<ens.getMesServices().size();j++){ %>
+									<OPTION VALUE=<%= ens.getMesServices().get(j).getMonEC().getMonUE().getNumeroUE() %>>
+									<%= ens.getMesServices().get(j).getMonEC().getMonUE().getNumeroUE() %>
 									</OPTION>
 									<%} %>
 						</SELECT></td>
 					</tr>
 
-					<tr align="left">
-						<td style="padding-top: 8px;">UE :</td>
-						<td><SELECT name="UEChoix" size="1">
-								<%-- 	<%int j=0; --%>
-								<!-- 	for(j=0;j<ensBeans.getMesServices().size();j++){ %> -->
-								<%-- 	<OPTION VALUE="UEChoix"><%= ensBeans.getMesServices().get(j).getMonEC().getMonUE().getNumeroUE() %> --%>
-								<%-- 	<%} %> --%>
-						</SELECT></td>
-					</tr>
-
 
 					<tr align="left">
 						<td style="padding-top: 8px;">Année de la promotion :</td>
@@ -146,6 +109,8 @@
 						<td colspan="2" align="right" style="padding-top: 8px;">
 						<input type="button" onclick="open_win()" name="NewExamen" value="Créer un examen" />
 						<input type="submit" name="valider" value="Valider" />
+						<br>
+						<input type="button" onclick="myFunction('UEChoix')" name="ListExamen" value="Afficher examen" />
 						</td>
 						
 							
@@ -153,8 +118,7 @@
 
 				</table>
 				
-
-			</form>
+			</form>			
 	</center>
 </body>
 </html>
