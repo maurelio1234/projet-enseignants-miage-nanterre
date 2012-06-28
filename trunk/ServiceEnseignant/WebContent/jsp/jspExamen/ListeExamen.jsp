@@ -137,10 +137,12 @@
 		int numForm = 2;
 		int numUE= 1;
 		int x;
+		int cpt=0;
 		
 		for(x=0;x<ens.getMesExamens().size();x++){
 			if(ens.getMesExamens().get(x).getMonEC().getMonUE().getNumeroUE()==numUE && ens.getMesExamens().get(x).getMonEC().getMonUE().getMaFormation().getNumeroFormation()==numForm){%>
-				<%= ens.getMesExamens().get(x).getLibelle() %>
+			cpt++;
+				 <input type="button" name=<%="Exam" + cpt%> value=<%= ens.getMesExamens().get(x).getLibelle()%> onclick="self.location.href='ExamenServlet.java'" "backgroundcolor= '#333333' style="color:#FF6666;"> 
 			<%}	
  		}
 
