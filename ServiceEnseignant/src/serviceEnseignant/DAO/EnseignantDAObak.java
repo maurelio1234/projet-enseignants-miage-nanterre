@@ -204,32 +204,7 @@ public class EnseignantDAObak extends DAO<Enseignant> {
 			this.ens = this.find(numEns);
 			return modifOk;	
 		}*/
-		
-		/**
-		 * methode qui transforme un string en gregorian calendar
-		 * @param date
-		 * @return
-		 * @throws Exception
-		 */
-		public GregorianCalendar ConvertirDate(String date) throws Exception {
-	        String delims = "[/]";
-	        String[] tokens = date.split(delims);
-	        GregorianCalendar gDate = null;
-	        if (tokens.length == 3) {
-	            int jour = Integer.parseInt(tokens[0]);
-	            int mois = Integer.parseInt(tokens[1]) -1;
-	            int annee = Integer.parseInt(tokens[2]);
-	            try {
-	                gDate = new GregorianCalendar(annee, mois, jour);
-	                gDate.setLenient(false);
-	            } catch (Exception e) {
-	                System.out.println("Le Format de la date n'est pas valide");
-	                return null;
-	            }
-	        }
-	        return gDate;
-	    }
-				
+			
 				
 		// methode qui retourne un enseignant dont on connait le nom
 		public Enseignant find(String nom){
