@@ -52,7 +52,7 @@ public class ListeExamenServlet extends HttpServlet {
 		// recuperation des informations de l'enseignant			
 
 		Enseignant beanEns = ensDAO.find(2);
-		ensDAO.LoadAll(beanEns);
+		ensDAO.loadAll(beanEns);
 		System.out.println(beanEns.getNom());
 		
 		
