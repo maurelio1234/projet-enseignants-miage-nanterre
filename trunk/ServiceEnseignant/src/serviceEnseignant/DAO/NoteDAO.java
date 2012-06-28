@@ -70,13 +70,16 @@ public class NoteDAO extends DAO<Note> {
 
 	@Override
 	public Note update(Note obj) {
+		
 		if (obj.getMonEtudiant() == null || obj.getMonExamen() == null) {
+			System.out.println("Objet Note invalide.");
 			return null;
 		}
 		try {
 			Statement request = this.connect.createStatement();
 			if (this.find(obj.getMonEtudiant().getNumeroEtudiant(), obj
 					.getMonExamen().getNumeroExamen()) == null) {
+				System.out.println("Objet note introuvable. Update impossible" + obj.getMonEtudiant().getNumeroEtudiant() + " " + obj.getMonExamen().getNumeroExamen());
 				return null;
 			} else {
 				request.executeUpdate("UPDATE " + NoteDAO.TABLE

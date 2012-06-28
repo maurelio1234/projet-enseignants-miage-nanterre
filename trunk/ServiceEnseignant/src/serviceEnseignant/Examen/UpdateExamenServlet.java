@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import serviceEnseignant.DAO.EtudiantDAO;
 import serviceEnseignant.DAO.ExamenDAO;
 import serviceEnseignant.DAO.NoteDAO;
 
@@ -19,7 +20,6 @@ import beans.Examen;
 import beans.Jours;
 import beans.Note;
 
-import dao.EtudiantDAO;
 
 /**
  * Servlet implementation class UpdateExamenServlet
@@ -89,9 +89,10 @@ public class UpdateExamenServlet extends HttpServlet {
 		Etudiant etudiant;
 		Note note=null;
 		exam.getMesNotes().clear();
-		for (int i = 0; i < Integer.parseInt(request.getParameter("nb_notes")); i++){
-			
+		int nb_notes = Integer.parseInt(request.getParameter("nb_notes"));
+		for (int i = 0; i < nb_notes; i++){
 			etudiant = etudiantDAO.find(Integer.parseInt(request.getParameter("RefEtudiant"+i)));
+			System.out.println("n° de l'étudiant recupere : " + etudiant.getNumeroEtudiant());
 			switch(Integer.parseInt(request.getParameter("choix"+i))){
 			case 1 : note = new Note(etudiant, exam, Double.parseDouble(request.getParameter("Note"+i))); break;
 			case 2 : note = new Note(etudiant, exam, -2); break;

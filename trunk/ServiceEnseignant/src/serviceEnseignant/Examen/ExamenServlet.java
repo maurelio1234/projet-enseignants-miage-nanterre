@@ -1,7 +1,6 @@
 package serviceEnseignant.Examen;
 
 import java.io.IOException;
-import java.util.GregorianCalendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,9 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import serviceEnseignant.DAO.EnseignantDAO;
 import serviceEnseignant.DAO.ExamenDAO;
-import serviceEnseignant.DAO.NoteDAO;
 import beans.*;
 
 /**
@@ -58,11 +55,12 @@ public class ExamenServlet extends HttpServlet {
 			int num_examen = 1;
 			// A initialiser via un num_Examen récupéré.
 			exam = examDAO.find(num_examen);
+			System.out.println("Examen " + exam.getLibelle() + " chargé.");
 			exam.setMesNotes(examDAO.LoadNote(exam));
+			
 		}
 		request.setAttribute("ExamBeans", exam);
-		RequestDispatcher disp = getServletContext().getRequestDispatcher(
-				"/jsp/jspExamen/ConsulterExamen.jsp");
+		RequestDispatcher disp = getServletContext().getRequestDispatcher("/jsp/jspExamen/ConsulterExamen.jsp");
 		disp.forward(request, response);
 
 	}
