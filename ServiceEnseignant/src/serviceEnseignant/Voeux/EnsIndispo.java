@@ -541,7 +541,7 @@ public void ajoutIndispoUniqDAO(String debut, String fin, int poids, int refEnse
 			 */
 		GregorianCalendar cal = new java.util.GregorianCalendar(); 
 			cal.setTime(dateF);
-			cal.add(Calendar.DAY_OF_WEEK, 1);
+			/*cal.add(Calendar.DAY_OF_WEEK, 1);*/
 			/*
 			 * On retransforme en date pour la boucle
 			 */
