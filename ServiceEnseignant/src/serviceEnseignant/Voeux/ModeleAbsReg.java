@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.Enseignant;
 
@@ -35,7 +36,7 @@ public class ModeleAbsReg extends HttpServlet {
 	public ModeleAbsReg() {
 		super();
 		enseignant = new EnsIndispo();
-		ens = new Enseignant();
+		//ens = new Enseignant();
 	}
 
 	/**
@@ -57,7 +58,11 @@ public class ModeleAbsReg extends HttpServlet {
 		RequestDispatcher dispatch = this.getServletContext()
 				.getRequestDispatcher("/jsp/jspVoeux/index.jsp");
 		
-		ens.setNumeroEnseignant(1);
+		
+		HttpSession session = request.getSession(true);
+		Enseignant beanEns = (Enseignant) session.getAttribute("ens");
+		
+		//ens.setNumeroEnseignant(1);
 
 		String dD = request.getParameter("dateDbt");
 		String j = request.getParameter("jour");
@@ -110,9 +115,9 @@ public class ModeleAbsReg extends HttpServlet {
 				System.out.println(Calendar.getInstance().getTime());
 				if (date.after(dt)) {
 
-					enseignant.ajoutIndispoReg(dD, duree, priorite, ens, typeI,
+					enseignant.ajoutIndispoReg(dD, duree, priorite, beanEns, typeI,
 							nbOccu, jour);
-
+					session.setAttribute("ens",beanEns);
 					request.setAttribute("erreur", "SUCCES : l'indisponibilité saisie a bien été enregistrée.");
 					
 				}

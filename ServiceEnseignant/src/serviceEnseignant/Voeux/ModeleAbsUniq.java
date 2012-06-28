@@ -13,6 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import beans.Enseignant;
 
 /**
  * Servlet implementation class ModeleAbsUniq
@@ -50,6 +53,12 @@ public class ModeleAbsUniq extends HttpServlet {
 		RequestDispatcher dispatch = this.getServletContext()
 				.getRequestDispatcher("/jsp/jspVoeux/index.jsp");
 
+		
+		
+		HttpSession session = request.getSession(true);
+		Enseignant beanEns = (Enseignant) session.getAttribute("ens");
+		
+		
 		String dD = request.getParameter("dateDebut");
 		String dF = request.getParameter("dateFin");
 		String prio = request.getParameter("poids");
@@ -91,8 +100,9 @@ public class ModeleAbsUniq extends HttpServlet {
 				if (dateDbt.after(Calendar.getInstance().getTime())) {
 
 					if (dateD.before(dateF)) {
-						enseignant.ajoutIndispoUniqDAO(dD, dF, priorite, ref,
+						enseignant.ajoutIndispoUniqDAO(dD, dF, priorite, beanEns.getNumeroEnseignant(),
 								duree);
+						session.setAttribute("ens", beanEns);
 					} else {
 						// si date début apres date de fin
 
