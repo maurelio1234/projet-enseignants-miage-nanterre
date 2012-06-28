@@ -72,7 +72,7 @@
 		<jsp:useBean id="ens" scope="session" class="beans.Enseignant" />
 		<%=ens.getPrenom()%>
 		<%=ens.getNom()%>
-		<input type = "hidden" name="choixExam">
+		<input type = "text" name="choixExam" value="">
 		<form method="post"
 			action="/ServiceEnseignant/ExamenServlet">
 
