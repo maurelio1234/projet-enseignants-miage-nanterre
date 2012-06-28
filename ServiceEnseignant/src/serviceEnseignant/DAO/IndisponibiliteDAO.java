@@ -14,7 +14,7 @@ import beans.*;
 
 public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 	
-	private static String TABLE = "INDISPONIBILITE";
+	public static String TABLE = "INDISPONIBILITE";
 
 	public Indisponibilite find(Date date, int refEnseig) {
 		Indisponibilite obj = null;
