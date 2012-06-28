@@ -174,7 +174,7 @@ public class ExamenDAO extends DAO<Examen> {
 			ExamenDAO examDAO = new ExamenDAO();
 			EtudiantDAO etudiantDAO = new EtudiantDAO();
 
-			ResultSet result = request.executeQuery("SELECT FROM "
+			ResultSet result = request.executeQuery("SELECT * FROM "
 					+ NoteDAO.TABLE + " WHERE NO_EXAMEN = " + obj.getNumeroExamen());
 			while (result.next()) {
 				Note n = new Note(etudiantDAO.find(result.getInt("NO_ETUDIANT")), examDAO.find(result.getInt("NO_EXAMEN")), result.getDouble("NOTE"));

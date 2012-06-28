@@ -9,9 +9,9 @@ import java.util.List;
 
 import dao.CreneauDAO;
 import dao.DAO;
-import dao.ECDAO;
 import dao.TypeDAO;
 import dao.VoeuxECDAO;
+import serviceEnseignant.DAO.ECDAO;
 
 
 
@@ -26,6 +26,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 	@Override
 	public Enseignant find(int id) {
 		Enseignant obj = null;
+		GregorianCalendar date = null;
 		try {
 			Statement request = this.connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -33,7 +34,16 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			ResultSet result = request.executeQuery("SELECT * FROM "
 					+ EnseignantDAO.TABLE + " WHERE NO_ENSEIGNANT = " + id);
 			if (result.first()) {
-				obj = createEns(result);
+				obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
+						result.getString("NOM_ENSEIGNANT"),
+						result.getString("PRENOM_ENSEIGNANT"),
+						result.getString("ADRESSE_ENSEIGNANT"),
+						result.getString("TELEPHONE_ENSEIGNANT"), date,
+						result.getString("LOGIN_ENSEIGNANT"),
+						result.getString("PWD_ENSEIGNANT"));
+
+				TypePosteDAO typePosteDAO = new TypePosteDAO();
+				obj.setMonPoste(typePosteDAO.find(result.getInt("NO_POSTE")));	
 			}
 			request.close();
 
@@ -48,6 +58,8 @@ public class EnseignantDAO extends DAO<Enseignant> {
 	@Override
 	public List<Enseignant> findAll() {
 		List<Enseignant> listEns = new ArrayList<Enseignant>();
+		Enseignant obj = null;
+		GregorianCalendar date;
 		try {
 			Statement request = this.connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -55,7 +67,21 @@ public class EnseignantDAO extends DAO<Enseignant> {
 			ResultSet result = request.executeQuery("SELECT * FROM "
 					+ EnseignantDAO.TABLE);
 			while(result.next()) {
-				listEns.add(createEns(result));
+				date = DAO.dateFromOracleToJava(result
+						.getDate("DATE_NAISSANCE_ENSEIGNANT"));
+
+				obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
+						result.getString("NOM_ENSEIGNANT"),
+						result.getString("PRENOM_ENSEIGNANT"),
+						result.getString("ADRESSE_ENSEIGNANT"),
+						result.getString("TELEPHONE_ENSEIGNANT"), date,
+						result.getString("LOGIN_ENSEIGNANT"),
+						result.getString("PWD_ENSEIGNANT"));
+
+				TypePosteDAO typePosteDAO = new TypePosteDAO();
+				obj.setMonPoste(typePosteDAO.find(result.getInt("NO_POSTE")));
+
+				listEns.add(obj);
 			}
 			request.close();
 
@@ -153,6 +179,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 	 */
 	public Enseignant find(String login, String mdp) {
 		Enseignant obj = null;
+		GregorianCalendar date;
 
 		try {
 
@@ -165,7 +192,20 @@ public class EnseignantDAO extends DAO<Enseignant> {
 							+ "' and e.PWD_ENSEIGNANT = '" + mdp + "'");
 
 			if (result.first()) {
-				obj = createEns(result);
+				date = DAO.dateFromOracleToJava(result
+						.getDate("DATE_NAISSANCE_ENSEIGNANT"));
+
+				obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
+						result.getString("NOM_ENSEIGNANT"),
+						result.getString("PRENOM_ENSEIGNANT"),
+						result.getString("ADRESSE_ENSEIGNANT"),
+						result.getString("TELEPHONE_ENSEIGNANT"), date,
+						result.getString("LOGIN_ENSEIGNANT"),
+						result.getString("PWD_ENSEIGNANT"));
+
+				TypePosteDAO typePosteDAO = new TypePosteDAO();
+				obj.setMonPoste(typePosteDAO.find(result.getInt("NO_POSTE")));
+
 			}
 			System.out.println("fin requete");
 			request.close();
@@ -189,6 +229,7 @@ public class EnseignantDAO extends DAO<Enseignant> {
 	public Enseignant find(String nom) {
 
 		Enseignant obj = null;
+		GregorianCalendar date;
 
 		try {
 			Statement request = this.connect.createStatement(
@@ -198,7 +239,20 @@ public class EnseignantDAO extends DAO<Enseignant> {
 					+ EnseignantDAO.TABLE + " WHERE NOM_ENSEIGNANT = '" + nom
 					+ "'");
 			if (result.first()) {
-				obj = createEns(result);
+				date = DAO.dateFromOracleToJava(result
+						.getDate("DATE_NAISSANCE_ENSEIGNANT"));
+
+				obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
+						result.getString("NOM_ENSEIGNANT"),
+						result.getString("PRENOM_ENSEIGNANT"),
+						result.getString("ADRESSE_ENSEIGNANT"),
+						result.getString("TELEPHONE_ENSEIGNANT"), date,
+						result.getString("LOGIN_ENSEIGNANT"),
+						result.getString("PWD_ENSEIGNANT"));
+
+				TypePosteDAO typePosteDAO = new TypePosteDAO();
+				obj.setMonPoste(typePosteDAO.find(result.getInt("NO_POSTE")));
+
 			}
 			request.close();
 		} catch (SQLException e) {
@@ -380,11 +434,10 @@ public class EnseignantDAO extends DAO<Enseignant> {
 	 */
 	private Enseignant createEns(ResultSet result) {
 		Enseignant obj;
-
 		GregorianCalendar date;
 		try {
-			//date = DAO.dateFromOracleToJava(result
-					//.getDate("DATE_NAISSANCE_ENSEIGNANT"));
+			date = DAO.dateFromOracleToJava(result
+					.getDate("DATE_NAISSANCE_ENSEIGNANT"));
 
 			obj = new Enseignant(result.getInt("NO_ENSEIGNANT"),
 					result.getString("NOM_ENSEIGNANT"),
