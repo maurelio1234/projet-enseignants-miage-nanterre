@@ -125,6 +125,8 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 	}
 	
 	public void loadMesIndisponibilites(Enseignant obj) {
+		if (!obj.getMesIndisponibilites().isEmpty())
+			obj.getMesIndisponibilites().removeAll(obj.getMesIndisponibilites());
 		
 		try {
 			
