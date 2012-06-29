@@ -37,7 +37,7 @@
                    		<a href="/ServiceEnseignant/jsp/jspVoeux/index.jsp">Ajouter une indisponibilité</a> 
                    	</td> 
                    	<td align="right" style="padding-top: 8px;"> 
-                   		<a href="/ServiceEnseignant/jsp/jspVoeux/Menu_Indispo.jsp">Afficher mes indisponibilités</a> 
+                   		<a href="/ServiceEnseignant/ModeleAffIndispo">Afficher mes indisponibilités</a> 
                    	</td> 
                  </tr> 
              </table> 
