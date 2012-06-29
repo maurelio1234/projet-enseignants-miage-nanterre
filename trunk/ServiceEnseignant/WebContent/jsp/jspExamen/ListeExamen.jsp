@@ -13,13 +13,6 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script type="text/javascript">
-	function open_win() {
-		window
-				.open(
-						"popup.jsp",
-						"_blank",
-						"toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, left=00, top=0, width=605, height=360")
-	}
 
 	/**Retourne la valeur du select selectId*/
 	function getSelectValue(selectId) {
@@ -69,96 +62,99 @@
 	<center>
 		<h3>Consultation des Examens</h3>
 
-		<jsp:useBean id="ens" scope="session" class="beans.Enseignant"/>
+		<jsp:useBean id="ens" scope="session" class="beans.Enseignant" />
 
 
-          	<fieldset style="width: 400px; background-color:#FAFAFA;">
-				<legend><%=ens.getPrenom()%> <%=ens.getNom()%> </legend>
-		<form method="post"
-			action="/ServiceEnseignant/ExamenServlet">
-		<input type = "Hidden" name="choixExam" value="">
-	             <table border =0>
-	                    <tr align="left"> 
-					<td style="padding-top: 8px;">Formation :</td>
-					<td><SELECT id="formationChoix" name="formationChoix" size="1">
-							<%
-								int i;
-								for (i = 0; i < ens.getMesServices().size(); i++) {
-							%>
-							<OPTION
-								VALUE=<%=ens.getMesServices().get(i).getMonEC().getMonUE()
+		<fieldset style="width: 400px; background-color: #FAFAFA;">
+			<legend><%=ens.getPrenom()%>
+				<%=ens.getNom()%>
+			</legend>
+			<form method="post" action="/ServiceEnseignant/ExamenServlet">
+				<input type="Hidden" name="choixExam" value="">
+				<table border=0>
+					<tr align="left">
+						<td style="padding-top: 8px;">Formation :</td>
+						<td><SELECT id="formationChoix" name="formationChoix"
+							size="1">
+								<%
+									int i;
+									for (i = 0; i < ens.getMesServices().size(); i++) {
+								%>
+								<OPTION
+									VALUE=<%=ens.getMesServices().get(i).getMonEC().getMonUE()
 						.getMaFormation().getNumeroFormation()%>>
-								<%=ens.getMesServices().get(i).getMonEC().getMonUE()
+									<%=ens.getMesServices().get(i).getMonEC().getMonUE()
 						.getMaFormation().getNumeroFormation()%>
-								<%=ens.getMesServices().get(i).getMonEC().getMonUE()
+									<%=ens.getMesServices().get(i).getMonEC().getMonUE()
 						.getMaFormation().getGrade()%>
-								<%=ens.getMesServices().get(i).getMonEC().getMonUE()
+									<%=ens.getMesServices().get(i).getMonEC().getMonUE()
 						.getMaFormation().getNiveau()%>
-								<%=ens.getMesServices().get(i).getMonEC().getMonUE()
+									<%=ens.getMesServices().get(i).getMonEC().getMonUE()
 						.getMaFormation().getType()%>
-							</OPTION>
-							<%
-								}
-							%>
+								</OPTION>
+								<%
+									}
+								%>
 
-					</SELECT></td>
-				</tr>
+						</SELECT>
+						</td>
+					</tr>
 
-				<tr align="left">
-					<td style="padding-top: 8px;">UE :</td>
-					<td><SELECT id="UEChoix" name="UEChoix" size="1">
-							<%
-								int j = 0;
-								for (j = 0; j < ens.getMesServices().size(); j++) {
-							%>
-							<OPTION
-								VALUE=<%=ens.getMesServices().get(j).getMonEC().getMonUE()
+					<tr align="left">
+						<td style="padding-top: 8px;">UE :</td>
+						<td><SELECT id="UEChoix" name="UEChoix" size="1">
+								<%
+									int j = 0;
+									for (j = 0; j < ens.getMesServices().size(); j++) {
+								%>
+								<OPTION
+									VALUE=<%=ens.getMesServices().get(j).getMonEC().getMonUE()
 						.getNumeroUE()%>>
-								<%=ens.getMesServices().get(j).getMonEC().getMonUE()
+									<%=ens.getMesServices().get(j).getMonEC().getMonUE()
 						.getNumeroUE()%>
-							</OPTION>
-							<%
-								}
-							%>
-					</SELECT></td>
-				</tr>
+								</OPTION>
+								<%
+									}
+								%>
+						</SELECT>
+						</td>
+					</tr>
 
-				<tr>
+					<tr>
 
-					<td colspan="2" align="right" style="padding-top: 8px;">
-					<input type="button" onclick="open_win()" name="NewExamen" value="Créer un examen" /> 
+						<td colspan="2" align="right" style="padding-top: 8px;"><a href="/ServiceEnseignant/jsp/jspExamen/createExamen.jsp">Créer un nouvel Examen</a>
+					</tr>
 
+				</table>
+		</fieldset>
+		<br>
 
-				</tr>
+		<fieldset style="width: 400px; background-color: #FAFAFA;">
+			<legend> Liste des examens : </legend>
 
-			</table>
-			
-			</fieldset>
-		</legend>
+			<%
+				int numForm = 2;
+				int numUE = 1;
+				int x;
 
-<br>
-
-          	<fieldset style="width: 400px; background-color:#FAFAFA;">
-				<legend> Liste des examens :  </legend>
-		
-		<%
-		int numForm = 2;
-		int numUE= 1;
-		int x;
-		
-		for(x=0;x<ens.getMesExamens().size();x++){
-			if(ens.getMesExamens().get(x).getMonEC().getMonUE().getNumeroUE()==numUE && ens.getMesExamens().get(x).getMonEC().getMonUE().getMaFormation().getNumeroFormation()==numForm){%>
-				<%= ens.getMesExamens().get(x).getLibelle()%> <input type="radio" name="Exam" value=<%= ens.getMesExamens().get(x).getNumeroExamen()%> onclick="updateChoix(<%=i %>)"> 
-			<%}	
- 		}	%>
- 		<br>
-		<input type="submit" name="ValiderExam" value="Afficher Examen" disabled="disabled"/> 
-
-		</form>
-		
-				</fieldset>
-		</legend>
-
+				for (x = 0; x < ens.getMesExamens().size(); x++) {
+					if (ens.getMesExamens().get(x).getMonEC().getMonUE()
+							.getNumeroUE() == numUE
+							&& ens.getMesExamens().get(x).getMonEC().getMonUE()
+									.getMaFormation().getNumeroFormation() == numForm) {
+			%>
+			<%=ens.getMesExamens().get(x).getLibelle()%>
+			<input type="radio" name="Exam"
+				value=<%=ens.getMesExamens().get(x).getNumeroExamen()%>
+				onclick="updateChoix(<%=i%>)">
+			<%
+				}
+				}
+			%>
+			<br> <input type="submit" name="ValiderExam"
+				value="Afficher Examen" disabled="disabled" />
+		</fieldset>
 	</center>
+	</form>
 </body>
 </html>
