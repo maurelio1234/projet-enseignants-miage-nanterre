@@ -72,7 +72,11 @@
 	</TD>
 	
 	<TD>
-	<INPUT type="submit" value="Retour">
+	
+                   	<td align="right" style="padding-top: 8px;"> 
+                   		<a href="/ServiceEnseignant/jsp/jspExamen/ListeExamen.jsp">Retour</a> 
+                   	</td> 
+	
 	</TD>
 </TR>
 </TABLE>
