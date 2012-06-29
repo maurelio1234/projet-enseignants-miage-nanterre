@@ -52,8 +52,6 @@ public class ModeleAbsUniq extends HttpServlet {
 
 		RequestDispatcher dispatch = this.getServletContext()
 				.getRequestDispatcher("/jsp/jspVoeux/index.jsp");
-
-		
 		
 		HttpSession session = request.getSession(true);
 		Enseignant beanEns = (Enseignant) session.getAttribute("ens");
@@ -98,26 +96,28 @@ public class ModeleAbsUniq extends HttpServlet {
 						enseignant.ajoutIndispoUniqDAO(dD, dF, priorite, beanEns.getNumeroEnseignant(),
 								duree);
 						
+						//affichage d'un message de succes
 						request.setAttribute("erreurUniq", "SUCCES : L'indisponibilité a bien été prise en compte");
 						session.setAttribute("ens", beanEns);
 					} else {
 						// si date début apres date de fin
-
+						//affichage d'un message d'erreur
 						request.setAttribute("erreurUniq","ERREUR : La date de début est postérieure à la date de fin");
 					}
 				} else {
+					//affichage d'un message d'erreur
 					request.setAttribute("erreurUniq","ERREUR : La date de début est antérieure à la date d'aujourd'hui");
 				}
 
 			} else { // si pas toutes renseignées
-
+				//affichage d'un message d'erreur
 				request.setAttribute("erreurUniq","ERREUR : un (ou plusieurs) paramètre n'a pas été renseigné.");
 			}
 
 		} catch (ParseException e) {
 			e.printStackTrace();
-			System.out.println("erreur ex");
 		}catch(SQLIntegrityConstraintViolationException sicv){
+			//affichage d'un message d'erreur
 			request.setAttribute("erreur", "ERREUR : il existe déjà une indisponibilité dans la base.");
 		}
 		dispatch.forward(request, response);
