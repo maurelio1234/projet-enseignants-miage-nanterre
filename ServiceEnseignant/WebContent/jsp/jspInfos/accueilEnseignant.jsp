@@ -106,6 +106,6 @@
          </fieldset>
 		</legend>
 			
-        </center>
+</center>
 </body>
 </html>

@@ -2,10 +2,7 @@ package serviceEnseignant.Infos;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import serviceEnseignant.*;
-import serviceEnseignant.DAO.EnseignantDAO;
-import beans.Enseignant;
-import beans.UE;
+
+import dao.*;
+import beans.*;
+
 
 /**
  * Servlet implementation class ConnexionEnseignantServlet

@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import serviceEnseignant.DAO.EtudiantDAO;
-import serviceEnseignant.DAO.ExamenDAO;
-import serviceEnseignant.DAO.NoteDAO;
+import dao.*;
 
 import beans.Etudiant;
 import beans.Examen;
@@ -33,7 +31,6 @@ public class UpdateExamenServlet extends HttpServlet {
      */
     public UpdateExamenServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
     public GregorianCalendar ConvertirDate(String date){
 		String delims = "[/]";
@@ -57,15 +54,12 @@ public class UpdateExamenServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TO_DO : dans ConsulterExamen. Comment gérer le -1 ? (non visible à la saisie, mais doit pouvoir être récupéré ...)
-		//Mise à jour des informations de l'examen : Libelle, Date, Horaire, Coefficent.
 		ExamenDAO examDAO = new ExamenDAO();
 		EtudiantDAO etudiantDAO;
 		etudiantDAO = new EtudiantDAO();

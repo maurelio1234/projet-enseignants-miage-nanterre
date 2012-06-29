@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.Enseignant;
 
-import serviceEnseignant.DAO.EnseignantDAO;
+import dao.*;
 
 /**
  * Servlet implementation class ModeleRechEnseignant

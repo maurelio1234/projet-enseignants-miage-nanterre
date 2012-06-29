@@ -1,7 +1,6 @@
 package serviceEnseignant.Examen;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -29,7 +28,6 @@ public class CreateExamenServlet extends HttpServlet  {
      */
 	public CreateExamenServlet() throws SQLException {
         super();
-        // TODO Auto-generated constructor stub
     }
 	
 	public GregorianCalendar ConvertirDate(String date) throws Exception {
@@ -54,22 +52,17 @@ public class CreateExamenServlet extends HttpServlet  {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-        
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {       
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter(); 
 		GregorianCalendar date = null;
 		try {
 			date = ConvertirDate(request.getParameter("date"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String intitule = request.getParameter("intitule");

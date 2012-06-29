@@ -81,7 +81,6 @@ public class ModeleAbsReg extends HttpServlet {
 				// transformer le format string en calendar pour comparer les
 				// dates
 				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-				Calendar d = format.getCalendar();
 				Date date;
 				date = format.parse(dD);
 				GregorianCalendar dateD = new GregorianCalendar();

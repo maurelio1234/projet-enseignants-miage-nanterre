@@ -70,18 +70,12 @@
 	<TD>
     <INPUT TYPE ='SUBMIT' NAME='Update' VALUE='Enregistrer les modifications'>
 	</TD>
-	
-	<TD>
-	
                    	<td align="right" style="padding-top: 8px;"> 
                    		<a href="/ServiceEnseignant/jsp/jspExamen/ListeExamen.jsp">Retour</a> 
                    	</td> 
-	
-	</TD>
 </TR>
 </TABLE>
 			</fieldset>
-		</legend>
 </center>
 
 <br>

@@ -16,12 +16,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import dao.DAO;
-import dao.JoursDAO;
-import beans.*;
 
-import serviceEnseignant.DAO.IndisponibiliteDAO;
-import serviceEnseignant.DAO.EnseignantDAO;
+import beans.*;
+import dao.*;
 
 
 
@@ -50,7 +47,6 @@ public class EnsIndispo {
 	 */
 	private Set<Date> getIndispo(Date debut, int regulier, int nbO, int j) {
 		Set<Date> ret = new HashSet<Date>();
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	
 		GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 		calendar.setTime(debut);
