@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Set;
 
 import dao.DAO;
+import dao.JoursDAO;
 import beans.*;
 
 import serviceEnseignant.DAO.IndisponibiliteDAO;
-import serviceEnseignant.DAO.JoursDAO;
 import serviceEnseignant.DAO.EnseignantDAO;
 
 
@@ -189,7 +189,7 @@ public class EnsIndispo {
 			/**
 			 * APPEL AU DAO
 			 */
-			serviceEnseignant.DAO.JoursDAO jdao = new serviceEnseignant.DAO.JoursDAO();
+			JoursDAO jdao = new JoursDAO();
 			Jours j = jdao.find(calendar);
 			Indisponibilite i = new Indisponibilite();
 			
