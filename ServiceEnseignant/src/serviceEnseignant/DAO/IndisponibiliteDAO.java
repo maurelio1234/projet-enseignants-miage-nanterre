@@ -1,11 +1,8 @@
 package serviceEnseignant.DAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -26,8 +23,6 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 		
 		try {
 			
-		
-			
 			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 			calendar.setTime(date);
 			
@@ -37,7 +32,7 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 			ResultSet result = request.executeQuery("SELECT * FROM " + IndisponibiliteDAO.TABLE + " WHERE NO_ENSEIGNANT = " + refEnseig + " AND DATE_INDISPO = " + sqlDate);
 
 			if(result.first()){
-				serviceEnseignant.DAO.JoursDAO jdao = new serviceEnseignant.DAO.JoursDAO();
+				JoursDAO jdao = new JoursDAO();
 				Jours j = jdao.find(calendar);
 				EnseignantDAO edao = new EnseignantDAO();
 				Enseignant e = edao.find(refEnseig);
