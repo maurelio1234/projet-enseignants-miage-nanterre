@@ -26,17 +26,17 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 			calendar.setTime(date);
 			
-			java.sql.Date sqlDate = new java.sql.Date(calendar.getTimeInMillis());
+		//	java.sql.Date sqlDate = new java.sql.Date(calendar.getTimeInMillis());
 			
 			Statement request = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-			ResultSet result = request.executeQuery("SELECT * FROM " + IndisponibiliteDAO.TABLE + " WHERE NO_ENSEIGNANT = " + refEnseig + " AND DATE_INDISPO = " + sqlDate);
+			ResultSet result = request.executeQuery("SELECT * FROM " + IndisponibiliteDAO.TABLE + " WHERE NO_ENSEIGNANT = " + refEnseig + " AND DATE_INDISPO = " + DAO.dateFromJavaToOracle(calendar));
 
 			if(result.first()){
 				JoursDAO jdao = new JoursDAO();
 				Jours j = jdao.find(calendar);
 				EnseignantDAO edao = new EnseignantDAO();
 				Enseignant e = edao.find(refEnseig);
-				obj = new Indisponibilite(e,j,result.getInt("DEMI_JOURNEE"),result.getInt("POIDS_INDISPO"));
+				obj = new Indisponibilite(e,j,result.getInt("DEMI_JOURNEE_INDISPO"),result.getInt("POIDS_INDISPO"));
 			}
 			request.close();
 			
