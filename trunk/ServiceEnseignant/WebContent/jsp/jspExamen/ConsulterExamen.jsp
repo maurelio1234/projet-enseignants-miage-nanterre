@@ -9,6 +9,8 @@
 <title>Consulter Examen</title>
 </head>
 <body>
+
+
 <form method='POST' action='UpdateExamenServlet'>
 <jsp:useBean id="ExamBeans" scope="request" class="beans.Examen" />
 <input type="hidden" name = "num_exam" value=<%= ExamBeans.getNumeroExamen() %>>
@@ -19,8 +21,9 @@
 </center>
 
 <center>
- <fieldset style="width: 400px; background-color:#FAFAFA;">
-<legend> Informations : </legend>
+<h3>Consultation des Examens</h3>
+ <fieldset style="width: 480px; background-color:#FAFAFA;">
+<legend><b> Informations :</b> </legend>
 	             <table border =0>
 	                    <tr align="left"> 
 <tr>
@@ -76,8 +79,11 @@
 			</fieldset>
 		</legend>
 </center>
-<center><b>Liste des Etudiants</b></center>
+
+<br>
 <center>
+ <fieldset style="width: 480px; background-color:#FAFAFA;">
+<legend> <b> Liste des Etudiants : </b></legend>
 <table>
 <tr>
 	<td>Nom</td>
@@ -111,6 +117,8 @@ for(i=0;i<ExamBeans.getMesNotes().size();i++) {%>
 	</tr>
 <% } %>
 </table>
+			</fieldset>
+		</legend>
 </center>
 </form>
 </body>
