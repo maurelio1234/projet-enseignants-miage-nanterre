@@ -94,7 +94,7 @@
 		               	<td style="padding-top: 8px;">                		 
 		               		 
 	               		 	<input type="radio" name="<%= nomParam %>" value="oui" <% if(choix && (voeux!=null)){ %>  checked <% } %> /> Oui
-	               		 	<input type="radio" name="<%= nomParam %>"  value="non" <% if(!choix && (voeux!=null)){ %> checked <% } else { %> checked <% } %> /> Non
+	               		 	<input type="radio" name="<%= nomParam %>"  value="non" <% if(!choix && (voeux!=null)){ %> checked <% } else if(voeux==null){%> checked <%}%> /> Non
 	               		 			               		
 		               	</td>  
 		
