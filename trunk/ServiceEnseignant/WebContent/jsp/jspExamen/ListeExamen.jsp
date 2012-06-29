@@ -26,7 +26,7 @@
 	}
 
 	function updateChoix(i){
-		document.getElementsByName("choixExam")[0].value = document.getElementsByName("Exam")[0].value;
+		document.getElementsByName("num_exam")[0].value = document.getElementsByName("Exam")[0].value;
 		document.getElementsByName("ValiderExam")[0].disabled = false;
 	}
 	
@@ -70,7 +70,7 @@
 				<%=ens.getNom()%>
 			</legend>
 			<form method="post" action="/ServiceEnseignant/ExamenServlet">
-				<input type="Hidden" name="choixExam" value="">
+				<input type="Hidden" name="num_exam" value="">
 				<table border=0>
 					<tr align="left">
 						<td style="padding-top: 8px;">Formation :</td>
