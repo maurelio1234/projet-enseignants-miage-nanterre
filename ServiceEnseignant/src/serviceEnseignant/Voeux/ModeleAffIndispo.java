@@ -44,6 +44,27 @@ public class ModeleAffIndispo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		System.out.println("JE SUIS DANS AFFINDISPO");
+		//	try {
+			
+			HttpSession session = request.getSession(true);
+			Enseignant beanEns = (Enseignant) session.getAttribute("ens");
+			//	ensIndispo.afficherIndispo(ens);		
+				
+				indao.loadMesIndisponibilites(beanEns);
+					request.setAttribute("EnseiBean", beanEns);
+				
+				
+				RequestDispatcher disp = getServletContext().getRequestDispatcher("/jsp/jspVoeux/AffIndispo.jsp");
+				disp.forward(request, response);
+				
+				
+			//} catch (SQLException e) {
+				// TODO Auto-generated catch block
+			//	e.printStackTrace();
+			//}
+		
 	}
 
 	/**
