@@ -17,7 +17,12 @@
             	<br/> <b> <%= request.getAttribute("msg") %> </b> <br/>
             <% } %>
 </center>
-<TABLE BORDER=0>
+
+<center>
+ <fieldset style="width: 400px; background-color:#FAFAFA;">
+<legend> Informations : </legend>
+	             <table border =0>
+	                    <tr align="left"> 
 <tr>
 	<td><input type=hidden name="num_exam" value = <%= ExamBeans.getNumeroExamen() %>></td>
 	<td><input type=hidden name="nb_notes" value = <%= ExamBeans.getMesNotes().size() %>></td>
@@ -42,10 +47,11 @@
 
 <TR>
 	<TD>Date de l'examen </TD>
-	<TD>
-	<INPUT type=text name="date" value= <%= ExamBeans.getDate().toString() %>>
-	</TD>
-	<td> à <input type=text name="heure" value=<%= ExamBeans.getHoraire() %>>
+	<TD><INPUT type=text name="date" value= <%= ExamBeans.getDate().toString() %>> </TD>
+</TR>
+<TR>
+	<td> à </TD>
+	<td> <input type=text name="heure" value=<%= ExamBeans.getHoraire() %>> </td>
 </TR>
 
 
@@ -67,6 +73,9 @@
 	</TD>
 </TR>
 </TABLE>
+			</fieldset>
+		</legend>
+</center>
 <center><b>Liste des Etudiants</b></center>
 <center>
 <table>
