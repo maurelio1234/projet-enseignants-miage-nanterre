@@ -35,6 +35,10 @@ public class ModeleSuppIndispo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+	
+		
+	
 	}
 
 	/**
@@ -53,11 +57,13 @@ public class ModeleSuppIndispo extends HttpServlet {
 		String date = request.getParameter("date");
 		try {
 			enseignant.SuppIndispo(date, beanEns.getNumeroEnseignant());
+			
 			session.setAttribute("ens",beanEns);
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
+		
 		
 		RequestDispatcher dispatch = this.getServletContext()
 				.getRequestDispatcher("/ModeleAffIndispo");
