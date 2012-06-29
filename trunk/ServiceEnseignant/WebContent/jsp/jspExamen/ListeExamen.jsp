@@ -70,14 +70,15 @@
 		<h3>Consultation des Examens</h3>
 
 		<jsp:useBean id="ens" scope="session" class="beans.Enseignant"/>
-		<%=ens.getPrenom()%>
-		<%=ens.getNom()%>
 
+
+          	<fieldset style="width: 400px; background-color:#FAFAFA;">
+				<legend><%=ens.getPrenom()%> <%=ens.getNom()%> </legend>
 		<form method="post"
 			action="/ServiceEnseignant/ExamenServlet">
-		<input type = "text" name="choixExam" value="">
-			<table border=1>
-				<tr align="left">
+		<input type = "Hidden" name="choixExam" value="">
+	             <table border =0>
+	                    <tr align="left"> 
 					<td style="padding-top: 8px;">Formation :</td>
 					<td><SELECT id="formationChoix" name="formationChoix" size="1">
 							<%
@@ -131,9 +132,15 @@
 				</tr>
 
 			</table>
-<HR ALIGN=LEFT NOSHADE SIZE="1">
+			
+			</fieldset>
+		</legend>
+
+<br>
+
+          	<fieldset style="width: 400px; background-color:#FAFAFA;">
+				<legend> Liste des examens :  </legend>
 		
-		Liste examens 2 : <br>
 		<%
 		int numForm = 2;
 		int numUE= 1;
@@ -148,6 +155,9 @@
 		<input type="submit" name="ValiderExam" value="Afficher Examen" disabled="disabled"/> 
 
 		</form>
+		
+				</fieldset>
+		</legend>
 
 	</center>
 </body>
