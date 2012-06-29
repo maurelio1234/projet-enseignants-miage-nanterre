@@ -23,7 +23,6 @@
 		<form name="form_voeux" method="post" action="../../ModifierVoeuxEnseignantServlet">
 			<table border="1" cellspacing="15px">	
 
-					
 	             	
 				<% // on charge tous les EC de l'enseignant
 				
@@ -37,60 +36,74 @@
 				 					
 					if(mesUE.isEmpty() || !mesUE.contains(ens.getMesServices().get(i).getMonEC().getMonUE())){
 				
-						System.out.println("UE n° "+ens.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE());
-						mesUE.add(ens.getMesServices().get(i).getMonEC().getMonUE());
-					%>					
-						<tr> <td colspan="2"> UE n°<%= ens.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE() %> </td> </tr>	
-						<tr> 
-			               	<td style="padding-top: 8px;"> Nom EC </td> 
-			               	<td style="padding-top: 8px;"> Voeux </td>  
-			             </tr>	
-					<% 					
-										
+						System.out.println("ajout dans liste UE n° "+ens.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE());
+						
 						UEDAO ueDao = new UEDAO();
 						UE monUE = ueDao.find(ens.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE(), ens.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation());
 						ueDao.loadMesEC(monUE);
 						
-						System.out.println("  --> size ec pour cet ue : "+monUE.getMesEC().size());
-						// on parcourt les EC de l'UE
-						for(int j=0; j<monUE.getMesEC().size(); j++){
-							
-							System.out.println("  --> EC n° : "+monUE.getMesEC().get(j).getNumeroEC());
-							
-							// variables intermediaires
-			      		 	int numForm = monUE.getMaFormation().getNumeroFormation();
-			      		 	int numUE = monUE.getNumeroUE();
-			      		 	int numEC = monUE.getMesEC().get(j).getNumeroEC();
-			      		 	int numEns = ens.getNumeroEnseignant();
-			      		 	
-			      		 	// on recupere le voeux pour cet EC
-			      		 	VoeuxEC voeux = null; // voeux EC de l'enseignant
-			      		 	boolean choix = false; // variable intermediaire pour tester le choix de l'enseignant pour cet EC
-			      		 	
-			      		 	if((voeux=voeuxECdao.find(numForm, numUE, numEC, numEns)) != null){ 
-			      		 		
-			      		 		if(voeux.isChoixEC())
-			      		 			choix = true; 
-			      		 		
-			      		 		System.out.println("  --> voeux de l'enseignant pour cet EC : "+choix);
-			      		 	}
-			      		 	%>
-			      		 	<tr> 
-			               	<td style="padding-top: 8px;"> <%= monUE.getMesEC().get(j).getLibelle() %> </td> 
-			
-			               	<td style="padding-top: 8px;">                		 
-			               		 
-		               		 	<input type="radio" name="choix_<%= numEC %>" value="oui" <% if(choix && (voeux!=null)){ %> checked <% } %> /> Oui
-		               		 	<input type="radio" name="choix_<%= numEC %>" value="non" <% if(!choix && (voeux!=null)){ %> checked <% } %>/> Non
-		               		 			               		
-			               	</td>  
-			
-			             </tr>		
-						<%
-						} // fin for EC
-												
-					} 
+						mesUE.add(monUE);
+					}
+				}
+				
+				for(int y=0; y<mesUE.size(); y++){
+				%>					
+					<tr> <td colspan="2"> UE n°<%= mesUE.get(y).getNumeroUE() %> Formation n° <%= mesUE.get(y).getMaFormation().getNumeroFormation() %> </td> </tr>	
+					<tr> 
+						<td style="padding-top: 8px;"> N° EC </td> 
+		               	<td style="padding-top: 8px;"> Nom EC </td> 
+		               	<td style="padding-top: 8px;"> Voeux </td>  
+		             </tr>					
+					<%	
+					
+					
+					System.out.println("  --> size ec pour cet ue : "+ mesUE.get(y).getMesEC().size());
+					// on parcourt les EC de l'UE
+					for(int j=0; j< mesUE.get(y).getMesEC().size(); j++){
 						
+						System.out.println("  --> EC n° : "+ mesUE.get(y).getMesEC().get(j).getNumeroEC());
+						
+						// variables intermediaires
+		      		 	int numForm =  mesUE.get(y).getMaFormation().getNumeroFormation();
+		      		 	int numUE =  mesUE.get(y).getNumeroUE();
+		      		 	int numEC =  mesUE.get(y).getMesEC().get(j).getNumeroEC();
+		      		 	int numEns = ens.getNumeroEnseignant();
+		      		 	
+		      		 	String nomParam = numEC+"_"+numUE+"_"+numForm; 
+		      		 	
+		      		 	// on recupere le voeux pour cet EC
+		      		 	VoeuxEC voeux = null; // voeux EC de l'enseignant
+		      		 	boolean choix = false; // variable intermediaire pour tester le choix de l'enseignant pour cet EC
+		      		 	
+		      		 	voeux=voeuxECdao.find(numForm, numUE, numEC, numEns);
+		      		 	
+		      		 	if(voeux != null){ 
+		      		 		
+		      		 		if(voeux.isChoixEC())
+		      		 			choix = true; 
+		      		 		
+		      		 		System.out.println("  --> voeux de l'enseignant pour cet EC : "+choix);
+		      		 	}
+		      		 	else
+		      		 		System.out.println("  --> pas de voeux");
+		      		 	%>
+		      		 	<tr> 
+		      		 	<td style="padding-top: 8px;"> <%=  mesUE.get(y).getMesEC().get(j).getNumeroEC() %> </td> 
+		               	<td style="padding-top: 8px;"> <%=  mesUE.get(y).getMesEC().get(j).getLibelle() %> </td> 
+		
+		               	<td style="padding-top: 8px;">                		 
+		               		 
+	               		 	<input type="radio" name="<%= nomParam %>" value="oui" <% if(choix && (voeux!=null)){ %>  checked <% } %> /> Oui
+	               		 	<input type="radio" name="<%= nomParam %>"  value="non" <% if(!choix && (voeux!=null)){ %> checked <% } else { %> checked <% } %> /> Non
+	               		 			               		
+		               	</td>  
+		
+		             </tr>		
+					<%
+					} // fin for EC
+				
+
+								
 				} // fin for UE %>             
 	         </table> 
 	         
