@@ -73,7 +73,6 @@ public class ModeleAbsUniq extends HttpServlet {
 				// transformer le format string en calendar pour comparer les
 				// dates
 				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-				Calendar d = format.getCalendar();
 
 				// date de debut
 				Date dateDbt;

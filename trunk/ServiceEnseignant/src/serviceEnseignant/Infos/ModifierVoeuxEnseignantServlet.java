@@ -16,11 +16,8 @@ import dao.VoeuxECDAO;
 import java.util.List;
 import java.util.ArrayList;
 
-import serviceEnseignant.DAO.EnseignantDAO;
-import beans.Enseignant;
-import beans.UE;
-import beans.EC;
-import beans.VoeuxEC;
+import dao.*;
+import beans.*;
 
 /**
  * Servlet implementation class ModifierVoeuxEnseignantServlet

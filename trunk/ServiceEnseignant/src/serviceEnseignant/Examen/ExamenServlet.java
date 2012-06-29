@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import serviceEnseignant.DAO.ExamenDAO;
+import dao.*;
 import beans.*;
 
 /**
@@ -18,14 +18,13 @@ import beans.*;
 @WebServlet("/ExamenServlet")
 public class ExamenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Examen exam;
+	//private static Examen exam;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public ExamenServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

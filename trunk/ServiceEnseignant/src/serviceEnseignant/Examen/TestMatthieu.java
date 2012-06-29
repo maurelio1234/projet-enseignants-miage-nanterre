@@ -1,12 +1,9 @@
 package serviceEnseignant.Examen;
-import serviceEnseignant.DAO.EnseignantDAO;
-import serviceEnseignant.DAO.ExamenDAO;
-import beans.Enseignant;
-import beans.Examen;
-import beans.Formation;
-import beans.Note;
-import dao.FormationDAO;
 
+import beans.Examen;
+import beans.Note;
+
+import dao.*;
 
 public class TestMatthieu {
 
@@ -14,7 +11,6 @@ public class TestMatthieu {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 /*
 		FormationDAO formDAO = new FormationDAO();
 		Formation form = formDAO.find(2);

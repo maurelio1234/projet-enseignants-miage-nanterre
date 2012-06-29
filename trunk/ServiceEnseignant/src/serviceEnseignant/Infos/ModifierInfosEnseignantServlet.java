@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import serviceEnseignant.DAO.EnseignantDAO;
-
+import dao.*;
 import beans.Enseignant;
 
 /**
@@ -66,7 +65,7 @@ public class ModifierInfosEnseignantServlet extends HttpServlet {
 		beanEns.setPrenom(prenom);
 		
 		try {
-			beanEns.setDateNaissance(ensDAO.ConvertirDate(dateNaiss));
+			beanEns.setDateNaissance(DAO.ConvertirDate(dateNaiss));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
