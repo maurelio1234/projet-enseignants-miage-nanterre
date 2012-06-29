@@ -57,17 +57,11 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 		
 		try {
 			
-			
-			
-			//this.connect.setAutoCommit(false);
 			this.connect.setAutoCommit(false);
-			//Statement request = this.connect.createStatement();
+
 			Statement request = this.connect.createStatement();
-			System.out.println(obj.getDateIndisponibilite().getDateDuJour());
+
 			GregorianCalendar calendar = obj.getDateIndisponibilite().getDateDuJour();	
-			System.out.println(obj.getDateIndisponibilite().getDateDuJour());
-			//java.sql.Date sqldate = new java.sql.Date(calendar.getTimeInMillis());
-			System.out.println(calendar.get(Calendar.YEAR));
 			
 			request.executeUpdate("INSERT INTO " + TABLE  +" VALUES (" + DAO.dateFromJavaToOracle(calendar) + ", " 
 						+ obj.getMonEnseignant().getNumeroEnseignant() + ", " 
