@@ -46,10 +46,8 @@ public class ModeleRechEnseignant extends HttpServlet {
 		String ref = request.getParameter("nEns");
 		int refEns = Integer.parseInt(ref);
 		
-		System.out.println(" mon numéro " + refEns);
 		EnseignantDAO ensdao= new EnseignantDAO();
 		Enseignant ens = ensdao.find(refEns);
-		System.out.println("je suis là " + ens.getNumeroEnseignant());
 		
 		try {
 			ensIndispo.afficherIndispo(ens);
