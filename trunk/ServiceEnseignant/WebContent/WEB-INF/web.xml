@@ -85,4 +85,12 @@
     <servlet-name>ModifierMDPEnseignant</servlet-name>
     <url-pattern>/ModifierMDPEnseignantServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+  <servlet-name>ModifierVoeuxEnseignant</servlet-name>
+    <servlet-class>serviceEnseignant.Infos.ModifierVoeuxEnseignantServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModifierVoeuxEnseignant</servlet-name>
+    <url-pattern>/ModifierVoeuxEnseignantServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
