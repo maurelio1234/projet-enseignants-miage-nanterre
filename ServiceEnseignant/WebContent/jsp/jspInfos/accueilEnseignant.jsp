@@ -42,14 +42,18 @@
                  </tr> 
              </table> 
              
+             
 			<jsp:useBean id="ens" scope="session" class="beans.Enseignant"/>
-			Bonjour <%= ens.getPrenom() %> <%= ens.getNom() %> !
+			 <fieldset style="width: 480px; background-color:#FAFAFA;">
+				<legend><b> <%= ens.getPrenom() %> <%= ens.getNom() %> :</b> </legend>
+	             <table border =0>
+	                    <tr align="left"> 
 
 			<% if(request.getAttribute("msg")!= null) { %>
             	<br/> <b> <%= request.getAttribute("msg") %> </b> <br/>
             <% } %>
             
-             <table border=1 width="300px" cellpadding="5px">
+             <table border=0 width="300px" cellpadding="5px">
                    <tr align="left"> 
                    	<td style="padding-top: 8px; width:100px;"> N° enseignant : </td> 
                    	<td> <%= ens.getNumeroEnseignant() %></td>
@@ -60,14 +64,14 @@
                    	<td> <%= ens.getLogin() %> </td>
                    </tr>
                	
-               	<tr>    	
+               	<tr align="left">    	
                    	<td> Nom * : </td>
                    	<td>
                    	<%= ens.getNom() %>
                    	</td> 
                 	</tr>
                 	
-                	<tr>   	
+                	<tr align="left">    	
                    	<td> Pr&eacute;nom * : </td>
                    	<td>
                    	<%= ens.getPrenom() %>
@@ -79,19 +83,19 @@
     					String date = dateF.format(ens.getDateNaissance().getTime());    					
     				%>
     				
-                   	<tr>   	
+                   <tr align="left">  	
                    	<td> N&eacute;(e) le * : </td>
                    	<td> <%= date %> </td> 
                  	</tr> 
                  	
-              	  	<tr>    	
+              	  <tr align="left">   	
                    	<td> Adresse * : </td>
                    	<td>
                    	<%= ens.getAdresse() %>
                    	</td> 
                  	</tr>
                   
-                  <tr>
+                 <tr align="left"> 
                    	<td> T&eacute;l&eacute;phone * : </td>
                    	<td>
                    	<%= ens.getTelephone() %>
@@ -99,7 +103,8 @@
                   </tr>
                                       
              </table>     
-
+         </fieldset>
+		</legend>
 			
         </center>
 </body>
