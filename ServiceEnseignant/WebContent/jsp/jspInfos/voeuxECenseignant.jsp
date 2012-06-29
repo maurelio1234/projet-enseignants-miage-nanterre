@@ -21,7 +21,10 @@
 		<jsp:useBean id="ens" scope="session" class="beans.Enseignant"/>
 			
 		<form name="form_voeux" method="post" action="../../ModifierVoeuxEnseignantServlet">
-			<table border="1" cellspacing="15px">	
+
+<fieldset style="width: 480px; background-color:#FAFAFA;">
+						<legend><b> Informations :</b> </legend>
+			<table border="0" cellspacing="15px">	
 
 	             	
 				<% // on charge tous les EC de l'enseignant
@@ -45,15 +48,20 @@
 						mesUE.add(monUE);
 					}
 				}
-				
+				%>
+					
+						<%
 				for(int y=0; y<mesUE.size(); y++){
-				%>					
-					<tr> <td colspan="2"> UE n°<%= mesUE.get(y).getNumeroUE() %> Formation n° <%= mesUE.get(y).getMaFormation().getNumeroFormation() %> </td> </tr>	
+				%>	
+				 	
+					<tr> <td colspan="2"> <u> UE n°<%= mesUE.get(y).getNumeroUE() %> Formation n° <%= mesUE.get(y).getMaFormation().getNumeroFormation() %> </u> </td> </tr>	
 					<tr> 
 						<td style="padding-top: 8px;"> N° EC </td> 
 		               	<td style="padding-top: 8px;"> Nom EC </td> 
 		               	<td style="padding-top: 8px;"> Voeux </td>  
-		             </tr>					
+		             </tr>	
+		             
+		             				
 					<%	
 					
 					
@@ -106,7 +114,9 @@
 								
 				} // fin for UE %>             
 	         </table> 
-	         
+	               </fieldset>
+		</legend>
+		<br>
 	         <input type="submit" name="valider" value="Valider mes choix" /> 
          </form>
          
