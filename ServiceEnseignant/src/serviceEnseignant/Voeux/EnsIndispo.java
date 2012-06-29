@@ -181,7 +181,7 @@ public class EnsIndispo {
 	 * @throws SQLException
 	 */
 
-	public void ajoutIndispoSimpleDAO(Date debut,int poids, Enseignant ensei, int dj) throws SQLException{
+	public void ajoutIndispoSimpleDAO(Date debut,int poids, Enseignant ensei, int dj) throws SQLException, SQLIntegrityConstraintViolationException{
 					
 			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 			calendar.setTime(debut);
@@ -198,7 +198,8 @@ public class EnsIndispo {
 			i.setPoids(poids);
 			i.setMonEnseignant(ensei);
 			IndisponibiliteDAO idao = new IndisponibiliteDAO();
-			idao.create(i);
+			if(idao.find(debut, ensei.getNumeroEnseignant())==null)
+				idao.create(i);
 					
 	}	
 	
@@ -214,7 +215,7 @@ public class EnsIndispo {
 	 * @throws ParseException
 	 */
 	public void ajoutIndispoUniqDAO(String debut, String fin, int poids,
-			int refEnseignant, int duree) throws ParseException {
+			int refEnseignant, int duree) throws ParseException, SQLIntegrityConstraintViolationException {
 
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		java.util.Date dateD = format.parse(debut);
@@ -254,10 +255,16 @@ public class EnsIndispo {
 			i.setPoids(poids);
 			i.setMonEnseignant(ens);
 			IndisponibiliteDAO idao = new IndisponibiliteDAO();
-			idao.create(i);
-
+			
+			if(idao.find(date, ens.getNumeroEnseignant())==null)
+				idao.create(i);
+			
+		
 			GregorianCalendar calendarBis = new java.util.GregorianCalendar();
 			calendarBis.setTime(date);
+			
+			
+
 			calendarBis.add(Calendar.DAY_OF_MONTH, 1);
 			date = calendarBis.getTime();
 		}
