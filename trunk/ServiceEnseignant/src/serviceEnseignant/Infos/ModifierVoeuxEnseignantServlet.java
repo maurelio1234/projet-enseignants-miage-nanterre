@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.UEDAO;
 import dao.VoeuxECDAO;
 
 import java.util.List;
@@ -69,11 +70,19 @@ public class ModifierVoeuxEnseignantServlet extends HttpServlet {
 				
 			if(mesUE.isEmpty() || !mesUE.contains(beanEns.getMesServices().get(i).getMonEC().getMonUE())){
 		
-				mesUE.add(beanEns.getMesServices().get(i).getMonEC().getMonUE());
+				System.out.println("servlet : ajout dans liste UE n° "+beanEns.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE());
+				
+				UEDAO ueDao = new UEDAO();
+				UE monUE = ueDao.find(beanEns.getMesServices().get(i).getMonEC().getMonUE().getNumeroUE(), beanEns.getMesServices().get(i).getMonEC().getMonUE().getMaFormation().getNumeroFormation());
+				ueDao.loadMesEC(monUE);
+				
+				mesUE.add(monUE);
 				
 				// on parcourt les EC de l'UE
-				for(int j=0; j<beanEns.getMesServices().get(i).getMonEC().getMonUE().getMesEC().size(); j++){
-					lesEC.add(beanEns.getMesServices().get(i).getMonEC());				
+				for(int j=0; j<mesUE.get(i).getMesEC().size(); j++){
+					
+					System.out.println("servlet : ajout dans liste EC n°"+mesUE.get(i).getMesEC().get(j).getNumeroEC()+" dans UE n°"+mesUE.get(i).getNumeroUE());
+					lesEC.add(mesUE.get(i).getMesEC().get(j));				
 				} // fin for EC			
 			}
 		} // fin for UE
@@ -82,14 +91,25 @@ public class ModifierVoeuxEnseignantServlet extends HttpServlet {
 		
 		// on recupere les voeux des EC des UE de l'enseignant à partir de la jsp
 		for(int y=0; y<lesEC.size(); y++){
+			
 			int numEC = lesEC.get(y).getNumeroEC(); // numero EC pour lequel on doit recuperer le voeux
-			String choix = request.getParameter("choix_"+numEC);
 			
-			if(choix.equals("oui"))
-				choixEns = true;
-			else
-				choixEns = false;
+			String nomParam = numEC+"_"+lesEC.get(y).getMonUE().getNumeroUE()+"_"+lesEC.get(y).getMonUE().getMaFormation().getNumeroFormation();
 			
+			System.out.println("servlet : recupere valeur du param "+nomParam);
+			
+			String choix = request.getParameter(nomParam);
+			
+			System.out.println("servlet : valeur choix pour l'ec n°"+numEC + "   choix :"+ choix);
+			
+			if( !choix.equals("null") )
+			{
+				if(choix.equals("oui"))
+					choixEns = true;
+				else
+					choixEns = false;				
+			}
+						
 			voeuxEC = new VoeuxEC(lesEC.get(y), beanEns, choixEns); 
 			
 			if(voeuxEcDao.find(lesEC.get(y).getMonUE().getMaFormation().getNumeroFormation(), lesEC.get(y).getMonUE().getNumeroUE(), lesEC.get(y).getNumeroEC(), beanEns.getNumeroEnseignant()) != null)
