@@ -67,8 +67,9 @@
 
 </table>
 
-<FORM method="post" action="Menu_Indispo.jsp">
+<FORM method="post" action="/ServiceEnseignant/jsp/jspInfos/accueilEnseignant.jsp">
 </br>
+
 <input type="submit" value="Retour au Menu" />
 </FORM>
 
