@@ -38,7 +38,7 @@
 							<TD WIDTH="100%" VALIGN="TOP"><BR CLEAR="ALL"> <FONT
 								size=+1>
 
-									<form method='POST' action='ServiceEnseignant/CreateExamenServlet'>
+									<form method='POST' action='/ServiceEnseignant/CreateExamenServlet'>
 										<input type="hidden" value=<%=ens.getNumeroEnseignant()%> name="numEns">
 										<TABLE BORDER=0>
 											<TR>
