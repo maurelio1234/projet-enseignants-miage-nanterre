@@ -18,9 +18,13 @@
     <url-pattern>/ExamenServlet</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>Servlet</servlet-name>
-    <servlet-class>serviceEnseignant.Examen</servlet-class>
+    <servlet-name>CreateExamenServlet</servlet-name>
+    <servlet-class>serviceEnseignant.Examen.CreateExamenServlet</servlet-class>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateExamenServlet</servlet-name>
+    <url-pattern>/CreateExamenServlet</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>ListeExamenServlet</servlet-name>
     <servlet-class>serviceEnseignant.Examen.ListeExamenServlet</servlet-class>
