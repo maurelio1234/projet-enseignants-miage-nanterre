@@ -8,10 +8,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import dao.DAO;
-
-import serviceEnseignant.DAO.JoursDAO;
-import serviceEnseignant.DAO.EnseignantDAO;
+import dao.*;
 import beans.*;
 
 public class IndisponibiliteDAO extends DAO<Indisponibilite>{
