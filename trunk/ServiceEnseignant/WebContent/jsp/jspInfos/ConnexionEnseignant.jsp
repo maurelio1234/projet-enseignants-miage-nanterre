@@ -20,6 +20,9 @@
             	<form name="form_login" method="post" action="../../ConnexionEnseignantServlet">
             <% } %>
                        
+
+			 <fieldset style="width: 480px; background-color:#FAFAFA;">
+			<legend><b> Informations :</b> </legend>
                 <table border="0">
                     <tr align="left"> <td style="padding-top: 8px;"> Login : </td> </tr>
                     <tr> <td> <input type="text" name="login" value=""> </td> </tr>
@@ -29,8 +32,10 @@
                    
                     <tr> <td colspan="2" align="right" style="padding-top: 8px;"> <input type="submit" name="bt_OK" value="OK"> </td> </tr>   
                 </table>       
-
+         </fieldset>
+		</legend>
             </form>
+
      </center>
 
 
