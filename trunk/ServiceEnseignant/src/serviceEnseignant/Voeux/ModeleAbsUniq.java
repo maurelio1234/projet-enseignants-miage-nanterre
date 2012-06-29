@@ -1,6 +1,7 @@
 package serviceEnseignant.Voeux;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,7 +25,6 @@ import beans.Enseignant;
 public class ModeleAbsUniq extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private EnsIndispo enseignant;
-	private int ref = 2;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -64,16 +64,11 @@ public class ModeleAbsUniq extends HttpServlet {
 		String prio = request.getParameter("poids");
 		String dur = request.getParameter("demiJ");
 
-		String valNulle = "";
-
 		try {
 
 			// si toutes les valeurs sont renseignées
 			if (dD != "" && dF != "" && prio != null && dur != null) {
 
-				System.out.println("dans le premier IF de modeleAbsUniq");
-
-				System.out.println("modeleabsunique");
 				int priorite = Integer.parseInt(prio);
 				int duree = Integer.parseInt(dur);
 
@@ -102,19 +97,19 @@ public class ModeleAbsUniq extends HttpServlet {
 					if (dateD.before(dateF)) {
 						enseignant.ajoutIndispoUniqDAO(dD, dF, priorite, beanEns.getNumeroEnseignant(),
 								duree);
+						
+						request.setAttribute("erreurUniq", "SUCCES : L'indisponibilité a bien été prise en compte");
 						session.setAttribute("ens", beanEns);
 					} else {
 						// si date début apres date de fin
 
-						request.setAttribute("erreurUniq","La date de début est postérieure à la date de fin");
+						request.setAttribute("erreurUniq","ERREUR : La date de début est postérieure à la date de fin");
 					}
 				} else {
-					request.setAttribute("erreurUniq","La date de début est antérieure à la date d'aujourd'hui");
+					request.setAttribute("erreurUniq","ERREUR : La date de début est antérieure à la date d'aujourd'hui");
 				}
 
 			} else { // si pas toutes renseignées
-
-				System.out.println("dans le deuxieme ELSE de modeleAbsUniq");
 
 				request.setAttribute("erreurUniq","ERREUR : un (ou plusieurs) paramètre n'a pas été renseigné.");
 			}
@@ -122,6 +117,8 @@ public class ModeleAbsUniq extends HttpServlet {
 		} catch (ParseException e) {
 			e.printStackTrace();
 			System.out.println("erreur ex");
+		}catch(SQLIntegrityConstraintViolationException sicv){
+			request.setAttribute("erreur", "ERREUR : il existe déjà une indisponibilité dans la base.");
 		}
 		dispatch.forward(request, response);
 	}
