@@ -1,7 +1,6 @@
 package serviceEnseignant.Voeux;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,14 +19,12 @@ import beans.Enseignant;
 public class ModeleSuppIndispo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        private EnsIndispo enseignant;
-       private int refEns;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ModeleSuppIndispo() {
         super();
         enseignant = new EnsIndispo();
-       // refEns=2;
     }
 
 	/**
@@ -35,10 +32,7 @@ public class ModeleSuppIndispo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-	
-		
-	
+			
 	}
 
 	/**
@@ -55,14 +49,10 @@ public class ModeleSuppIndispo extends HttpServlet {
 		Enseignant beanEns = (Enseignant) session.getAttribute("ens");
 		
 		String date = request.getParameter("date");
-		try {
-			enseignant.SuppIndispo(date, beanEns.getNumeroEnseignant());
+		
+			enseignant.SuppIndispoDAO(date, beanEns.getNumeroEnseignant());
 			
 			session.setAttribute("ens",beanEns);
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
 		
 		
 		RequestDispatcher dispatch = this.getServletContext()
