@@ -96,7 +96,7 @@ public class CreateExamenServlet extends HttpServlet  {
 		exam.setMonEnseignant(ensdao.find(choixEnseignant));
 		exam.setMonEC(ecDAO.find(Integer.parseInt(tokens[0]),Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
 		
-		List<Etudiant> listEtudiant = exam.getMonEC().getMonUE().getMaFormation().getMesPromotions().get(0).getMesEtudiants();
+		List<Etudiant> listEtudiant = exam.getMonEC().getMonUE().getMaFormation().getMesPromotions().get(1).getMesEtudiants();
 		examDAO.create(exam);
 		for(int i = 0; i< listEtudiant.size(); i++ ){
 			Note n = new Note(etuDAO.find(listEtudiant.get(i).getNumeroEtudiant()), exam, -1);
@@ -104,7 +104,7 @@ public class CreateExamenServlet extends HttpServlet  {
 		}
 		
 			request.setAttribute("ExamBeans", exam);
-			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ExamenServlet.java");
+			RequestDispatcher disp=	getServletContext().getRequestDispatcher("/ExamenServlet");
 			disp.forward(request, response);
 		
 	}
