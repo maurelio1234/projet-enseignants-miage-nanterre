@@ -92,11 +92,10 @@ public class IndisponibiliteDAO extends DAO<Indisponibilite>{
 			Statement request = this.connect.createStatement();
 			
 			GregorianCalendar calendar = obj.getDateIndisponibilite().getDateDuJour();
-			java.sql.Date sqldate = new java.sql.Date(calendar.getTimeInMillis());
 			
 			request.executeUpdate("DELETE FROM " + IndisponibiliteDAO.TABLE 
 					+ " WHERE NO_ENSEIGNANT = " + obj.getMonEnseignant().getNumeroEnseignant() 
-					+ " AND DATE_INDISPO = " + sqldate);
+					+ " AND DATE_INDISPO = " + DAO.dateFromJavaToOracle(calendar));
 		
 		this.connect.commit();
 		request.close();
