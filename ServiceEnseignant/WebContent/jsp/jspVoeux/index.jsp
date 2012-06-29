@@ -299,7 +299,7 @@ if(erreur != null){
 		<input type="radio" name="type" value="2" id="mensuel" /> <label for="mensuel">mensuel</label><br /></br>
 	
 			
-		<label for="dateFin"> Nombres de répétitions</label><input type='text' name='nbOccu' /> <br />
+		<label for="dateFin"> Nombres de répétitions : </label><input type='text' name='nbOccu' /> <br />
 		<br>
 		
 		Priorité de votre indisponibilité : </br> 
